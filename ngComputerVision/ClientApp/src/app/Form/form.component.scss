@@ -1,0 +1,54 @@
+.mat-toolbar-row, .mat-toolbar-single-row {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 16px;
+  width: 150%;
+  margin-top:40px;
+  flex-direction: row;
+  align-items: center;
+  white-space: nowrap;
+
+}
+.mat-form-field-infix {
+  display: block;
+  position: relative;
+  flex: auto;
+  min-width: 0;
+  width: 280px;
+}
+.page{
+    max-width:400px;
+    margin:auto;
+   // left:500px;
+   margin-left:150px;
+  
+}
+
+.lname{
+    position:absolute;
+    right:350px;
+    top:110px;
+}
+.dob {
+  position: absolute;
+  right: 350px;
+  top: 180px;
+}
+.phnb {
+  position: absolute;
+  right: 350px;
+  top: 260px;
+}
+mat-label {
+  font-size: 20px;
+
+}
+.heading {
+  position:relative;
+  left: 120px;
+  
+}
+.mat-toolbar.mat-primary {
+  background: #0f62fe;
+  color: #fff;
+}

@@ -1,0 +1,161 @@
+<style>
+  .navbar.navbar-top {
+    background: #1A4195;
+    color: #fff;
+    border-color: #fff;
+  }
+
+  .ocr-component-border {
+    border-radius: 1rem;
+  }
+</style>
+
+
+<app-nav-menu></app-nav-menu>
+
+<p class="h5 text-center text-wrap text-decoration-underline my-3">
+  OCR Request Form Processor
+</p>
+
+<!-- Body -->
+
+<div class="side-by-side-container container-lg">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+
+    <div class="col-lg-6">
+      <div class="card card-style">
+        <div class="card-body">
+          <h3 class="card-title">Form</h3>
+          <div class="file-preview-window justify-content-center align-items-center">
+            <div class="preview-style"><span *ngIf="!imagePreview">No File Choosen</span></div><img class="preview-image" src={{imagePreview}}>
+          </div>
+
+          <!-- File Requirement Text -->
+          <p class="text-md-start text-wrap fst-italic fs-10 my-0">
+            Maximum size allowed for the image is 4MB
+          </p>
+          <p class="text-md-start text-wrap fst-italic fs-10 my-0">
+            Image must be in jpg, jpeg, png format
+          </p>
+
+          <div class="btn-toolbar mt-2 gap-2 d-md-flex">
+
+
+            <label class="file btn btn-secondary btm-sm col-3">
+              Choose File
+              <input #myInput type="file" (change)="uploadImage($event)" hidden />
+            </label>
+
+
+            <button type="button" class="btn btn-info btm-sm" (click)="GetText()">
+              Process Form
+            </button>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card card-style">
+        <div class="card-body">
+          <h3 class="card-title">Results</h3>
+
+          <div >
+            <textarea disabled class="form-control file-preview-window" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>
+            <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
+          </div>
+          <div class="btn-toolbar mt-5 gap-2 d-md-flex">
+
+            <button class="btn btn-primary btm-sm col-3">
+              Approve
+            </button>
+            <button class="btn btn-danger btm-sm col-3">
+              Deny
+            </button>
+            <button class="btn btn-secondary btm-sm col-3" (click)="ClearResults();">
+              Clear
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page Footer -->
+<footer class="text-center fs-10 fst-italic">
+  <div class="p-3">
+    © 2022 Copyright: National Government Services
+  </div>
+</footer>
+
+<!-- <div id="wrapper">
+    <div class="side-by-side-concatainer">
+
+      <div class="form-container " id="wrapper">
+        <div class="e4_79">
+          <span class="e4_83">Form</span>
+
+          <div class=file-preview-window>
+            <span class="e29_22" *ngIf="!imagePreview">No File Choosen</span><img class="preview-image" src={{imagePreview}}>
+          </div>
+          <div class="button-container">
+            <div>
+              <span class="e29_23">
+                Maximum size allowed for the image is 4MB.
+                Image must be in jpg, jpeg, png format.
+              </span>
+            </div>
+            <div class="btn-one">
+              <div class=button-properties style="background-color: rgba(129,129,129,1);">
+                <input type="file" class=e4_90 (change)="uploadImage($event)" />
+                <span class=button-font> Choose File</span>
+              </div>
+            </div>
+            <div class="btn-two">
+              <div class="button-properties" style="background-color: rgba(241,95,63,1); "><span class="button-font" (click)="GetText()"><a>Process Form</a></span></div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="results-container" id="wrapper">
+        <div class="e4_77">
+          <span class="e4_85">Results</span>
+          <div class=file-preview-window>
+            <mat-spinner class="loader1" *ngIf="loading" value="100"></mat-spinner>
+            <textarea disabled class="form-control" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>
+
+          </div>
+          <div class="button-container">
+            <div class="btn-three">
+              <div class="button-properties" style="background-color: rgba(17,96,176,1);">
+                <span class="button-font">Approve</span>
+              </div>
+            </div>
+            <div class="btn-four">
+              <div class="button-properties" style="background-color: rgba(241,95,63,1);">
+                <span class="button-font"></span>
+                <span class="button-font">Deny</span>
+              </div>
+            </div>
+            <div class="btn-five">
+              <div class="button-properties" style="background-color: rgba(129,129,129,1);"><span class="button-font" (click)="ClearResults();">Clear</span></div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <footer class="copyright-footer">
+      <span>Copyright 2022 - National Government Services</span>
+    </footer>
+  </div>
+</div> -->
