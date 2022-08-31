@@ -17,6 +17,7 @@ namespace ngComputerVision.Core.Data
         public IMongoCollection<Claims> _claimsCollection;
         public IMongoCollection<EntityResult> _entityCollection;
         public IMongoCollection<Credential> _credentialCollection;
+        public IMongoCollection<PIIResult> _PIICollection;
 
         public MongoContext(IOptions<DatabaseSettings> dbOptions, IConfiguration config)
         {
@@ -29,6 +30,8 @@ namespace ngComputerVision.Core.Data
            settings.EntityResultCollectionName);
             _credentialCollection = _database.GetCollection<Credential>(
            settings.CredentialCollectionName);
+            _PIICollection = _database.GetCollection<PIIResult>(
+           settings.PIIResultCollectionName);
         }
         public async Task<List<Claims>> GetAsync() =>
        await _claimsCollection.Find(_ => true).ToListAsync();
@@ -40,6 +43,9 @@ namespace ngComputerVision.Core.Data
        
         public async Task CreateAsync(EntityResult newEntityResult) =>
                 await _entityCollection.InsertOneAsync(newEntityResult);
+        //for PII 
+        public async Task CreateAsync(PIIResult newPIIResult) =>
+               await _PIICollection.InsertOneAsync(newPIIResult);
         //setting for Credentials
         public  List<Credential?> GetCredentialAsync()
         {

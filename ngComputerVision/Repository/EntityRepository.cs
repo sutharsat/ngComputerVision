@@ -26,31 +26,10 @@ namespace ngComputerVision.Repository
             throw new System.NotImplementedException();
         }
 
-       /* public async Task<List<Entity>> GetEntity() 
-       { 
-          return  await _context.GetAsync();
-    }
-        public async Task<Entity?> GetEntityWithId(string id)
-        {
-            return await _context.GetAsync(id);
-        }*/
-
-        
-
-        public async Task PostEntity(EntityResult newEntityResult) =>
+     public async Task PostEntity(EntityResult newEntityResult) =>
         await _context.CreateAsync(newEntityResult);
 
-        /* Task<List<Entity>> IEntityRepository.GetEntity()
-         {
-             throw new System.NotImplementedException();
-         }
-
-
-
-         Task<Entity> IEntityRepository.GetEntityWithId(string id)
-         {
-             throw new System.NotImplementedException();
-         }*/
+       
     }
 
 }

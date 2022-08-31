@@ -9,5 +9,6 @@
         public string ClaimsCollectionName { get; set; } = null!;
         public string EntityResultCollectionName { get; set; } = null!;
         public string CredentialCollectionName { get; set; } = null!;
+        public string PIIResultCollectionName { get; set; } = null!;
     }
 }
