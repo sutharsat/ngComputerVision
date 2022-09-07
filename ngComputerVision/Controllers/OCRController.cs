@@ -79,6 +79,7 @@ namespace ngComputerVision.Controllers
         public async Task<OcrResultDTO> Post()
         {
             string ocrText = "";
+            string PII_id = "";
 
             OcrResultDTO ocrResultDTO = new OcrResultDTO();
             try
@@ -129,7 +130,9 @@ namespace ngComputerVision.Controllers
                             var client = new TextAnalyticsClient(endpoint2, credentials);
                             await healthExample(client, ocrResultDTO.DetectedText);
                              var clients = new TextAnalyticsClient(endpointPII, credentialPII);
-                             await RecognizePIIExample(clients, ocrResultDTO.DetectedText);
+                            PII_id = await RecognizePIIExample(clients, ocrResultDTO.DetectedText);
+                            Console.WriteLine("generated id is" + PII_id);
+                            ocrResultDTO.GeneratedId = PII_id;
                         }
                         catch (Exception ex)
                         {
@@ -264,7 +267,7 @@ namespace ngComputerVision.Controllers
 
         }
         // Example method for detecting sensitive information (PII) from text 
-        public async Task RecognizePIIExample(TextAnalyticsClient client,string document)
+        public async Task<string> RecognizePIIExample(TextAnalyticsClient client,string document)
          {
             List<PII> resultPII = new List<PII>();
             PIIResult newPIIResult = new PIIResult();
@@ -300,6 +303,7 @@ namespace ngComputerVision.Controllers
                  Console.WriteLine("No entities were found.");
              }
             await _PIIRepository.PostPII(newPIIResult);
+            return newPIIResult.id.ToString();
         }
 
          

@@ -21,9 +21,12 @@ namespace ngComputerVision.Repository
        public async Task PostPII(PIIResult newPIIResult) =>
 
             await _context.CreateAsync(newPIIResult);
-        
 
-        
+        public async Task<PIIResult?> GetPIIResultWithId(string id)
+        {
+            return await _context.GetAsync(id);
+        }
+
     }
 
 }

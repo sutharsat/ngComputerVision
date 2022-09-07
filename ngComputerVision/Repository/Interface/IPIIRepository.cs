@@ -10,9 +10,9 @@ namespace ngComputerVision.Repository.Interface
        // Task<List<Entity>> GetEntity();
 
         Task PostPII(PIIResult newPIIResult);
-       // Task<Entity?> GetEntityWithId(string id);
+        // Task<Entity?> GetEntityWithId(string id);
 
-
+        Task<PIIResult?> GetPIIResultWithId(string id);
     }
     
 }
