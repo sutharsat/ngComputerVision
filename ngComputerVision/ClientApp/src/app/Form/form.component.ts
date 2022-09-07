@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Observable } from 'rxjs';
 import { Claim } from '../models/claim';
 import { ComputervisionService } from '../services/computervision.service';
+import { OcrResult } from '../models/ocrresult';
+import { OcrComponent } from '../ocr/ocr.component';
 
 @Component({
   selector: 'app-form',
@@ -13,14 +15,16 @@ import { ComputervisionService } from '../services/computervision.service';
 export class FormComponent {
 
   formGroup: any;
+  //ocrResult: OcrResult;
   titleAlert: string = 'This field is required';
   post: any = '';
   claimData: Claim = new Claim();
-  claimId: string = '62f0edbcabd32e9e5086edc3';
-   
+ // claimId: string = '62f0edbcabd32e9e5086edc3';
+  claimId: string = '';
 
-  constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService) {
-    this.getClaimsDetailsForForm();
+  constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService, private ocrComponent: OcrComponent) {
+   // this.getClaimsDetailsForForm();
+    //this.ocrResult = new OcrResult();
   }
 
   ngOnInit() {
@@ -29,10 +33,13 @@ export class FormComponent {
   }
 
   getClaimsDetailsForForm() {
-   
+   /* this.claimId = this.ocrComponent.ocrResult.generatedId;
+    console.log(this.claimId);
      this.claimService.getClaimData(this.claimId).subscribe(data => {
        this.claimData = data;
-    });
+    });*/
+    this.claimData = this.ocrComponent.entityData;
+
     
     
   }

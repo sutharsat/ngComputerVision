@@ -18,10 +18,10 @@ namespace ngComputerVision.Repository
        { 
           return  await _context.GetAsync();
     }
-        public async Task<Claims?> GetClaimsWithId(string id)
+       /* public async Task<PIIResult?> GetClaimsWithId(string id)
         {
             return await _context.GetAsync(id);
-        }
+        }*/
 
 
         public async Task PostClaim(Claims newClaims) =>

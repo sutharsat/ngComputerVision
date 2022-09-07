@@ -14,17 +14,18 @@ namespace ngComputerVision.Controllers
     public class ClaimController : ControllerBase
     {
         private readonly IClaimRepository _claimRepository;
+        private readonly IPIIRepository _PIIRepository;
 
-        public ClaimController(IClaimRepository claimRepository) =>
-            _claimRepository = claimRepository;
-        [HttpGet]
-        public async Task<List<Claims>> Get() =>
-       await _claimRepository.GetClaims();
-        [HttpGet("{id:length(24)}")]
+        public ClaimController( IPIIRepository pIIRepository) =>
+            _PIIRepository = pIIRepository;
+            [HttpGet]
+       // public async Task<List<Claims>> Get() =>
+      // await _claimRepository.GetClaims();
+       /* [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<ClaimDTO>> Get(string id)
         {
             ClaimDTO claimDTO = new ClaimDTO();
-            var claim = await _claimRepository.GetClaimsWithId(id);
+            var claim = await _PIIRepository.GetPIIResultWithId(id);
             if (claim is null)
             {
                 return NotFound();
@@ -43,7 +44,7 @@ namespace ngComputerVision.Controllers
             
             claimDTO.hospitalname = claim.hospitalname;
             return claimDTO;
-        }
+        }*/
 
         [HttpPost("/create")]
         public async Task<IActionResult> Post(Claims newClaim)

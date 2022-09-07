@@ -3,6 +3,8 @@ import { ComputervisionService } from '../services/computervision.service';
 import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
+import { FormComponent } from '../Form/form.component';
+import { Claim } from '../models/claim';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -21,6 +23,7 @@ export class OcrComponent implements OnInit {
   status: string;
   maxFileSize: number;
   isValidFile = true;
+  entityData: Claim = new Claim();
 
   constructor(private computervisionService: ComputervisionService) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
@@ -74,6 +77,11 @@ export class OcrComponent implements OnInit {
           }
           this.loading = false;
         });
+      //this.formComponent.getClaimsDetailsForForm();
+      console.log(this.ocrResult.generatedId);
+      this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
+        this.entityData = data;
+      });
     }
   }
  /* ClearResults() {

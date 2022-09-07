@@ -31,19 +31,28 @@ namespace ngComputerVision.Controllers
         private readonly IClaimRepository _claimRepository;
         private readonly IEntityRepository _entityRepository;
         private readonly ICredentialRepository _credentialRepository;
+        private readonly IPIIRepository _PIIRepository;
+        private string endpoint3;
+
         //endpoint connection for text analytics api
         private static AzureKeyCredential credentials;
+        private AzureKeyCredential credentialPII;
         private static Uri endpoint2;
+        private static Uri endpointPII;
+        //private static Uri endpoint3;
         private string analyticuriBase;
+        private string azureKeyPIICredential;
+        private string azurePIIEndpoint;
 
-        public OCRController(IClaimRepository claimRepository, IEntityRepository entityRepository, ICredentialRepository credentialRepository)
+        public OCRController(IClaimRepository claimRepository, IEntityRepository entityRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository)
         {
-            
-            
+
+
 
             _claimRepository = claimRepository;
             _entityRepository = entityRepository;
             _credentialRepository = credentialRepository;
+            _PIIRepository = PIIRepository;
             //OCR API
             subscriptionKey = _credentialRepository.GetCredential("OCRAPI").subscriptionKey.ToString();
             endpoint = _credentialRepository.GetCredential("OCRAPI").endpoint.ToString();
@@ -54,16 +63,23 @@ namespace ngComputerVision.Controllers
             analyticEndpoint2 = _credentialRepository.GetCredential("ANALYTICAPI").endpoint.ToString();
             analyticuriBase = analyticEndpoint2 + "/language/analyze-text/jobs";
 
+            //PII Detect API
+            azureKeyPIICredential = _credentialRepository.GetCredential("PIIAPI").subscriptionKey.ToString();
+            azurePIIEndpoint = _credentialRepository.GetCredential("PIIAPI").endpoint.ToString();
 
-           
+
             credentials = new AzureKeyCredential(analyticCredentials);
+            credentialPII = new AzureKeyCredential(azureKeyPIICredential);
             endpoint2 = new Uri(analyticEndpoint2);
+            endpointPII = new Uri(azurePIIEndpoint);
+
         }
 
         [HttpPost, DisableRequestSizeLimit]
         public async Task<OcrResultDTO> Post()
         {
             string ocrText = "";
+            string PII_id = "";
 
             OcrResultDTO ocrResultDTO = new OcrResultDTO();
             try
@@ -113,6 +129,10 @@ namespace ngComputerVision.Controllers
                             // string firstNamekey;
                             var client = new TextAnalyticsClient(endpoint2, credentials);
                             await healthExample(client, ocrResultDTO.DetectedText);
+                             var clients = new TextAnalyticsClient(endpointPII, credentialPII);
+                            PII_id = await RecognizePIIExample(clients, ocrResultDTO.DetectedText);
+                            Console.WriteLine("generated id is" + PII_id);
+                            ocrResultDTO.GeneratedId = PII_id;
                         }
                         catch (Exception ex)
                         {
@@ -231,23 +251,7 @@ namespace ngComputerVision.Controllers
                         Console.WriteLine($"  Found {entitiesInDoc.EntityRelations.Count} relations in the current document:");
                         Console.WriteLine("");
 
-                        // view recognized healthcare relations
-                        /*  foreach (HealthcareEntityRelation relations in entitiesInDoc.EntityRelations)
-                           {
-                               Console.WriteLine($"    Relation: {relations.RelationType}");
-                               Console.WriteLine($"    For this relation there are {relations.Roles.Count} roles");
 
-                               // view relation roles
-                               foreach (HealthcareEntityRelationRole role in relations.Roles)
-                               {
-                                   Console.WriteLine($"      Role Name: {role.Name}");
-
-                                   Console.WriteLine($"      Associated Entity Text: {role.Entity.Text}");
-                                   Console.WriteLine($"      Associated Entity Category: {role.Entity.Category}");
-                                   Console.WriteLine("");
-                               }
-                               Console.WriteLine("");
-                           }*/
                     }
                     else
                     {
@@ -260,10 +264,55 @@ namespace ngComputerVision.Controllers
 
             }
             await _entityRepository.PostEntity(newEntityResult);
+
+        }
+        // Example method for detecting sensitive information (PII) from text 
+        public async Task<string> RecognizePIIExample(TextAnalyticsClient client,string document)
+         {
+            List<PII> resultPII = new List<PII>();
+            PIIResult newPIIResult = new PIIResult();
+            List<string> batchInput = new List<string>()
+            {
+                document
+            };
+            
+            PiiEntityCollection entities = client.RecognizePiiEntities(document).Value;
+
+             
+
+             if (entities.Count > 0)
+             {
+                 Console.WriteLine($"Recognized {entities.Count} PII entit{(entities.Count > 1 ? "ies" : "y")}:");
+                 foreach (PiiEntity entity in entities)
+                 {
+                    PII newPII = new PII();
+                    newPII.Text = entity.Text;
+                    PiiEntityCategory category = entity.Category;
+                    newPII.Category = category.ToString();
+                    newPII.Offset = entity.Offset;
+                    newPII.Length = entity.Length;
+                    //newPII.NormalizedText = entity.NormalizedText;
+                    newPII.ConfidenceScore = entity.ConfidenceScore;
+                    resultPII.Add(newPII);
+                    
+                 }
+                newPIIResult.PIIEntities = resultPII;
+            }
+             else
+             {
+                 Console.WriteLine("No entities were found.");
+             }
+            await _PIIRepository.PostPII(newPIIResult);
+            return newPIIResult.id.ToString();
         }
 
+         
     }
-
-
 }
+    
+
+
+
+    
+
 

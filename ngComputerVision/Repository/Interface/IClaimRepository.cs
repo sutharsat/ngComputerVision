@@ -9,7 +9,7 @@ namespace ngComputerVision.Repository.Interface
         Task<List<Claims>> GetClaims();
 
         Task PostClaim(Claims newClaims);
-        Task<Claims?> GetClaimsWithId(string id);
+      //  Task<Claims?> GetClaimsWithId(string id);
 
 
     }
