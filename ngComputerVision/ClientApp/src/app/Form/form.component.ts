@@ -100,4 +100,12 @@ export class FormComponent {
   onEdit(post: any) {
     this.post = post;
   }
+expand(event){
+
+         var panel = event.getElementsByClassName("accordion");
+         if (panel.style.display === "block") {
+           panel.style.display = "none";
+       } else {
+             panel.style.display = "block";
+        }      }
 }
