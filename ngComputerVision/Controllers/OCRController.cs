@@ -127,12 +127,13 @@ namespace ngComputerVision.Controllers
                             ocrResultDTO.DetectedText = ocrText.ToString();
                             ocrResultDTO.Language = "en";
                             // string firstNamekey;
+                            Console.WriteLine("generatedId for vision response" +newClaim.id.ToString());
                             var client = new TextAnalyticsClient(endpoint2, credentials);
-                            await healthExample(client, ocrResultDTO.DetectedText);
+                            await healthExample(client, ocrResultDTO.DetectedText, newClaim.id.ToString());
                              var clients = new TextAnalyticsClient(endpointPII, credentialPII);
-                            PII_id = await RecognizePIIExample(clients, ocrResultDTO.DetectedText);
-                            Console.WriteLine("generated id is" + PII_id);
-                            ocrResultDTO.GeneratedId = PII_id;
+                              await RecognizePIIExample(clients, ocrResultDTO.DetectedText, newClaim.id.ToString());
+                            Console.WriteLine("generated corelatingId is" + newClaim.id);
+                            ocrResultDTO.GeneratedId = newClaim.id;
                         }
                         catch (Exception ex)
                         {
@@ -204,7 +205,7 @@ namespace ngComputerVision.Controllers
             }
         }
         // method for extracting information from healthcare-related text 
-        public async Task healthExample(TextAnalyticsClient client, string document)
+        public async Task healthExample(TextAnalyticsClient client, string document, string ocrVisionId)
         {
             List<Entity> result = new List<Entity>();
             EntityResult newEntityResult = new EntityResult();
@@ -248,6 +249,8 @@ namespace ngComputerVision.Controllers
                             result.Add(newEntity);
                         }
                         newEntityResult.entities = result;
+                        newEntityResult.correlatingId = ocrVisionId;
+
                         Console.WriteLine($"  Found {entitiesInDoc.EntityRelations.Count} relations in the current document:");
                         Console.WriteLine("");
 
@@ -267,7 +270,7 @@ namespace ngComputerVision.Controllers
 
         }
         // Example method for detecting sensitive information (PII) from text 
-        public async Task<string> RecognizePIIExample(TextAnalyticsClient client,string document)
+        public async Task RecognizePIIExample(TextAnalyticsClient client,string document, string ocrVisionId)
          {
             List<PII> resultPII = new List<PII>();
             PIIResult newPIIResult = new PIIResult();
@@ -297,13 +300,14 @@ namespace ngComputerVision.Controllers
                     
                  }
                 newPIIResult.PIIEntities = resultPII;
+                newPIIResult.correlatingId = ocrVisionId;
             }
              else
              {
                  Console.WriteLine("No entities were found.");
              }
             await _PIIRepository.PostPII(newPIIResult);
-            return newPIIResult.id.ToString();
+            
         }
 
          
