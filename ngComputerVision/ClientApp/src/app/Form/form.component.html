@@ -2,97 +2,78 @@
 <div class="accordion accordion-flush" id="accordionFlushCONTENTS">
   <div class="accordion-item">
     <h2 class="accordion-header" id="flush-headingTwo">
-      <button class="accordion-button collapsed" (click) = "expand($event)" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+      <button class="accordion-button collapsed" (click)="expand($event)" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
         PII Text
       </button>
     </h2>
     <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushCONTENTS">
       <div class="accordion-body">
-        <div class="row">
-          <div class="col-md-6">
+        <!--<div class="row">
+            <div class="col-md-6">
 
-            <div class="mb-3 mt-3">
-              <label for="firstname" class="form-label">First Name:</label>
-              <input type="firstname" class="form-control" id="firstname" placeholder="First Name" value={{claimData.firstname}}>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="lastname" class="form-label">Last Name:</label>
-              <input type="lastname" class="form-control" id="lastname" placeholder="Last Name" value={{claimData.lastname}}>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="dob" class="form-label">Date Of Birth:</label>
-              <input type="dob" class="form-control" id="dob" placeholder="Date Of Birth" value={{claimData.dateofbirth}}>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="address" class="form-label">Address:</label>
-              <input type="address" class="form-control" id="address" placeholder="Address" value={{claimData.address}}>
-            </div>
+              <div class="mb-3 mt-3">
+                <label for="firstname" class="form-label">First Name:</label>
+                <input class="form-control" placeholder="First Name" value={{claimData.firstname}}>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="lastname" class="form-label">Last Name:</label>
+                <input class="form-control" placeholder="Last Name" value={{claimData.lastname}}>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="dob" class="form-label">Date Of Birth:</label>
+                <input class="form-control" placeholder="Date Of Birth" value={{claimData.dateofbirth}}>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="address" class="form-label">Address:</label>
+                <input class="form-control" placeholder="Address" value={{claimData.address}}>
+              </div>
 
-          </div>
-          <div class="col-md-6">
-            <div class="mb-3 mt-3">
-              <label for="phonenumber" class="form-label">Phone Number:</label>
-              <input type="phonenumber" class="form-control" id="phonenumber" placeholder="First Name" value={{claimData.phonenumber}}>
             </div>
+            <div class="col-md-6">
+              <div class="mb-3 mt-3">
+                <label for="phonenumber" class="form-label">Phone Number:</label>
+                <input class="form-control" placeholder="First Name" value={{claimData.phonenumber}}>
+              </div>
 
-            <div class="mb-3 mt-3">
-              <label for="medicareID" class="form-label">MedicareID:</label>
-              <input type="medicareID" class="form-control" id="medicareID" placeholder="MedicareID" value={{claimData.medicareID}}>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="ptan" class="form-label">PTAN:</label>
-              <input type="ptan" class="form-control" id="ptan" placeholder="PTAN" value={{claimData.ptan}}>
-            </div>
-            <div class="mb-3 mt-3">
-              <label for="npi" class="form-label">NPI:</label>
-              <input type="npi" class="form-control" id="npi" placeholder="NPI" value={{claimData.npi}}>
-            </div>
-            <div class="mb-3 mt-3 text-black-500">
-              <label for="hospitalname" class="form-label">Hospital/Facility Name:</label>
-              <input type="hospitalname" class="form-control" id="hospitalname" placeholder="Hospital/Facility Name:" value={{claimData.hospitalname}}>
-            </div>
+              <div class="mb-3 mt-3">
+                <label for="medicareID" class="form-label">MedicareID:</label>
+                <input class="form-control" " placeholder="MedicareID" value={{claimData.medicareID}}>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="ptan" class="form-label">PTAN:</label>
+                <input class="form-control" placeholder="PTAN" value={{claimData.ptan}}>
+              </div>
+              <div class="mb-3 mt-3">
+                <label for="npi" class="form-label">NPI:</label>
+                <input class="form-control" " placeholder="NPI" value={{claimData.npi}}>
+              </div>
+              <div class="mb-3 mt-3 text-black-500">
+                <label for="hospitalname" class="form-label">Hospital/Facility Name:</label>
+                <input class="form-control" " placeholder="Hospital/Facility Name:" value={{claimData.hospitalname}}>
+              </div>
 
-          </div>
-        </div>
-      </div>
-        </div>
-      </div>
-   
-  
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="flush-headingThree">
-      <button class="accordion-button collapsed" (click) = "expand($event)" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
-        Health Text
-      </button>
-    </h2>
-    <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushCONTENTS">
-      <div class="accordion-body">
-        <div class=e249_264>
-          <div class=e233_45>
-            <div class="e233_38"></div>
-            <div class="e233_39"></div>
-            <div class="e233_40"></div>
-            <div class="e233_41"></div>
-            <div class="e233_42"></div>
-            <div class="e233_44"></div>
-            <div class="e233_43"></div>
-          </div>
-          <div class=e240_78>
-            <div class="e233_46"></div>
-            <div class="e233_49"></div>
-            <div class="e233_47"></div>
-            <div class="e233_50"></div>
-            <div class="e233_48"></div>
-            <div class="e233_51"></div>
-            <div class="e233_52"></div>
-          </div>
+            </div>
+          </div>-->
         </div>
       </div>
     </div>
+
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="flush-headingThree">
+        <button class="accordion-button collapsed" (click)="expand($event)" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+          Health Text
+        </button>
+      </h2>
+      <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushCONTENTS">
+        <div class="accordion-body">
+
+        </div>
+      </div>
+    </div>
+
   </div>
 
-</div>
-  
 
- 
-     
+
+
