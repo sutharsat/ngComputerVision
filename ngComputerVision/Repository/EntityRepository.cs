@@ -21,9 +21,9 @@ namespace ngComputerVision.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<Entity> GetEntityWithId(string id)
+        public Task<EntityResult> GetEntityWithId(string id)
         {
-            throw new System.NotImplementedException();
+            return  _context.GetEntityResult(id);
         }
 
      public async Task PostEntity(EntityResult newEntityResult) =>

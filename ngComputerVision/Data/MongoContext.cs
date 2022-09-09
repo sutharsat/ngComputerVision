@@ -51,5 +51,7 @@ namespace ngComputerVision.Core.Data
         {
             return  _credentialCollection.Find(_ => true).ToList();
         }
+        public Task<EntityResult?> GetEntityResult(string id) =>
+           _entityCollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
     }
 }

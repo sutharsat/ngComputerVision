@@ -15,57 +15,87 @@ namespace ngComputerVision.Controllers
     {
         private readonly IClaimRepository _claimRepository;
         private readonly IPIIRepository _PIIRepository;
+        private readonly IEntityRepository _entityRepository;
 
-        public ClaimController( IPIIRepository pIIRepository) =>
+        public ClaimController(IClaimRepository claimRepository, IEntityRepository entityRepository, IPIIRepository pIIRepository) 
+          { 
             _PIIRepository = pIIRepository;
-            [HttpGet]
-       // public async Task<List<Claims>> Get() =>
-      // await _claimRepository.GetClaims();
-       /* [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<ClaimDTO>> Get(string id)
-        {
-            ClaimDTO claimDTO = new ClaimDTO();
-            var claim = await _PIIRepository.GetPIIResultWithId(id);
-            if (claim is null)
-            {
-                return NotFound();
+        _entityRepository = entityRepository;
+            _PIIRepository = pIIRepository;
             }
-            claimDTO.firstname = claim.firstname;
-            claimDTO.lastname = claim.lastname;
-            claimDTO.dateofbirth=claim.dateofbirth;
-            claimDTO.address=claim.address;
-            claimDTO.gender= claim.gender;
-            claimDTO.medicareID=claim.medicareID;
-           claimDTO.phonenumber = claim.phonenumber;
-            claimDTO.npi = claim.npi;
-            
-            claimDTO.ptan=claim.ptan;
-           
-            
-            claimDTO.hospitalname = claim.hospitalname;
-            return claimDTO;
-        }*/
+        [HttpGet]
+        // public async Task<List<Claims>> Get() =>
+        // await _claimRepository.GetClaims();
+        /* [HttpGet("{id:length(24)}")]
+         public async Task<ActionResult<ClaimDTO>> Get(string id)
+         {
+             ClaimDTO claimDTO = new ClaimDTO();
+             var claim = await _PIIRepository.GetPIIResultWithId(id);
+             if (claim is null)
+             {
+                 return NotFound();
+             }
+             claimDTO.firstname = claim.firstname;
+             claimDTO.lastname = claim.lastname;
+             claimDTO.dateofbirth=claim.dateofbirth;
+             claimDTO.address=claim.address;
+             claimDTO.gender= claim.gender;
+             claimDTO.medicareID=claim.medicareID;
+            claimDTO.phonenumber = claim.phonenumber;
+             claimDTO.npi = claim.npi;
+
+             claimDTO.ptan=claim.ptan;
+
+
+             claimDTO.hospitalname = claim.hospitalname;
+             return claimDTO;
+         }*/
 
         [HttpPost("/create")]
         public async Task<IActionResult> Post(Claims newClaim)
         {
-           
-               if(newClaim!=null)
+
+            if (newClaim != null)
             {
                 await _claimRepository.PostClaim(newClaim);
                 return Ok("Claim saved");
                 { };
-                
+
             }
             else
             {
                 return BadRequest("An Error Has Occured");
-            } 
-
-            
-
-            
+            }
         }
+            [HttpGet("{id:length(24)}")]
+            public async Task<ActionResult<ResultDTO>> Get(string id)
+            {
+                ResultDTO resultDTO = new ResultDTO();
+                var entityResult =  _entityRepository.GetEntityWithId(id);
+              /*  if (claim is null)
+                {
+                    return NotFound();
+                }
+                claimDTO.firstname = claim.firstname;
+                claimDTO.lastname = claim.lastname;
+                claimDTO.dateofbirth = claim.dateofbirth;
+                claimDTO.address = claim.address;
+                claimDTO.gender = claim.gender;
+                claimDTO.medicareID = claim.medicareID;
+                claimDTO.phonenumber = claim.phonenumber;
+                claimDTO.npi = claim.npi;
+
+                claimDTO.ptan = claim.ptan;
+
+
+                claimDTO.hospitalname = claim.hospitalname;
+              */
+                return resultDTO;
+            }
+
+
+
+        
 
         /*[HttpPost]
          public async Task Post() =>
