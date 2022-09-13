@@ -107,4 +107,12 @@ export class FormComponent {
   onEdit(post: any) {
     this.post = post;
   }
+expand(event:any){
+
+  //var accordion = event.getElementsByClassName("accordion-header");
+  if (event.style.display === "block") {
+    event.style.display = "none";
+       } else {
+    event.style.display = "block";
+        }      }
 }

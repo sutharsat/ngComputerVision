@@ -1,58 +1,107 @@
-<!--<div class="text-center">-->
-
-  
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+     <div > PII Entities</div>
+    </mat-panel-title>
+    <mat-panel-description >
+      Content containing personally identifiable information.
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
   <div class="row">
     <div class="col-md-6">
-
-      <div class="mb-3 mt-3">
+      <div class="mb-1 mt-1 text-xs">
         <label for="firstname" class="form-label">First Name:</label>
-        <input type="firstname" class="form-control" id="firstname" placeholder="First Name" value={{claimData.firstname}}>
+        <input type="firstname" class="form-control" id="firstname" placeholder="First Name">
+        <p>Confidence score:</p>
       </div>
-      <div class="mb-3 mt-3">
+      <div class="mb-1 mt-1 text-xs">
         <label for="lastname" class="form-label">Last Name:</label>
-        <input type="lastname" class="form-control" id="lastname" placeholder="Last Name" value={{claimData.lastname}}>
+        <input type="lastname" class="form-control" id="lastname" placeholder="Last Name">
+        <p>Confidence score:</p>
       </div>
-      <div class="mb-3 mt-3">
-        <label for="dob" class="form-label">Date Of Birth:</label>
-        <input type="dob" class="form-control" id="dob" placeholder="Date Of Birth" value={{claimData.dateofbirth}}>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="phone" class="form-label">Phone:</label>
+        <input type="phone" class="form-control" id="phone" placeholder="Phone">
+        <p>Confidence score:</p>
       </div>
-      <div class="mb-3 mt-3">
-        <label for="address" class="form-label">Address:</label>
-        <input type="address" class="form-control" id="address" placeholder="Address" value={{claimData.address}}>
-      </div>
-      
-      <div class="mb-3 mt-3">
-        <mat-radio-group class="margin-left">
-          <label for="gender" class="form-label">Gender:</label>
-          <mat-radio-button value="male" [checked]="claimData.gender==='male'"> Male </mat-radio-button>
-          <mat-radio-button value="female" [checked]="claimData.gender==='female'"> Female </mat-radio-button>
-        </mat-radio-group>
-      </div>
-
     </div>
     <div class="col-md-6">
-      <div class="mb-3 mt-3">
-        <label for="phonenumber" class="form-label">Phone Number:</label>
-        <input type="phonenumber" class="form-control" id="phonenumber" placeholder="First Name" value={{claimData.phonenumber}}>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="hosptial" class="form-label">Hosptial:</label>
+        <input type="hosptial" class="form-control" id="hosptial" placeholder="hosptial">
+        <p>Confidence score:</p>
       </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="dob" class="form-label">Date of Birth:</label>
+        <input type="dob" class="form-control" id="dob" placeholder="Date of Birth">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="date" class="form-label">date:</label>
+        <input type="date" class="form-control" id="date" placeholder="date">
+        <p>Confidence score:</p>
+      </div>
+    </div>
+  </div>
 
-      <div class="mb-3 mt-3">
-        <label for="medicareID" class="form-label">MedicareID:</label>
-        <input type="medicareID" class="form-control" id="medicareID" placeholder="MedicareID" value={{claimData.medicareID}}>
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="ptan" class="form-label">PTAN:</label>
-        <input type="ptan" class="form-control" id="ptan" placeholder="PTAN" value={{claimData.ptan}}>
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="npi" class="form-label">NPI:</label>
-        <input type="npi" class="form-control" id="npi" placeholder="NPI" value={{claimData.npi}}>
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="hospitalname" class="form-label">Hospital/Facility Name:</label>
-        <input type="hospitalname" class="form-control" id="hospitalname" placeholder="Hospital/Facility Name:" value={{claimData.hospitalname}}>
-      </div>
 
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Health Entities
+    </mat-panel-title>
+    <mat-panel-description>
+      Content containing health/medical references.
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-1 mt-1 text-xs">
+        <label for="treatmentname" class="form-label">Treatment Name:</label>
+        <input type="treatmentname" class="form-control" id="treatmentname" placeholder="Treatment Name">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="treatmentname" class="form-label">Treatment Name:</label>
+        <input type="treatmentname" class="form-control" id="treatmentname" placeholder="Treatment Name">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="treatmentname" class="form-label">Treatment Name:</label>
+        <input type="treatmentname" class="form-control" id="treatmentname" placeholder="Treatment Name">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="gender" class="form-label">Gender:</label>
+        <input type="gender" class="form-control" id="gender" placeholder="Gender">
+        <p>Confidence score:</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="mb-1 mt-1 text-xs">
+        <label for="ptam" class="form-label">PTAM:</label>
+        <input type="ptam" class="form-control" id="treatmentname" placeholder="ptam">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="careenvironment" class="form-label">Caree Environment:</label>
+        <input type="careenvironment" class="form-control" id="careenvironment" placeholder="careenvironment">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="treatmentname" class="form-label">Treatment Name:</label>
+        <input type="treatmentname" class="form-control" id="treatmentname" placeholder="treatmentname">
+        <p>Confidence score:</p>
+      </div>
+      <div class="mb-1 mt-1 text-xs">
+        <label for="date" class="form-label">date:</label>
+        <input type="date" class="form-control" id="date" placeholder="date">
+        <p>Confidence score:</p>
+      </div>
     </div>
     </div>
+  
+
+</mat-expansion-panel>
