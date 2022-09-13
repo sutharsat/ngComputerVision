@@ -10,7 +10,7 @@ namespace ngComputerVision.Repository.Interface
        // Task<List<Entity>> GetEntity();
 
         Task PostEntity(EntityResult newEntityResult);
-        Task<EntityResult?> GetEntityWithId(string id);
+        Task<EntityResult?> GetHealthEntityWithId(string id);
 
 
     }

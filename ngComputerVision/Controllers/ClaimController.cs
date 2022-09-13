@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ngComputerVision.Contracts.Entities;
-using ngComputerVision.Core.Data;
 using ngComputerVision.DTOModels;
 using ngComputerVision.Repository.Interface;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ngComputerVision.Controllers
@@ -17,12 +15,12 @@ namespace ngComputerVision.Controllers
         private readonly IPIIRepository _PIIRepository;
         private readonly IEntityRepository _entityRepository;
 
-        public ClaimController(IClaimRepository claimRepository, IEntityRepository entityRepository, IPIIRepository pIIRepository) 
-          { 
+        public ClaimController(IClaimRepository claimRepository, IEntityRepository entityRepository, IPIIRepository pIIRepository)
+        {
             _PIIRepository = pIIRepository;
-        _entityRepository = entityRepository;
+            _entityRepository = entityRepository;
             _PIIRepository = pIIRepository;
-            }
+        }
         [HttpGet]
         // public async Task<List<Claims>> Get() =>
         // await _claimRepository.GetClaims();
@@ -67,43 +65,17 @@ namespace ngComputerVision.Controllers
                 return BadRequest("An Error Has Occured");
             }
         }
-            [HttpGet("{id:length(24)}")]
-            public async Task<ActionResult<ResultDTO>> Get(string id)
-            {
-                ResultDTO resultDTO = new ResultDTO();
-                var entityResult =  _entityRepository.GetEntityWithId(id);
-              /*  if (claim is null)
-                {
-                    return NotFound();
-                }
-                claimDTO.firstname = claim.firstname;
-                claimDTO.lastname = claim.lastname;
-                claimDTO.dateofbirth = claim.dateofbirth;
-                claimDTO.address = claim.address;
-                claimDTO.gender = claim.gender;
-                claimDTO.medicareID = claim.medicareID;
-                claimDTO.phonenumber = claim.phonenumber;
-                claimDTO.npi = claim.npi;
 
-                claimDTO.ptan = claim.ptan;
+        //mapping PII and Health collection
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<ResultDTO>> Get(string id)
+        {
+            ResultDTO resultDTO = new ResultDTO();
+            var entityHealthResult = await _entityRepository.GetHealthEntityWithId(id);
+            var PIIResult = await _PIIRepository.GetPIIResultWithId(id);
 
-
-                claimDTO.hospitalname = claim.hospitalname;
-              */
-                return resultDTO;
-            }
-
-
-
-        
-
-        /*[HttpPost]
-         public async Task Post() =>
-           
-
-        //create new claims here named my claim
-         await _claimRepository.PostClaim();*/
-
+            return resultDTO;
+        }
 
 
     }

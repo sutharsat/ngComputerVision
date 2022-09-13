@@ -1,21 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Azure;
+using Azure.AI.TextAnalytics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ngComputerVision.Contracts.Entities;
+using ngComputerVision.DTOModels;
+using ngComputerVision.Models;
+using ngComputerVision.Repository.Interface;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using Newtonsoft.Json;
-using System.Text.Json;
-using ngComputerVision.Models;
-using System.Collections.Generic;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using ngComputerVision.DTOModels;
-using ngComputerVision.Repository;
-using ngComputerVision.Contracts.Entities;
-using ngComputerVision.Repository.Interface;
-using Azure.AI.TextAnalytics;
-using Azure;
+using System.Threading.Tasks;
 
 namespace ngComputerVision.Controllers
 {
@@ -127,11 +124,13 @@ namespace ngComputerVision.Controllers
                             ocrResultDTO.DetectedText = ocrText.ToString();
                             ocrResultDTO.Language = "en";
                             // string firstNamekey;
-                            Console.WriteLine("generatedId for vision response" +newClaim.id.ToString());
+                            Console.WriteLine("generatedId for vision response" + newClaim.id.ToString());
+
+                            //method for APIs
                             var client = new TextAnalyticsClient(endpoint2, credentials);
                             await healthExample(client, ocrResultDTO.DetectedText, newClaim.id.ToString());
-                             var clients = new TextAnalyticsClient(endpointPII, credentialPII);
-                              await RecognizePIIExample(clients, ocrResultDTO.DetectedText, newClaim.id.ToString());
+                            var clients = new TextAnalyticsClient(endpointPII, credentialPII);
+                            await RecognizePIIExample(clients, ocrResultDTO.DetectedText, newClaim.id.ToString());
                             Console.WriteLine("generated corelatingId is" + newClaim.id);
                             ocrResultDTO.GeneratedId = newClaim.id;
                         }
@@ -269,25 +268,25 @@ namespace ngComputerVision.Controllers
             await _entityRepository.PostEntity(newEntityResult);
 
         }
-        // Example method for detecting sensitive information (PII) from text 
-        public async Task RecognizePIIExample(TextAnalyticsClient client,string document, string ocrVisionId)
-         {
+        //method for detecting sensitive information (PII) from text 
+        public async Task RecognizePIIExample(TextAnalyticsClient client, string document, string ocrVisionId)
+        {
             List<PII> resultPII = new List<PII>();
             PIIResult newPIIResult = new PIIResult();
             List<string> batchInput = new List<string>()
             {
                 document
             };
-            
+
             PiiEntityCollection entities = client.RecognizePiiEntities(document).Value;
 
-             
 
-             if (entities.Count > 0)
-             {
-                 Console.WriteLine($"Recognized {entities.Count} PII entit{(entities.Count > 1 ? "ies" : "y")}:");
-                 foreach (PiiEntity entity in entities)
-                 {
+
+            if (entities.Count > 0)
+            {
+                Console.WriteLine($"Recognized {entities.Count} PII entit{(entities.Count > 1 ? "ies" : "y")}:");
+                foreach (PiiEntity entity in entities)
+                {
                     PII newPII = new PII();
                     newPII.Text = entity.Text;
                     PiiEntityCategory category = entity.Category;
@@ -297,26 +296,26 @@ namespace ngComputerVision.Controllers
                     //newPII.NormalizedText = entity.NormalizedText;
                     newPII.ConfidenceScore = entity.ConfidenceScore;
                     resultPII.Add(newPII);
-                    
-                 }
+
+                }
                 newPIIResult.PIIEntities = resultPII;
                 newPIIResult.correlatingId = ocrVisionId;
             }
-             else
-             {
-                 Console.WriteLine("No entities were found.");
-             }
+            else
+            {
+                Console.WriteLine("No entities were found.");
+            }
             await _PIIRepository.PostPII(newPIIResult);
-            
+
         }
 
-         
+
     }
 }
-    
 
 
 
-    
+
+
 
 
