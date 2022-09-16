@@ -4,15 +4,27 @@ exports.Claim = void 0;
 var Claim = /** @class */ (function () {
     function Claim() {
         this.firstname = '';
+        this.firstnamecs = '';
         this.lastname = '';
+        this.lastnamecs = '';
         this.dateofbirth = '';
+        this.dateofbirthcs = '';
         this.address = '';
+        this.addresscs = '';
         this.gender = '';
-        this.ptan = '';
-        this.medicareID = '';
+        this.gendercs = '';
         this.hospitalname = '';
-        this.npi = '';
+        this.hospitalnamecs = '';
         this.phonenumber = '';
+        this.phonenumbercs = '';
+        this.treatmentname = '';
+        this.treatmentnamecs = '';
+        this.careenvironment = '';
+        this.careenvironmentcs = '';
+        this.administrativeevent = '';
+        this.administrativeeventcs = '';
+        this.healthcareprofession = '';
+        this.healthcareprofessioncs = '';
     }
     return Claim;
 }());
