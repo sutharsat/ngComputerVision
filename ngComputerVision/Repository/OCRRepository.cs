@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Repository
 {
-    public class ClaimRepository : IClaimRepository
+    public class OCRRepository : IOCRRepository
     {
         private readonly MongoContext _context;
-        public ClaimRepository(MongoContext mongoContext)
+        public OCRRepository(MongoContext mongoContext)
         {
             _context = mongoContext;
         }
@@ -18,10 +18,10 @@ namespace ngComputerVision.Repository
        { 
           return  await _context.GetAsync();
     }
-       /* public async Task<PIIResult?> GetClaimsWithId(string id)
+        public async Task<Claims?> GetOCRResultByID(string id)
         {
-            return await _context.GetAsync(id);
-        }*/
+            return await _context.GetOCRResultByID(id);
+        }
 
 
         public async Task PostClaim(Claims newClaims) =>

@@ -13,68 +13,26 @@ namespace ngComputerVision.Controllers
     [Route("api/[controller]")]
     public class ClaimController : ControllerBase
     {
-        private readonly IClaimRepository _claimRepository;
+        private readonly IOCRRepository _ocrRepository;
         private readonly IPIIRepository _PIIRepository;
-        private readonly IEntityRepository _entityRepository;
+        private readonly IHealthRepository _ihealthEntityRepository;
 
-        public ClaimController(IClaimRepository claimRepository, IEntityRepository entityRepository, IPIIRepository pIIRepository)
+        public ClaimController( IHealthRepository healthEntityRepository, IPIIRepository pIIRepository, IOCRRepository ocrRepository)
         {
             _PIIRepository = pIIRepository;
-            _entityRepository = entityRepository;
-            _PIIRepository = pIIRepository;
+            _ihealthEntityRepository = healthEntityRepository;
+            _ocrRepository = ocrRepository;
         }
-        [HttpGet]
-        // public async Task<List<Claims>> Get() =>
-        // await _claimRepository.GetClaims();
-        /* [HttpGet("{id:length(24)}")]
-         public async Task<ActionResult<ClaimDTO>> Get(string id)
-         {
-             ClaimDTO claimDTO = new ClaimDTO();
-             var claim = await _PIIRepository.GetPIIResultWithId(id);
-             if (claim is null)
-             {
-                 return NotFound();
-             }
-             claimDTO.firstname = claim.firstname;
-             claimDTO.lastname = claim.lastname;
-             claimDTO.dateofbirth=claim.dateofbirth;
-             claimDTO.address=claim.address;
-             claimDTO.gender= claim.gender;
-             claimDTO.medicareID=claim.medicareID;
-            claimDTO.phonenumber = claim.phonenumber;
-             claimDTO.npi = claim.npi;
-
-             claimDTO.ptan=claim.ptan;
-
-
-             claimDTO.hospitalname = claim.hospitalname;
-             return claimDTO;
-         }*/
-
-        [HttpPost("/create")]
-        public async Task<IActionResult> Post(Claims newClaim)
-        {
-
-            if (newClaim != null)
-            {
-                await _claimRepository.PostClaim(newClaim);
-                return Ok("Claim saved");
-                { };
-
-            }
-            else
-            {
-                return BadRequest("An Error Has Occured");
-            }
-        }
-
         //mapping PII and Health collection
         [HttpGet("{id:length(24)}")]
+        // public async Task<ActionResult<List<PII>>> Get(string id)
         public async Task<ActionResult<ResultDTO>> Get(string id)
         {
             ResultDTO resultDTO = new ResultDTO();
             //PII
-            Dictionary<string,double> personDictionary = new Dictionary<string, double>();
+            Dictionary<string, double> personDictionary = new Dictionary<string, double>();
+            //  List<PII> categoryBasedPII = new List<PII>();
+            //  List<PII> filteredCategoryBasedPII = new List<PII>();
             Dictionary<string, double> dateDictionary = new Dictionary<string, double>();
             Dictionary<string, double> addressDictionary = new Dictionary<string, double>();
             Dictionary<string, double> phonenumberDictionary = new Dictionary<string, double>();
@@ -85,8 +43,32 @@ namespace ngComputerVision.Controllers
             Dictionary<string, double> administrativeeventDictionary = new Dictionary<string, double>();
             Dictionary<string, double> genderDictionary = new Dictionary<string, double>();
             Dictionary<string, double> healthcareprofessionDictionary = new Dictionary<string, double>();
-            var entityHealthResult = await _entityRepository.GetHealthEntityWithId(id);
+            var entityHealthResult = await _ihealthEntityRepository.GetHealthEntityWithId(id);
             var PIIResult = await _PIIRepository.GetPIIResultWithId(id);
+             /* var ocrResult = await _ocrRepository.GetOCRResultByID(id);
+              foreach (PII piientity in PIIResult.PIIEntities)
+              {
+
+                  var analyseResult = ocrResult.analyzeResult;
+                  foreach (var readResult in analyseResult.readResults)
+                  {
+                      foreach (var line in readResult.lines)
+                      {
+                          if (line.text.Contains(piientity.Text))
+                          {
+                              piientity.BoundingBox = line.boundingBox;
+                          }
+                      }
+                  }
+                  categoryBasedPII.Add(piientity);
+              }
+              filteredCategoryBasedPII = categoryBasedPII
+              .GroupBy(customer => customer.Category)
+              .Select(group => group.First()).ToList(); ;
+
+
+              return filteredCategoryBasedPII;
+          }*/
             foreach (PII pII in PIIResult.PIIEntities)
             {
                 if (pII.Category.Equals("Person"))
@@ -149,27 +131,27 @@ namespace ngComputerVision.Controllers
                 }
                 else if (entity.Category.Equals("CareEnvironment"))
                 {
-                        if (!careenvironmentDictionary.ContainsKey(entity.Text))
-                        {
-                            careenvironmentDictionary.Add(entity.Text, entity.ConfidenceScore);
+                    if (!careenvironmentDictionary.ContainsKey(entity.Text))
+                    {
+                        careenvironmentDictionary.Add(entity.Text, entity.ConfidenceScore);
 
-                        }
                     }
+                }
                 else if (entity.Category.Equals("AdministrativeEvent"))
                 {
-                            if (!administrativeeventDictionary.ContainsKey(entity.Text))
-                            {
-                                administrativeeventDictionary.Add(entity.Text, entity.ConfidenceScore);
+                    if (!administrativeeventDictionary.ContainsKey(entity.Text))
+                    {
+                        administrativeeventDictionary.Add(entity.Text, entity.ConfidenceScore);
 
-                            }
-                        }
+                    }
+                }
                 else if (entity.Category.Equals("HealthcareProfession"))
                 {
-                                if (!healthcareprofessionDictionary.ContainsKey(entity.Text))
-                                {
-                                    healthcareprofessionDictionary.Add(entity.Text, entity.ConfidenceScore);
-                                }
-                                }
+                    if (!healthcareprofessionDictionary.ContainsKey(entity.Text))
+                    {
+                        healthcareprofessionDictionary.Add(entity.Text, entity.ConfidenceScore);
+                    }
+                }
             }
             //For PII
             if (personDictionary.Count >= 1)
@@ -226,11 +208,11 @@ namespace ngComputerVision.Controllers
                 resultDTO.gender = genderDictionary.ElementAt(0).Key;
                 resultDTO.gendercs = genderDictionary.ElementAt(0).Value;
             }
-                return resultDTO;
+            return resultDTO;
         }
-
 
     }
 }
+
 
 

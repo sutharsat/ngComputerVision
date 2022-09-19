@@ -28,8 +28,8 @@ namespace ngComputerVision
         {
             _connectionString = Configuration["MongoConnection:ConnectionString"];
             services.AddControllersWithViews();
-            services.AddTransient<IClaimRepository, ClaimRepository>();
-            services.AddTransient<IEntityRepository, EntityRepository>();
+            services.AddTransient<IOCRRepository, OCRRepository>();
+            services.AddTransient<IHealthRepository, HealthRepository>();
             services.AddTransient<ICredentialRepository, CredentialRepository>();
             services.AddTransient<IPIIRepository, PIIRepository>();
             // In production, the Angular files will be served from this directory

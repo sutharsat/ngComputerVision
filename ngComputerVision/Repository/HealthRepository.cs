@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Repository
 {
-    public class EntityRepository : IEntityRepository
+    public class HealthRepository : IHealthRepository
     {
         private readonly MongoContext _context;
-        public EntityRepository(MongoContext mongoContext)
+        public HealthRepository(MongoContext mongoContext)
         {
             _context = mongoContext;
         }
