@@ -17,7 +17,7 @@ export class FormComponent {
   post: any = '';
   claimData: Claim = new Claim();
   claimId: string = '62f0edbcabd32e9e5086edc3';
-   
+
 
   constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService) {
     this.getClaimsDetailsForForm();
@@ -29,12 +29,12 @@ export class FormComponent {
   }
 
   getClaimsDetailsForForm() {
-   
-     this.claimService.getClaimData(this.claimId).subscribe(data => {
-       this.claimData = data;
+
+    this.claimService.getClaimData(this.claimId).subscribe(data => {
+      this.claimData = data;
     });
-    
-    
+
+
   }
 
   createForm() {
@@ -94,18 +94,10 @@ export class FormComponent {
       this.formGroup.get('password').hasError('requirements') ? 'Password needs to be at least eight characters, one uppercase letter and one number' : '';
   }
 
-  onSubmit(post:any) {
+  onSubmit(post: any) {
     this.post = post;
   }
   onEdit(post: any) {
     this.post = post;
   }
-expand(event:any){
-
-  //var accordion = event.getElementsByClassName("accordion-header");
-  if (event.style.display === "block") {
-    event.style.display = "none";
-       } else {
-    event.style.display = "block";
-        }      }
 }
