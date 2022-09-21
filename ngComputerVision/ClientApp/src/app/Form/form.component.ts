@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -7,22 +7,26 @@ import { ComputervisionService } from '../services/computervision.service';
 import { OcrResult } from '../models/ocrresult';
 import { OcrComponent } from '../ocr/ocr.component';
 
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
-
+ 
   formGroup: any;
   //ocrResult: OcrResult;
   titleAlert: string = 'This field is required';
   post: any = '';
-  claimData: Claim = new Claim();
+
+  @Input() claimData: Claim = new Claim();
+ // @Output() claimDataChange: EventEmitter<Claim> = new EventEmitter<Claim>();
+
  // claimId: string = '62f0edbcabd32e9e5086edc3';
   claimId: string = '';
 
-  constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService, private ocrComponent: OcrComponent) {
+  constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService) {
    // this.getClaimsDetailsForForm();
     //this.ocrResult = new OcrResult();
   }
@@ -38,7 +42,7 @@ export class FormComponent {
      this.claimService.getClaimData(this.claimId).subscribe(data => {
        this.claimData = data;
     });*/
-    this.claimData = this.ocrComponent.entityData;
+   // this.claimData = this.ocrComponent.entityData;
 
     
     

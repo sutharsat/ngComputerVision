@@ -189,7 +189,7 @@ namespace ngComputerVision.Controllers
                         foreach (var entity in entitiesInDoc.Entities)
                         {
                             Entity newEntity = new Entity();
-                            if (!string.IsNullOrEmpty(entity.SubCategory))
+                           // if (!string.IsNullOrEmpty(entity.SubCategory))
                                 newEntity.Text = entity.Text;
                             HealthcareEntityCategory category = entity.Category;
                             newEntity.Category = category.ToString();

@@ -30,7 +30,9 @@ import { FormComponent } from './Form/form.component';
     HttpClientModule,
     ReactiveFormsModule, 
     AngularMaterialModule,
+    FormsModule,
     MDBBootstrapModule.forRoot(),
+
     
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -41,7 +43,7 @@ import { FormComponent } from './Form/form.component';
     BrowserAnimationsModule
   ],
 
-  providers: [],
+  providers: [FormComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

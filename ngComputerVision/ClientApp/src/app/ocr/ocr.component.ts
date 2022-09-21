@@ -24,8 +24,9 @@ export class OcrComponent implements OnInit {
   maxFileSize: number;
   isValidFile = true;
   entityData: Claim = new Claim();
+  //clickIndex = 0;
 
-  constructor(private computervisionService: ComputervisionService) {
+  constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
@@ -59,6 +60,7 @@ export class OcrComponent implements OnInit {
   }
 
   GetText() {
+    
     if (this.isValidFile) {
 
       this.loading = true;
@@ -78,10 +80,17 @@ export class OcrComponent implements OnInit {
           this.loading = false;
         });
       //this.formComponent.getClaimsDetailsForForm();
+      
       console.log(this.ocrResult.generatedId);
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
-        this.entityData = data;
+       
+        this.formComponent.claimData = data;
+       // this.formComponent.claimDataChange.emit(this.formComponent.claimData);
       });
+       // this.clickIndex = index;
+      
+//this.formComponent.claimData
+      
     }
   }
  /* ClearResults() {

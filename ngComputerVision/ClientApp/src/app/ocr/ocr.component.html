@@ -47,7 +47,7 @@
             </label>
 
 
-            <button type="button" class="btn btn-info btm-sm" (click)="GetText()">
+            <button type="button" class="btn btn-info btm-sm" (click)="GetText()" >
               Process Form
             </button>
           </div>
@@ -63,15 +63,16 @@
         <div class="card-body">
           <h3 class="card-title">Results</h3>
 
-          <!--<div >
-            <textarea disabled class="form-control file-preview-window" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>
-            <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
-          </div>-->
-          <div class="file-preview-window">
+          <!--
+    <textarea disabled class="form-control file-preview-window" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>-->
+        <div>
+          <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
+        </div>
+        <div class="file-preview-window">
 
-            <app-form></app-form>
+          <app-form ></app-form>
 
-          </div>
+        </div>
           <div class="btn-toolbar mt-5 gap-2 d-md-flex">
 
             <button class="btn btn-primary btm-sm col-3">
