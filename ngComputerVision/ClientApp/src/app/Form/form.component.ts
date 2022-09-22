@@ -20,7 +20,8 @@ export class FormComponent {
   titleAlert: string = 'This field is required';
   post: any = '';
 
-  @Input() claimData: Claim = new Claim();
+  @Input() claimData!: Claim;
+
  // @Output() claimDataChange: EventEmitter<Claim> = new EventEmitter<Claim>();
 
  // claimId: string = '62f0edbcabd32e9e5086edc3';

@@ -23,7 +23,9 @@ export class OcrComponent implements OnInit {
   status: string;
   maxFileSize: number;
   isValidFile = true;
-  entityData: Claim = new Claim();
+  entityData!: Claim;
+  clickIndex = 0;
+
   //clickIndex = 0;
 
   constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent) {
@@ -59,7 +61,7 @@ export class OcrComponent implements OnInit {
     }
   }
 
-  GetText() {
+  GetText(index: number) {
     
     if (this.isValidFile) {
 
@@ -83,11 +85,11 @@ export class OcrComponent implements OnInit {
       
       console.log(this.ocrResult.generatedId);
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
-       
-        this.formComponent.claimData = data;
+        this.entityData = data;
+      //  this.formComponent.claimData = data;
        // this.formComponent.claimDataChange.emit(this.formComponent.claimData);
       });
-       // this.clickIndex = index;
+        this.clickIndex = index;
       
 //this.formComponent.claimData
       
@@ -106,5 +108,7 @@ export class OcrComponent implements OnInit {
     this.imagePreview = '';
     this.myInputVariable.nativeElement.value = "";
     console.log(this.myInputVariable.nativeElement.files);
+    this.formComponent.claimData = new Claim;
+    this.clickIndex = 0;
   }
 }
