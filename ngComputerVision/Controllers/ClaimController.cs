@@ -31,7 +31,7 @@ namespace ngComputerVision.Controllers
             ResultDTO resultDTO = new ResultDTO();
             //PII
             Dictionary<string, double> personDictionary = new Dictionary<string, double>();
-            //  List<PII> categoryBasedPII = new List<PII>();
+            // List<PII> categoryBasedPII = new List<PII>();
             //  List<PII> filteredCategoryBasedPII = new List<PII>();
             Dictionary<string, double> dateDictionary = new Dictionary<string, double>();
             Dictionary<string, double> addressDictionary = new Dictionary<string, double>();
@@ -156,11 +156,11 @@ namespace ngComputerVision.Controllers
             //For PII
             if (personDictionary.Count >= 1)
             {
-                resultDTO.firstname = personDictionary.ElementAt(0).Key;
-                resultDTO.firstnamecs = personDictionary.ElementAt(0).Value;
+                resultDTO.firstname = personDictionary.ElementAt(1).Key;
+                resultDTO.firstnamecs = personDictionary.ElementAt(1).Value;
 
-                resultDTO.lastname = personDictionary.ElementAt(1).Key;
-                resultDTO.lastnamecs = personDictionary.ElementAt(1).Value;
+                resultDTO.lastname = personDictionary.ElementAt(0).Key;
+                resultDTO.lastnamecs = personDictionary.ElementAt(0).Value;
             }
             if (phonenumberDictionary.Count >= 1)
             {

@@ -1,80 +1,77 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 </head>
-  <mat-expansion-panel hideToggle>
-    <mat-expansion-panel-header>
-      <mat-panel-title >
-        <h2 class="mdc-typography--title1">PII Entities </h2>
-      </mat-panel-title>
-      <mat-panel-description>
-       <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information.</h6>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <h2 class="mdc-typography--title1">PII Entities </h2>
+    </mat-panel-title>
+    <mat-panel-description>
+      <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information.</h6>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
 
- <div class="row">
-   <div class="col-md-6">
-     <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.firstname===null">
-       <label for="persontype" class="form-label ">Person Type:</label>
-       <input type="persontype" class="form-control" id="persontype" placeholder="Patient"> 
-       <p>Confidence score:</p>
-     </div>
-     <div class="mb-1 mt-1"*ngIf="claimData.firstname!=null">
-       <label for="person" class="form-label mdc-typography--body1">First Name:</label>
-       <input type="person" class="form-control" id="person"  value={{claimData.firstname}}>
-       <p>Confidence score:{{claimData.firstnamecs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.lastname!=null">
-       <label for="person" class="form-label">Last Name:</label>
-       <input type="person" class="form-control" id="person" value={{claimData.lastname}}>
-       <p>Confidence score:{{claimData.lastnamecs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null" >
-       <label for="persontype" class="form-label">Person Type:</label>
-       <input type="persontype" class="form-control" id="persontype" placeholder="Contractor">
-       <p>Confidence score:</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.address!=null">
-       <label for="address" class="form-label">Address:</label>
-       <input type="address" class="form-control" id="address" value={{claimData.address}}>
-       <p>Confidence score:{{claimData.addresscs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
-       <label for="organization" class="form-label">Person:</label>
-       <input type="organization" class="form-control" id="organization" placeholder="Hospital Outpatient Department">
-       <p>Confidence score:</p>
-     </div>
-   </div>
-   <div class="col-md-6">
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.hospitalname!=null">
-       <label for="organization" class="form-label">Hospital Name</label>
-       <input type="organization" class="form-control" id="organization" value={{claimData.hospitalname}}>
-       <p>Confidence score:{{claimData.hospitalnamecs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.dateofbirth!=null">
-       <label for="dateofbirth" class="form-label">Date of Birth:</label>
-       <input type="dateofbirth" class="form-control" id="address" value={{claimData.dateofbirth}}>
-       <p>Confidence score:{{claimData.dateofbirthcs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.phonenumber!=null">
-       <label for="phone" class="form-label">Phone Number:</label>
-       <input type="phone" class="form-control" id="phone" value={{claimData.phonenumber}}>
-       <p>Confidence score:{{claimData.phonenumbercs}}</p>
-     </div>
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
-       <label for="nznumber" class="form-label">NZSocialWelfareNumber:</label>
-       <input type="nznumber" class="form-control" id="nznumber" placeholder="84245375">
-       <p>Confidence score:</p>
-     </div>
+  <div class="row">
+    <div class="col-md-6">
 
-
-     <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
-       <label for="person" class="form-label">Person:</label>
-       <input type="person" class="form-control" id="person" placeholder="Mary Beth">
-       <p>Confidence score:</p>
-     </div>
-   </div>
+      
+  <div class="mb-1 mt-1" *ngIf="claimData.firstname!=null">
+    <label for="person" class="form-label mdc-typography--body1">First Name:</label>
+    <input type="person" class="form-control" id="person" value={{claimData.firstname}}>
+    <p>Confidence score:{{claimData.firstnamecs}}</p>
+  </div>
+  <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.lastname!=null">
+    <label for="person" class="form-label">Last Name:</label>
+    <input type="person" class="form-control" id="person" value={{claimData.lastname}}>
+    <p>Confidence score:{{claimData.lastnamecs}}</p>
+  </div>
+  <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
+    <label for="persontype" class="form-label">Person Type:</label>
+    <input type="persontype" class="form-control" id="persontype" placeholder="Contractor">
+    <p>Confidence score:</p>
+  </div>
+  <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.address!=null">
+    <label for="address" class="form-label">Address:</label>
+    <input type="address" class="form-control" id="address" value={{claimData.address}}>
+    <p>Confidence score:{{claimData.addresscs}}</p>
+  </div>
+  <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
+    <label for="organization" class="form-label">Person:</label>
+    <input type="organization" class="form-control" id="organization" placeholder="Hospital Outpatient Department">
+    <p>Confidence score:</p>
+  </div>
+  </div>
+  <div class="col-md-6">
+    <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.hospitalname!=null">
+      <label for="organization" class="form-label">Hospital Name</label>
+      <input type="organization" class="form-control" id="organization" value={{claimData.hospitalname}}>
+      <p>Confidence score:{{claimData.hospitalnamecs}}</p>
     </div>
-  </mat-expansion-panel>
+    <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.dateofbirth!=null">
+      <label for="dateofbirth" class="form-label">Date of Birth:</label>
+      <input type="dateofbirth" class="form-control" id="address" value={{claimData.dateofbirth}}>
+      <p>Confidence score:{{claimData.dateofbirthcs}}</p>
+    </div>
+    <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.phonenumber!=null">
+      <label for="phone" class="form-label">Phone Number:</label>
+      <input type="phone" class="form-control" id="phone" value={{claimData.phonenumber}}>
+      <p>Confidence score:{{claimData.phonenumbercs}}</p>
+    </div>
+    <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
+      <label for="nznumber" class="form-label">NZSocialWelfareNumber:</label>
+      <input type="nznumber" class="form-control" id="nznumber" placeholder="84245375">
+      <p>Confidence score:</p>
+    </div>
+
+
+    <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
+      <label for="person" class="form-label">Person:</label>
+      <input type="person" class="form-control" id="person" placeholder="Mary Beth">
+      <p>Confidence score:</p>
+    </div>
+  </div>
+  </div>
+</mat-expansion-panel>
   <mat-expansion-panel hideToggle> 
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -89,15 +86,15 @@
         <div class="mb-1 mt-1 mdc-typography--body1 " *ngIf="claimData.treatmentname!=null">
           <label for="treatmentname" class="form-label">Treatment Name:</label>
           <input type="treatmentname" class="form-control" id="treatmentname" value={{claimData.treatmentname}}>
-          <p>Confidence score:</p>
+          <p>Confidence score:{{claimData.treatmentnamecs}}</p>
         </div>
         
         
         <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.gender!=null">
           <label for="gender" class="form-label">Gender:</label>
           <input type="gender" class="form-control" id="gender" value={{claimData.gender}}>
-          <p>Confidence score:</p>
-          <div class="mb-1 mt-1 mdc-typography--body1 " >
+          <p>Confidence score:{{claimData.gendercs}}</p>
+          <div class="mb-1 mt-1 mdc-typography--body1 "*ngIf="claimData.firstname===null" >
             <label for="treatmentname" class="form-label">Treatment Name:</label>
             <input type="treatmentname" class="form-control" id="treatmentname" placeholder="Surgery">
             <p>Confidence score:</p>
@@ -105,33 +102,33 @@
           <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.administrativeevent!=null">
             <label for="adminevent" class="form-label">Admin Event:</label>
             <input type="adminevent" class="form-control" id="adminevent" value={{claimData.administrativeevent}}>
-            <p>Confidence score:</p>
+            <p>Confidence score:value={{claimData.administrativeeventcs}}</p>
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="mb-1 mt-1 mdc-typography--body1" >
+        <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
           <label for="date" class="form-label">date:</label>
           <input type="date" class="form-control" id="date" placeholder="May 24, 1972">
           <p>Confidence score:</p>
         </div>
         
-        <div class="mb-1 mt-1 mdc-typography--body1" >
+        <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.careenvironment!=null" >
           <label for="careenvironment" class="form-label">Care Environment:</label>
-          <input type="careenvironment" class="form-control" id="careenvironment" placeholder="Outpatient Department">
-          <p>Confidence score:</p>
+          <input type="careenvironment" class="form-control" id="careenvironment" value={{claimData.careenvironment}}>
+          <p>Confidence score:{{claimData.careenvironmentcs}}</p>
         </div>
-        <div class="mb-1 mt-1 mdc-typography--body1">
+        <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.healthcareprofession!=null">
           <label for="healthcareprofession" class="form-label">Healthcare Profession:</label>
-          <input type="healthcareprofession" class="form-control" id="healthcareprofession" placeholder="Physician">
-          <p>Confidence score:</p>
+          <input type="healthcareprofession" class="form-control" id="healthcareprofession" value={{claimData.healthcareprofession}}>
+          <p>Confidence score:{{claimData.healthcareprofessioncs}}</p>
         </div>
-        <div class="mb-1 mt-1 mdc-typography--body1" >
+        <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
           <label for="date" class="form-label">date:</label>
           <input type="date" class="form-control" id="date" placeholder="2-15-2022">
           <p>Confidence score:</p>
         </div>
-        <div class="mb-1 mt-1 mdc-typography--body1" >
+        <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
           <label for="treatmentname" class="form-label">Treatment Name::</label>
           <input type="treatmentname" class="form-control" id="treatmentname" placeholder="DNIS">
           <p>Confidence score:</p>

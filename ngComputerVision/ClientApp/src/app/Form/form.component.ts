@@ -14,26 +14,27 @@ import { OcrComponent } from '../ocr/ocr.component';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent {
- 
-  formGroup: any;
-  //ocrResult: OcrResult;
+  contactForm!: FormGroup;
+
+ /* countries = [
+    { id: 1, name: "United States" },
+    { id: 2, name: "Australia" },
+    { id: 3, name: "Canada" },
+    { id: 4, name: "Brazil" },
+    { id: 5, name: "England" }
+  ];*/
+  //formGroup: any;
   titleAlert: string = 'This field is required';
   post: any = '';
+ @Input() claimData!: Claim;
+ claimId: string = '';
 
-  @Input() claimData!: Claim;
-
- // @Output() claimDataChange: EventEmitter<Claim> = new EventEmitter<Claim>();
-
- // claimId: string = '62f0edbcabd32e9e5086edc3';
-  claimId: string = '';
-
-  constructor(private formBuilder: FormBuilder, private claimService: ComputervisionService) {
-   // this.getClaimsDetailsForForm();
-    //this.ocrResult = new OcrResult();
+  constructor( private formBuilder: FormBuilder, private claimService: ComputervisionService) {
+   
   }
 
   ngOnInit() {
-    this.createForm();
+   
 
   }
 
@@ -49,7 +50,7 @@ export class FormComponent {
     
   }
 
-  createForm() {
+ /* createForm() {
     this.formGroup = this.formBuilder.group({
       'email': [],
       'firstname': [null],
@@ -57,25 +58,18 @@ export class FormComponent {
       'medicareID': [],
       'dateOfBirth': ''
     });
-  }
+  }*/
 
   
 
-  get name() {
+ /* get name() {
     return this.formGroup.get('name') as FormControl
-  }
+  }*/
 onSubmit(post:any) {
     this.post = post;
   }
   onEdit(post: any) {
     this.post = post;
   }
-expand(event:any){
 
-  //var accordion = event.getElementsByClassName("accordion-header");
-  if (event.style.display === "block") {
-    event.style.display = "none";
-       } else {
-    event.style.display = "block";
-        }      }
 }
