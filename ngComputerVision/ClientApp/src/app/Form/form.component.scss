@@ -55,3 +55,24 @@ mat-label {
 .active, .accordion:hover {
   background-color: #ccc;
 }
+html, body {
+  margin: 15px;
+  width: 160px;
+}
+
+input[name="editable-select"]:disabled {
+  background-color: #ffffff;
+}
+
+.dropdown-menu:hover {
+  cursor: pointer;
+}
+
+.dropdown-menu li {
+  padding-left: 10px;
+}
+
+.dropdown-menu li:hover {
+  background-color: #eeeeee;
+}
+

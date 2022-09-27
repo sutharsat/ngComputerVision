@@ -13,20 +13,24 @@ import { OcrComponent } from '../ocr/ocr.component';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   contactForm!: FormGroup;
-
- /* countries = [
-    { id: 1, name: "United States" },
-    { id: 2, name: "Australia" },
-    { id: 3, name: "Canada" },
-    { id: 4, name: "Brazil" },
-    { id: 5, name: "England" }
-  ];*/
+  PIIEntitiesResponse: any;
+  cities = {};
+  selectedCountry: any;
+ countries = [
+   { id: 1, name: "United States", cities: ['Paris', 'Marseille', 'Nice'] },
+   { id: 2, name: "Australia", cities: ['Paris', 'Marseille', 'Nice'] },
+   { id: 3, name: "Canada", cities: ['Paris', 'Marseille', 'Nice'] },
+   { id: 4, name: "Brazil", cities: ['Paris', 'Marseille', 'Nice'] },
+   { id: 5, name: "England", cities: ['Paris', 'Marseille', 'Nice'] }
+  ];
   //formGroup: any;
   titleAlert: string = 'This field is required';
   post: any = '';
- @Input() claimData!: Claim;
+  @Input() claimData!: Claim;
+  public PIIResponseData: any = null;
+  //PIIEntitiesResponse: any = null;
  claimId: string = '';
 
   constructor( private formBuilder: FormBuilder, private claimService: ComputervisionService) {
@@ -34,38 +38,18 @@ export class FormComponent {
   }
 
   ngOnInit() {
-   
+    this.PIIResponseData = this.claimData.piiEntitiesResponse;
+    this.cities = this.countries.filter(x => x.id == 1)[0].cities;
 
+  }
+  onChange(deviceValue:number) {
+    this.cities = this.countries.filter(x => x.id == deviceValue)[0].cities;
   }
 
   getClaimsDetailsForForm() {
-   /* this.claimId = this.ocrComponent.ocrResult.generatedId;
-    console.log(this.claimId);
-     this.claimService.getClaimData(this.claimId).subscribe(data => {
-       this.claimData = data;
-    });*/
-   // this.claimData = this.ocrComponent.entityData;
+   }
 
-    
-    
-  }
-
- /* createForm() {
-    this.formGroup = this.formBuilder.group({
-      'email': [],
-      'firstname': [null],
-      'lastName': [],
-      'medicareID': [],
-      'dateOfBirth': ''
-    });
-  }*/
-
-  
-
- /* get name() {
-    return this.formGroup.get('name') as FormControl
-  }*/
-onSubmit(post:any) {
+ onSubmit(post:any) {
     this.post = post;
   }
   onEdit(post: any) {

@@ -193,9 +193,9 @@ namespace ngComputerVision.Controllers
                                 newEntity.Text = entity.Text;
                             HealthcareEntityCategory category = entity.Category;
                             newEntity.Category = category.ToString();
-                            newEntity.Offset = entity.Offset;
-                            newEntity.Length = entity.Length;
-                            newEntity.NormalizedText = entity.NormalizedText;
+                          //  newEntity.Offset = entity.Offset;
+                          //  newEntity.Length = entity.Length;
+                          //  newEntity.NormalizedText = entity.NormalizedText;
                             newEntity.ConfidenceScore = entity.ConfidenceScore;
                             result.Add(newEntity);
                         }
@@ -225,8 +225,8 @@ namespace ngComputerVision.Controllers
                     newPII.Text = entity.Text;
                     PiiEntityCategory category = entity.Category;
                     newPII.Category = category.ToString();
-                    newPII.Offset = entity.Offset;
-                    newPII.Length = entity.Length;
+                   // newPII.Offset = entity.Offset;
+                   // newPII.Length = entity.Length;
                     //newPII.NormalizedText = entity.NormalizedText;
                     newPII.ConfidenceScore = entity.ConfidenceScore;
                     resultPII.Add(newPII);

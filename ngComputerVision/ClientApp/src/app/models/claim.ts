@@ -1,5 +1,8 @@
 export class Claim {
-  firstname: string;
+  piiEntitiesResponse: any;
+  healthEntitiesResponse: any;
+
+ /* firstname: string;
   firstnamecs: any;
   lastname: string;
   lastnamecs: any;
@@ -26,12 +29,14 @@ export class Claim {
   healthcareprofession: string;
   healthcareprofessioncs: any;
   gender: string;
-  gendercs: any;
+  gendercs: any;*/
   
  
 
   constructor() {
-    this.firstname = '';
+    this.piiEntitiesResponse = '';
+    this.healthEntitiesResponse = '';
+   /* this.firstname = '';
     this.firstnamecs = '';
     this.lastname = '';
     this.lastnamecs = '';
@@ -54,7 +59,7 @@ export class Claim {
     this.administrativeevent = '';
     this.administrativeeventcs = '';
     this.healthcareprofession = '';
-    this.healthcareprofessioncs = '';
+    this.healthcareprofessioncs = '';*/
     
     
   
