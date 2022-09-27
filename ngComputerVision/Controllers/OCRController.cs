@@ -198,6 +198,8 @@ namespace ngComputerVision.Controllers
                           //  newEntity.NormalizedText = entity.NormalizedText;
                             newEntity.ConfidenceScore = entity.ConfidenceScore;
                             result.Add(newEntity);
+                            Console.WriteLine($"  HealthEntity: {entity.Text},Category: {entity.Category},Confidence score: {entity.ConfidenceScore} ");
+                            
                         }
                         newEntityResult.entities = result;
                         newEntityResult.correlatingId = ocrVisionId;
@@ -230,6 +232,8 @@ namespace ngComputerVision.Controllers
                     //newPII.NormalizedText = entity.NormalizedText;
                     newPII.ConfidenceScore = entity.ConfidenceScore;
                     resultPII.Add(newPII);
+                    Console.WriteLine($"  PIIEntity: {entity.Text},Category: {entity.Category},Confidence score: {entity.ConfidenceScore} ");
+                    
                 }
                 newPIIResult.PIIEntities = resultPII;
                 newPIIResult.correlatingId = ocrVisionId;
