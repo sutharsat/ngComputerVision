@@ -26,7 +26,7 @@ export class OcrComponent implements OnInit {
   entityData!: Claim;
   clickIndex = 0;
 
-  //clickIndex = 0;
+  
 
   constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
@@ -61,13 +61,13 @@ export class OcrComponent implements OnInit {
     }
   }
 
-  GetText(index: number) {
+  async GetText(index: number) {
     
     if (this.isValidFile) {
 
       this.loading = true;
       this.imageData.append('imageFile', this.imageFile);
-
+     
       this.computervisionService.getTextFromImage(this.imageData)
         .subscribe((result: OcrResult) => {
           this.ocrResult = result;
@@ -81,34 +81,34 @@ export class OcrComponent implements OnInit {
           }
           this.loading = false;
         });
-      //this.formComponent.getClaimsDetailsForForm();
+      await this.delay(5000);
       
-      console.log(this.ocrResult.generatedId);
+      
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
         this.entityData = data;
-      //  this.formComponent.claimData = data;
-       // this.formComponent.claimDataChange.emit(this.formComponent.claimData);
+     
       });
         this.clickIndex = index;
       
-//this.formComponent.claimData
+
       
     }
   }
- /* ClearResults() {
-    this.ocrResult.detectedText = '';
-    this.imagePreview = '';
-  }*/
+ 
   @ViewChild('myInput')
   myInputVariable: any;
 
   ClearResults() {
-    console.log(this.myInputVariable.nativeElement.files);
+    this.clickIndex = 0;
     this.ocrResult.detectedText = '';
     this.imagePreview = '';
     this.myInputVariable.nativeElement.value = "";
-    console.log(this.myInputVariable.nativeElement.files);
-    this.formComponent.claimData = new Claim;
-    this.clickIndex = 0;
+    
+    this.entityData.piiEntitiesResponse = "";
+    this.entityData.healthEntitiesResponse = "";
+    
   }
+   delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 }

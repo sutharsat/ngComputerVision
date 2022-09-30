@@ -15,35 +15,37 @@
     <div class="col-md-6">
 
 
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="person" class="form-label mdc-typography--body1">First Name:</label>
+      <div class="mb-1 mt-1 mdc-typography--body1"  *ngIf="claimData.piiEntitiesResponse!=null">
+        <label for="person"  class="form-label mdc-typography--body1">Person:</label>
 
-        <mat-select  contenteditable="true" type="person" class="form-control">
+        <mat-select  contenteditable="true" type="person" class="form-control"(Change) ="selectedValue($event)" >
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='Person'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+           
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+           
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+        
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="person" class="form-label mdc-typography--body1">Last Name:</label>
+        <label for="person" class="form-label mdc-typography--body1">Organization:</label>
 
         <mat-select contenteditable="true" type="person" class="form-control">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='Person'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Organization'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+       
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="address" class="form-label mdc-typography--body1">Address:</label>
 
         <mat-select contenteditable="true"  type="person" class="form-control">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }"*ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+       
       </div>
 
     </div>
@@ -53,51 +55,33 @@
 
         <mat-select contenteditable="true" type="phoneNumber" class="form-control">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+       
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="email" class="form-label mdc-typography--body1">Email:</label>
 
         <mat-select type="person" class="form-control">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+       
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="datetime" class="form-label mdc-typography--body1">Date of Birth:</label>
 
         <mat-select type="datetime" class="form-control">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+      
       </div>
 
-      <!--  <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.dateofbirth!=null">
-    <label for="dateofbirth" class="form-label">Date of Birth:</label>
-    <input type="dateofbirth" class="form-control" id="address" value={{claimData.dateofbirth}}>
-    <p>Confidence score:{{claimData.dateofbirthcs}}</p>
-  </div>-->
-      <!-- <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.phonenumber!=null">
-     <label for="phone" class="form-label">Phone Number:</label>
-     <input type="phone" class="form-control" id="phone" value={{claimData.phonenumber}}>
-     <p>Confidence score:{{claimData.phonenumbercs}}</p>
-  <!-- </div>-->
-      <!-- <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
-    <label for="nznumber" class="form-label">NZSocialWelfareNumber:</label>
-    <input type="nznumber" class="form-control" id="nznumber" placeholder="84245375">
-    <p>Confidence score:</p>
-  </div>-->
-      <!-- <div class="mb-1 mt-1  mdc-typography--body1" *ngIf="claimData.firstname===null">
-  <label for="person" class="form-label">Person:</label>
-  <input type="person" class="form-control" id="person" placeholder="Mary Beth">
-  <p>Confidence score:</p>-->
+     
     </div>
   </div>
     
@@ -116,43 +100,44 @@
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
         <label for="treatmentname" class="form-label mdc-typography--body1">Treatment Name:</label>
 
-        <mat-select type="treatmentname" class="form-control">
+        <mat-select type="treatmentname" class="form-control" >
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
         <label for="healthcareProfession" class="form-label mdc-typography--body1">Healthcare Profession:</label>
 
         <mat-select type="healthcareProfession" class="form-control">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='HealthcareProfession'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='HealthcareProfession'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+
+      </div>
+      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
+        <label for="healthcareProfession" class="form-label mdc-typography--body1">ExaminationName:</label>
+
+        <mat-select type="healthcareProfession" class="form-control">
+          <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='ExaminationName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+          </ng-container>
+        </mat-select>
+
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
         <label for="adminEvent" class="form-label mdc-typography--body1">Administrative Event:</label>
 
         <mat-select type="treatmentname" class="form-control">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='AdministrativeEvemt'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='AdministrativeEvemt'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
-      </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
-        <label for="treatmentname" class="form-label mdc-typography--body1">Treatment Name:</label>
 
-        <mat-select type="treatmentname" class="form-control">
-          <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
       </div>
+      
     </div>
     <div class="col-md-6">
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
@@ -160,94 +145,34 @@
 
         <mat-select type="careEnvironment" class="form-control">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='CareEnvironment'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='CareEnvironment'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+      
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
         <label for="gender" class="form-label mdc-typography--body1">Gender:</label>
 
         <mat-select type="gender" class="form-control">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='Gender'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Gender'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+       
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
         <label for="treatmentDate" class="form-label mdc-typography--body1">Treatment Date:</label>
 
         <mat-select type="treatmentDate" class="form-control">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='Date'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Date'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
+        
       </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.healthEntitiesResponse!=null">
-        <label for="treatmentname" class="form-label mdc-typography--body1">Treatment Name:</label>
-
-        <mat-select type="treatmentname" class="form-control">
-          <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <!-- <p>Confidence score:{{claimData.ConfidenceScore}}</p>-->
-      </div>
+      
     </div>
-      <!-- <div class="mb-1 mt-1 mdc-typography--body1 " *ngIf="claimData.treatmentname!=null">
-      <label for="treatmentname" class="form-label">Treatment Name:</label>
-      <input type="treatmentname" class="form-control" id="treatmentname" value={{claimData.treatmentname}}>
-      <p>Confidence score:{{claimData.treatmentnamecs}}</p>
-    </div>
-
-
-    <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.gender!=null">
-      <label for="gender" class="form-label">Gender:</label>
-      <input type="gender" class="form-control" id="gender" value={{claimData.gender}}>
-      <p>Confidence score:{{claimData.gendercs}}</p>
-      <div class="mb-1 mt-1 mdc-typography--body1 "*ngIf="claimData.firstname===null" >
-        <label for="treatmentname" class="form-label">Treatment Name:</label>
-        <input type="treatmentname" class="form-control" id="treatmentname" placeholder="Surgery">
-        <p>Confidence score:</p>
-      </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.administrativeevent!=null">
-        <label for="adminevent" class="form-label">Admin Event:</label>
-        <input type="adminevent" class="form-control" id="adminevent" value={{claimData.administrativeevent}}>
-        <p>Confidence score:value={{claimData.administrativeeventcs}}</p>
-
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
-      <label for="date" class="form-label">date:</label>
-      <input type="date" class="form-control" id="date" placeholder="May 24, 1972">
-      <p>Confidence score:</p>
-    </div>
-
-    <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.careenvironment!=null" >
-      <label for="careenvironment" class="form-label">Care Environment:</label>
-      <input type="careenvironment" class="form-control" id="careenvironment" value={{claimData.careenvironment}}>
-      <p>Confidence score:{{claimData.careenvironmentcs}}</p>
-    </div>
-    <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.healthcareprofession!=null">
-      <label for="healthcareprofession" class="form-label">Healthcare Profession:</label>
-      <input type="healthcareprofession" class="form-control" id="healthcareprofession" value={{claimData.healthcareprofession}}>
-      <p>Confidence score:{{claimData.healthcareprofessioncs}}</p>
-    </div>
-    <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
-      <label for="date" class="form-label">date:</label>
-      <input type="date" class="form-control" id="date" placeholder="2-15-2022">
-      <p>Confidence score:</p>
-    </div>
-    <div class="mb-1 mt-1 mdc-typography--body1"*ngIf="claimData.firstname===null" >
-      <label for="treatmentname" class="form-label">Treatment Name::</label>
-      <input type="treatmentname" class="form-control" id="treatmentname" placeholder="DNIS">
-      <p>Confidence score:</p>
-    </div>
-
-  </div>-->
+     
     </div>
 
 

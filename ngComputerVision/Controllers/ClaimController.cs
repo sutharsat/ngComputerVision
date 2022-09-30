@@ -31,7 +31,8 @@ namespace ngComputerVision.Controllers
             ResultDTO resultDTO = new ResultDTO();
             //PII
             Dictionary<string, double> personDictionary = new Dictionary<string, double>();
-            // List<PII> categoryBasedPII = new List<PII>();
+             List<PII> categoryBasedPII = new List<PII>();
+            List<Entity> categoryBasedHealth = new List<Entity>();
             //  List<PII> filteredCategoryBasedPII = new List<PII>();
             Dictionary<string, double> dateDictionary = new Dictionary<string, double>();
             Dictionary<string, double> addressDictionary = new Dictionary<string, double>();
@@ -45,7 +46,7 @@ namespace ngComputerVision.Controllers
             Dictionary<string, double> healthcareprofessionDictionary = new Dictionary<string, double>();
             var entityHealthResult = await _ihealthEntityRepository.GetHealthEntityWithId(id);
             var PIIResult = await _PIIRepository.GetPIIResultWithId(id);
-            /* var ocrResult = await _ocrRepository.GetOCRResultByID(id);
+             var ocrResult = await _ocrRepository.GetOCRResultByID(id);
              foreach (PII piientity in PIIResult.PIIEntities)
              {
 
@@ -62,13 +63,35 @@ namespace ngComputerVision.Controllers
                  }
                  categoryBasedPII.Add(piientity);
              }
-             filteredCategoryBasedPII = categoryBasedPII
-             .GroupBy(customer => customer.Category)
-             .Select(group => group.First()).ToList(); ;
+            foreach (Entity healthentity in entityHealthResult.entities)
+            {
+
+                var analyseResult = ocrResult.analyzeResult;
+                foreach (var readResult in analyseResult.readResults)
+                {
+                    foreach (var line in readResult.lines)
+                    {
+                        if (line.text.Contains(healthentity.Text))
+                        {
+                            healthentity.BoundingBox = line.boundingBox;
+                        }
+                    }
+                }
+                categoryBasedHealth.Add(healthentity);
+            }
+            resultDTO.PIIEntitiesResponse = categoryBasedPII;
+            resultDTO.HealthEntitiesResponse = entityHealthResult.entities;
+            return resultDTO;
 
 
-             return filteredCategoryBasedPII;
-         }*/
+
+            /*filteredCategoryBasedPII = categoryBasedPII
+            .GroupBy(customer => customer.Category)
+            .Select(group => group.First()).ToList(); ;
+
+
+            return filteredCategoryBasedPII;
+        }*/
             /*  foreach (PII pII in PIIResult.PIIEntities)
               {
                   if (pII.Category.Equals("Person"))
@@ -208,9 +231,7 @@ namespace ngComputerVision.Controllers
                   resultDTO.gender = genderDictionary.ElementAt(0).Key;
                   resultDTO.gendercs = genderDictionary.ElementAt(0).Value;
               }*/
-            resultDTO.PIIEntitiesResponse = PIIResult.PIIEntities;
-            resultDTO.HealthEntitiesResponse = entityHealthResult.entities;
-            return resultDTO;
+
         }
 
     }

@@ -23,6 +23,6 @@ namespace ngComputerVision.Contracts.Entities
         //public string NormalizedText { get; set; }
         public double ConfidenceScore { get; set; }
        // public string SubCategory { get; set; }        
-        public List<int> BoundingBox { get; internal set; }
+        public List<int> BoundingBox { get; set; }
     }
 }

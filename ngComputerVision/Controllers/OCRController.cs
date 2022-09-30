@@ -128,7 +128,9 @@ namespace ngComputerVision.Controllers
                         }
                     }
                 }
+                Console.WriteLine($"  OCR: {ocrResultDTO.DetectedText} ");
                 return ocrResultDTO;
+                
             }
             catch
             {
@@ -136,6 +138,7 @@ namespace ngComputerVision.Controllers
                 ocrResultDTO.Language = "unk";
                 return ocrResultDTO;
             }
+           
         }
 
         static async Task<string> ReadTextFromStream(byte[] byteData)
