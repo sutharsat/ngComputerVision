@@ -20,7 +20,7 @@ namespace ngComputerVision.Contracts.Entities
 
         public string lastUpdatedDateTime { get; set; } = null!;
         public AnalyzeResult analyzeResult { get; set; }
-        public string firstname { get; set; }
+      /*  public string firstname { get; set; }
         public string lastname { get; set; }
         public string dateofbirth { get; set; }
         public string address { get; set; }
@@ -29,7 +29,7 @@ namespace ngComputerVision.Contracts.Entities
         public int medicareID { get; set; }
         public int npi { get; set; }
         public string phonenumber { get; set; }
-        public string hospitalname { get; set; }
+        public string hospitalname { get; set; }*/
        
         
     }

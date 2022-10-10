@@ -27,9 +27,25 @@
         <div class="card-body">
           <h3 class="card-title">Form</h3>
           <div class="file-preview-window justify-content-center align-items-center">
-            <div class="preview-style"><span *ngIf="!imagePreview">No File Choosen</span></div><img class="preview-image" src={{imagePreview}}>
-          </div>
+            <!-- <div class="preview-style"><span *ngIf="!imagePreview">No File Choosen</span></div>--><!--<img class="preview-image" src={{imagePreview}}>-->
+            <div style="position: relative;">
+              <div *ngFor="let drawItem of drawItems; let i = index">
 
+
+              </div>
+              <canvas #layer1 id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+              <div class="row">
+              </div>
+            </div>
+            <!--<div *ngFor="let drawItem of drawItems; let i = index">
+              <div class="details">
+                <div>Name: {{drawItem.name | titlecase}}</div>
+                <div>({{drawItem.x0}}, {{drawItem.y0}})</div>
+                <div>({{drawItem.x1}}, {{drawItem.y1}})</div>
+              </div>
+            </div>-->
+          </div>
+          
           <!-- File Requirement Text -->
           <p class="text-md-start text-wrap fst-italic fs-10 my-0">
             Maximum size allowed for the image is 4MB
@@ -47,7 +63,7 @@
             </label>
 
 
-            <button type="button" class="btn btn-info btm-sm" (click)="GetText(2)" >
+            <button type="button" class="btn btn-info btm-sm" (click)="GetText(2)">
               Process Form
             </button>
           </div>

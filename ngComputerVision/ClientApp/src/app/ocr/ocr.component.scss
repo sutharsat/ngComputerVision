@@ -90,4 +90,32 @@ a {
   text-decoration: none;
   color: inherit;
 }
+.button {
+  color: transparent;
+  cursor: pointer;
+}
+
+.column1 {
+  float: left;
+  width: 70%;
+  padding: 10px;
+}
+
+.column2 {
+  float: left;
+  width: 25%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.details {
+  margin: 10px;
+}
+
 

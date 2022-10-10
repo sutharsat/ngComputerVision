@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ComputervisionService } from '../services/computervision.service';
 import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
@@ -25,14 +25,38 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
+  //for bounding box
+  drawItems: any[] = []
+  //drawItems = []
+  @Input('ImageHeight') ImageHeight = 0
+  @Input('ImageWidth') ImageWidth = 0
+  @Output() selected = new EventEmitter();
+  taggedItem = ""
+  showInput: boolean = false;
+  isMoving: boolean = false;
+  //public imgWidth!: number;
+  public uniX: number | undefined;
+  public uniY: number | undefined;
+  public uniX2!: number;
+  public uniY2!: number;
+  public initX!: number;
+  public initY!: number;
+  //public imgHeight!: number;
+  public url!: string;
+  public image: any;
 
-  
+  @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
+  private context!: CanvasRenderingContext2D;
+  private layer1CanvasElement: any;
+
+
 
   constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
     this.ocrResult = new OcrResult();
+
   }
 
   ngOnInit() {
@@ -45,6 +69,7 @@ export class OcrComponent implements OnInit {
   uploadImage(event: any) {
     this.imageFile = event.target.files[0];
     if (this.imageFile.size > this.maxFileSize) {
+
       this.status = `The file size is ${this.imageFile.size} bytes, this is more than the allowed limit of ${this.maxFileSize} bytes.`;
       this.isValidFile = false;
     } else if (this.imageFile.type.indexOf('image') == -1) {
@@ -54,20 +79,30 @@ export class OcrComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = () => {
+        this.image = new Image();
+        this.image.src = reader.result;
         this.imagePreview = reader.result;
+        this.image.onload = () => {
+          // this.image.width = this.ImageWidth;
+          // this.image.height = this.ImageHeight;
+          this.ImageWidth = this.image.width;
+          this.ImageHeight = this.image.height;
+          this.showImage();
+        };
       };
+      console.log("image height is" + this.ImageHeight + "image width is" + this.ImageWidth);
       this.status = this.DefaultStatus;
       this.isValidFile = true;
     }
   }
 
   async GetText(index: number) {
-    
+
     if (this.isValidFile) {
 
       this.loading = true;
       this.imageData.append('imageFile', this.imageFile);
-     
+
       this.computervisionService.getTextFromImage(this.imageData)
         .subscribe((result: OcrResult) => {
           this.ocrResult = result;
@@ -82,19 +117,19 @@ export class OcrComponent implements OnInit {
           this.loading = false;
         });
       await this.delay(5000);
-      
-      
+
+
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
         this.entityData = data;
-     
-      });
-        this.clickIndex = index;
-      
 
-      
+      });
+      this.clickIndex = index;
+
+
+
     }
   }
- 
+
   @ViewChild('myInput')
   myInputVariable: any;
 
@@ -103,12 +138,80 @@ export class OcrComponent implements OnInit {
     this.ocrResult.detectedText = '';
     this.imagePreview = '';
     this.myInputVariable.nativeElement.value = "";
-    
+
     this.entityData.piiEntitiesResponse = "";
     this.entityData.healthEntitiesResponse = "";
-    
+
   }
-   delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+  delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  showImage() {
+    this.layer1CanvasElement = this.layer1Canvas.nativeElement;
+    this.context = this.layer1CanvasElement.getContext("2d");
+    this.layer1CanvasElement.width = this.ImageWidth;
+    this.layer1CanvasElement.height = this.ImageHeight;
+    this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+    let parent = this;
+    this.initX = 8;
+    this.initY = 30;
+    this.uniX = 265;
+    this.uniY = 44;
+
+    //this.layer1CanvasElement.addEventListener("mousedown", (e: { offsetX: number; offsetY: number }) => {
+    // this.isMoving = true
+    // this.initX = e.offsetX;
+    // this.initY = e.offsetY;
+    // });
+
+    // this.layer1CanvasElement.addEventListener("mouseup", (e: { offsetX: number; offsetY: number }) => {
+    this.isMoving = false
+    this.showInput = true
+    this.drawItems.push({
+
+      x0: this.initX,
+      y0: this.initY,
+      x1: this.uniX,
+      y1: this.uniY
+    });
+    parent.drawRect("red", 40 - this.initX, 40 - this.initY, 0);
+    //this.uniX = undefined
+    //this.uniY = undefined
+    //  });
+
+    // this.layer1CanvasElement.addEventListener("mousemove", (e: { offsetX: number; offsetY: number }) => {
+    if (this.isMoving) {
+      parent.drawRect("red", 40 - this.initX, 30 - this.initY, 0);
+    }
+    // });
+
+  }
+  drawRect(color = "black", height: number, width: number, flag: number) {
+    if (flag) {
+      this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+    }
+    this.uniX = height
+    this.uniY = width
+    this.uniX2 = height
+    this.uniY2 = width
+    for (var i = 0; i < this.drawItems.length; i++) {
+      this.context.beginPath();
+      this.context.rect(
+        this.drawItems[i].x0,
+        this.drawItems[i].y0,
+        this.drawItems[i].x1,
+        this.drawItems[i].y1
+      );
+      this.context.lineWidth = 3;
+      this.context.strokeStyle = color;
+      this.context.stroke();
+    }
+
+    // function imgSize() {
+    //  var img = document.querySelector("image");
+    //  var realWidth = img.naturalWidth;
+    // var realHeight = img.naturalHeight;
+    //  alert("Original width=" + realWidth + ", " + "Original height=" + realHeight);
+    //}
+  }
 }
