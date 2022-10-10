@@ -8,11 +8,11 @@
       <h2 class="mdc-typography--title1">Plain Text</h2>
     </mat-panel-title>
     <mat-panel-description>
-      <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information.</h6>
+      <h6 class="mdc-typography--subtitle2"> Unformatted Text </h6>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <div>
-    <!-- <textarea disabled class="file-preview-window" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>-->
+   <textarea disabled class="textarea">{{text.detectedText}}</textarea>
   </div>
 </mat-expansion-panel>
 <mat-expansion-panel hideToggle>
@@ -21,7 +21,7 @@
       <h2 class="mdc-typography--title1">PII Entities </h2>
     </mat-panel-title>
     <mat-panel-description>
-      <h6 class="mdc-typography--subtitle2"> Unformatted Text</h6>
+      <h6 class="mdc-typography--subtitle2">Content containing personally identifiable information.</h6>
     </mat-panel-description>
 
   </mat-expansion-panel-header>

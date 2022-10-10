@@ -86,7 +86,7 @@
           <div>
             <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
           </div>
-           <app-form [claimData]="entityData" *ngIf="clickIndex!= 0"></app-form>
+           <app-form [claimData]="entityData"[text]="ocrResult" *ngIf="clickIndex!= 0"></app-form>
           <!-- <app-form></app-form>-->
 
         </div>

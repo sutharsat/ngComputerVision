@@ -22,6 +22,7 @@ export class FormComponent implements OnInit {
   titleAlert: string = 'This field is required';
   post: any = '';
   @Input() claimData!: Claim;
+  @Input() text!: OcrResult;
   public PIIResponseData: any = null;
   public healthResponseData: any = null;
   
