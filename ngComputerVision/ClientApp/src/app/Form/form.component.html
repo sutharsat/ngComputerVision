@@ -1,28 +1,36 @@
 <head>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 </head>
-<!--<mat-expansion-panel>
-  <mat-panel-description>
-    <h2 class="mdc-typography--title1">PII Entities </h2>
-    <textarea>{{ocrResult?.detectedText}}</textarea>
-  </mat-panel-description>
-  </mat-expansion-panel>-->
-<mat-expansion-panel>
 
+<mat-expansion-panel hideToggle>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      <h2 class="mdc-typography--title1">Plain Text</h2>
+    </mat-panel-title>
+    <mat-panel-description>
+      <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information.</h6>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <div>
+    <!-- <textarea disabled class="file-preview-window" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>-->
+  </div>
+</mat-expansion-panel>
+<mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h2 class="mdc-typography--title1">PII Entities </h2>
     </mat-panel-title>
     <mat-panel-description>
-      <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information.</h6>
+      <h6 class="mdc-typography--subtitle2"> Unformatted Text</h6>
     </mat-panel-description>
+
   </mat-expansion-panel-header>
 
   <div class="row">
     <div class="col-md-6">
 
 
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+      <div class="mb-1 mt-1 mdc-typography--body1" *ngFor="claimData.piiEntitiesResponse!=null">
         <label for="person" class="form-label mdc-typography--body1">Person:</label>
 
         <mat-select contenteditable="true" type="person" class="form-control" (Change)="selectedValue($event)">
@@ -93,7 +101,7 @@
   </div>
 
 </mat-expansion-panel>
-<mat-expansion-panel>
+<mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h2 class="mdc-typography--title1">Health Entities</h2>
@@ -184,4 +192,3 @@
 
 
 </mat-expansion-panel>
-
