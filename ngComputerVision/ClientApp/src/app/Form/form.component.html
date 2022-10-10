@@ -30,7 +30,7 @@
     <div class="col-md-6">
 
 
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngFor="claimData.piiEntitiesResponse!=null">
+      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="person" class="form-label mdc-typography--body1">Person:</label>
 
         <mat-select contenteditable="true" type="person" class="form-control" (Change)="selectedValue($event)">
