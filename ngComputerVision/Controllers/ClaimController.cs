@@ -34,16 +34,17 @@ namespace ngComputerVision.Controllers
              List<PII> categoryBasedPII = new List<PII>();
             List<Entity> categoryBasedHealth = new List<Entity>();
             //  List<PII> filteredCategoryBasedPII = new List<PII>();
-            Dictionary<string, double> dateDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> addressDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> phonenumberDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> organizationDictionary = new Dictionary<string, double>();
-            //Health
-            Dictionary<string, double> treatmentnameDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> careenvironmentDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> administrativeeventDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> genderDictionary = new Dictionary<string, double>();
-            Dictionary<string, double> healthcareprofessionDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> dateDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> addressDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> phonenumberDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> organizationDictionary = new Dictionary<string, double>();
+            ////Health
+            //Dictionary<string, double> treatmentnameDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> careenvironmentDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> administrativeeventDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> genderDictionary = new Dictionary<string, double>();
+            //Dictionary<string, double> healthcareprofessionDictionary = new Dictionary<string, double>();
+           
             var entityHealthResult = await _ihealthEntityRepository.GetHealthEntityWithId(id);
             var PIIResult = await _PIIRepository.GetPIIResultWithId(id);
              var ocrResult = await _ocrRepository.GetOCRResultByID(id);
@@ -55,11 +56,15 @@ namespace ngComputerVision.Controllers
                  {
                      foreach (var line in readResult.lines)
                      {
-                         if (line.text.Contains(piientity.Text))
+                        foreach (var word in line.words)
+                        { 
+                            if (word.text.Contains(piientity.Text))
+
                          {
-                             piientity.BoundingBox = line.boundingBox;
+                             piientity.BoundingBox = word.boundingBox;
                          }
-                     }
+                        }
+                    }
                  }
                  categoryBasedPII.Add(piientity);
              }
@@ -71,9 +76,12 @@ namespace ngComputerVision.Controllers
                 {
                     foreach (var line in readResult.lines)
                     {
-                        if (line.text.Contains(healthentity.Text))
+                        foreach (var word in line.words)
                         {
-                            healthentity.BoundingBox = line.boundingBox;
+                            if (word.text.Contains(healthentity.Text))
+                            {
+                                healthentity.BoundingBox = word.boundingBox;
+                            }
                         }
                     }
                 }

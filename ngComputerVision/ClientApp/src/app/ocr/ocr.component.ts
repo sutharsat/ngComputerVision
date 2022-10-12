@@ -28,6 +28,7 @@ export class OcrComponent implements OnInit {
   //for bounding box
   drawItems: any[] = []
   //drawItems = []
+  boundingBoxValues: any[] = []
   @Input('ImageHeight') ImageHeight = 0
   @Input('ImageWidth') ImageWidth = 0
   @Output() selected = new EventEmitter();
@@ -83,14 +84,19 @@ export class OcrComponent implements OnInit {
         this.image.src = reader.result;
         this.imagePreview = reader.result;
         this.image.onload = () => {
-          // this.image.width = this.ImageWidth;
-          // this.image.height = this.ImageHeight;
+          
           this.ImageWidth = this.image.width;
           this.ImageHeight = this.image.height;
-          this.showImage();
+          // this.showImage();
+          this.layer1CanvasElement = this.layer1Canvas.nativeElement;
+          this.context = this.layer1CanvasElement.getContext("2d");
+          this.layer1CanvasElement.width = this.ImageWidth;
+          this.layer1CanvasElement.height = this.ImageHeight;
+          this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+
         };
       };
-      console.log("image height is" + this.ImageHeight + "image width is" + this.ImageWidth);
+     
       this.status = this.DefaultStatus;
       this.isValidFile = true;
     }
@@ -121,6 +127,8 @@ export class OcrComponent implements OnInit {
 
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
         this.entityData = data;
+        this.showImage(this.entityData);
+        // this.boundingBoxValues = this.entityData.piiEntitiesResponse.BoundingBox;
 
       });
       this.clickIndex = index;
@@ -141,22 +149,64 @@ export class OcrComponent implements OnInit {
 
     this.entityData.piiEntitiesResponse = "";
     this.entityData.healthEntitiesResponse = "";
+    this.image = '';
+    this.layer1Canvas.nativeElement.value = "";
+    this.drawItems = [];
+    this.context.clearRect(0, 0, this.layer1CanvasElement.width, this.layer1CanvasElement.height);
 
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-  showImage() {
-    this.layer1CanvasElement = this.layer1Canvas.nativeElement;
-    this.context = this.layer1CanvasElement.getContext("2d");
-    this.layer1CanvasElement.width = this.ImageWidth;
-    this.layer1CanvasElement.height = this.ImageHeight;
-    this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+  showImage(entityData: Claim) {
+    /* this.layer1CanvasElement = this.layer1Canvas.nativeElement;
+     this.context = this.layer1CanvasElement.getContext("2d");
+     this.layer1CanvasElement.width = this.ImageWidth;
+     this.layer1CanvasElement.height = this.ImageHeight;
+     this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);*/
     let parent = this;
-    this.initX = 8;
+    for (var i = 0; i < this.entityData.piiEntitiesResponse.length; i++) {
+      // for (var j = 0; j < this.entityData.piiEntitiesResponse[i].boundingBox.length; j++) {
+      if (this.entityData.piiEntitiesResponse[i].boundingBox != null) { 
+      this.initX = this.entityData.piiEntitiesResponse[i].boundingBox[0];
+      this.initY = this.entityData.piiEntitiesResponse[i].boundingBox[1];
+      this.uniX = this.entityData.piiEntitiesResponse[i].boundingBox[4] - this.entityData.piiEntitiesResponse[i].boundingBox[6];
+      this.uniY = this.entityData.piiEntitiesResponse[i].boundingBox[5] - this.entityData.piiEntitiesResponse[i].boundingBox[3];
+      this.isMoving = false
+      this.showInput = true
+      this.drawItems.push({
+
+        x0: this.initX,
+        y0: this.initY,
+        x1: this.uniX,
+        y1: this.uniY
+      });
+        parent.drawRect("red", this.initX, this.initY, 0);
+      }
+      // }
+    }
+    for (var i = 0; i < this.entityData.healthEntitiesResponse.length; i++) {
+      if (this.entityData.healthEntitiesResponse[i].boundingBox != null) {
+        this.initX = this.entityData.healthEntitiesResponse[i].boundingBox[0];
+        this.initY = this.entityData.healthEntitiesResponse[i].boundingBox[1];
+        this.uniX = this.entityData.healthEntitiesResponse[i].boundingBox[4] - this.entityData.healthEntitiesResponse[i].boundingBox[6];
+        this.uniY = this.entityData.healthEntitiesResponse[i].boundingBox[5] - this.entityData.healthEntitiesResponse[i].boundingBox[3];
+        this.isMoving = false
+        this.showInput = true
+        this.drawItems.push({
+
+          x0: this.initX,
+          y0: this.initY,
+          x1: this.uniX,
+          y1: this.uniY
+        });
+        parent.drawRect("red", this.initX, this.initY, 0);
+      }
+    }
+    /*this.initX = 8,40;
     this.initY = 30;
     this.uniX = 265;
-    this.uniY = 44;
+    this.uniY = 44;*/
 
     //this.layer1CanvasElement.addEventListener("mousedown", (e: { offsetX: number; offsetY: number }) => {
     // this.isMoving = true
@@ -165,24 +215,24 @@ export class OcrComponent implements OnInit {
     // });
 
     // this.layer1CanvasElement.addEventListener("mouseup", (e: { offsetX: number; offsetY: number }) => {
-    this.isMoving = false
-    this.showInput = true
-    this.drawItems.push({
+    /* this.isMoving = false
+     this.showInput = true
+     this.drawItems.push({
 
-      x0: this.initX,
-      y0: this.initY,
-      x1: this.uniX,
-      y1: this.uniY
-    });
-    parent.drawRect("red", 40 - this.initX, 40 - this.initY, 0);
+       x0: this.initX,
+       y0: this.initY,
+       x1: this.uniX,
+       y1: this.uniY
+     });
+     parent.drawRect("red", 40 - this.initX, 40 - this.initY, 0);*/
     //this.uniX = undefined
     //this.uniY = undefined
     //  });
 
     // this.layer1CanvasElement.addEventListener("mousemove", (e: { offsetX: number; offsetY: number }) => {
-    if (this.isMoving) {
-      parent.drawRect("red", 40 - this.initX, 30 - this.initY, 0);
-    }
+    /*if (this.isMoving) {
+      parent.drawRect("red", 40- this.initX, 30 - this.initY, 0);
+    }*/
     // });
 
   }
@@ -207,11 +257,6 @@ export class OcrComponent implements OnInit {
       this.context.stroke();
     }
 
-    // function imgSize() {
-    //  var img = document.querySelector("image");
-    //  var realWidth = img.naturalWidth;
-    // var realHeight = img.naturalHeight;
-    //  alert("Original width=" + realWidth + ", " + "Original height=" + realHeight);
-    //}
+    
   }
 }

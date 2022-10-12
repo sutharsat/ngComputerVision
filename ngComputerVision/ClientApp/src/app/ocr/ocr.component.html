@@ -37,13 +37,7 @@
               <div class="row">
               </div>
             </div>
-            <!--<div *ngFor="let drawItem of drawItems; let i = index">
-              <div class="details">
-                <div>Name: {{drawItem.name | titlecase}}</div>
-                <div>({{drawItem.x0}}, {{drawItem.y0}})</div>
-                <div>({{drawItem.x1}}, {{drawItem.y1}})</div>
-              </div>
-            </div>-->
+            
           </div>
           
           <!-- File Requirement Text -->
@@ -86,7 +80,8 @@
           <div>
             <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
           </div>
-           <app-form [claimData]="entityData" *ngIf="clickIndex!= 0"></app-form>
+          <app-form [claimData]="entityData" *ngIf="clickIndex!= 0"></app-form>
+          
           <!-- <app-form></app-form>-->
 
         </div>
@@ -115,61 +110,4 @@
   </div>
 </footer>
 
-<!-- <div id="wrapper">
-    <div class="side-by-side-concatainer">
-      <div class="form-container " id="wrapper">
-        <div class="e4_79">
-          <span class="e4_83">Form</span>
-          <div class=file-preview-window>
-            <span class="e29_22" *ngIf="!imagePreview">No File Choosen</span><img class="preview-image" src={{imagePreview}}>
-          </div>
-          <div class="button-container">
-            <div>
-              <span class="e29_23">
-                Maximum size allowed for the image is 4MB.
-                Image must be in jpg, jpeg, png format.
-              </span>
-            </div>
-            <div class="btn-one">
-              <div class=button-properties style="background-color: rgba(129,129,129,1);">
-                <input type="file" class=e4_90 (change)="uploadImage($event)" />
-                <span class=button-font> Choose File</span>
-              </div>
-            </div>
-            <div class="btn-two">
-              <div class="button-properties" style="background-color: rgba(241,95,63,1); "><span class="button-font" (click)="GetText()"><a>Process Form</a></span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="results-container" id="wrapper">
-        <div class="e4_77">
-          <span class="e4_85">Results</span>
-          <div class=file-preview-window>
-            <mat-spinner class="loader1" *ngIf="loading" value="100"></mat-spinner>
-            <textarea disabled class="form-control" rows="25" cols="15">{{ocrResult?.detectedText}}</textarea>
-          </div>
-          <div class="button-container">
-            <div class="btn-three">
-              <div class="button-properties" style="background-color: rgba(17,96,176,1);">
-                <span class="button-font">Approve</span>
-              </div>
-            </div>
-            <div class="btn-four">
-              <div class="button-properties" style="background-color: rgba(241,95,63,1);">
-                <span class="button-font"></span>
-                <span class="button-font">Deny</span>
-              </div>
-            </div>
-            <div class="btn-five">
-              <div class="button-properties" style="background-color: rgba(129,129,129,1);"><span class="button-font" (click)="ClearResults();">Clear</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <footer class="copyright-footer">
-      <span>Copyright 2022 - National Government Services</span>
-    </footer>
-  </div>
-</div> -->
+
