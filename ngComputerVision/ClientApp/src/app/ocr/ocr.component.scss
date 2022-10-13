@@ -40,6 +40,7 @@
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   border: 1px solid rgba(82.87499696016312, 82.87499696016312, 82.87499696016312, 1);
+  margin-bottom: 20px;
 }
 
 .preview-style {
@@ -117,5 +118,9 @@ a {
 .details {
   margin: 10px;
 }
-
+.btn {
+  max-height: 40px;
+  max-width: 110px;
+  font-size:small
+}
 
