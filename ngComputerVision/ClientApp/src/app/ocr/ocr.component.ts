@@ -5,6 +5,7 @@ import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
 import { FormComponent } from '../Form/form.component';
 import { Claim } from '../models/claim';
+import { MouseHover } from '../models/mouseHover';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -25,9 +26,9 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
-  //for bounding box
+ 
   drawItems: any[] = []
-  //drawItems = []
+  
   boundingBoxValues: any[] = []
   @Input('ImageHeight') ImageHeight = 0
   @Input('ImageWidth') ImageWidth = 0
@@ -35,16 +36,19 @@ export class OcrComponent implements OnInit {
   taggedItem = ""
   showInput: boolean = false;
   isMoving: boolean = false;
-  //public imgWidth!: number;
+ 
   public uniX: number | undefined;
   public uniY: number | undefined;
   public uniX2!: number;
   public uniY2!: number;
   public initX!: number;
   public initY!: number;
-  //public imgHeight!: number;
+ 
   public url!: string;
   public image: any;
+  hoverName: string = '';
+  isHovered: boolean = false;
+ 
 
   @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
   private context!: CanvasRenderingContext2D;
@@ -57,6 +61,7 @@ export class OcrComponent implements OnInit {
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
     this.ocrResult = new OcrResult();
+    
 
   }
 
@@ -64,7 +69,16 @@ export class OcrComponent implements OnInit {
     this.computervisionService.getAvailableLanguage()
       .subscribe((result: AvailableLanguage[]) =>
         this.availableLanguage = result
-      );
+    );
+    this.computervisionService.formHoverEvent
+      .subscribe((data: MouseHover) => {
+        console.log('Event message from FormComponent : ' + data);
+        this.hoverName = data.name;
+        this.isHovered = data.isHover;
+        
+        this.showImage(this.entityData);
+      });
+   
   }
 
   uploadImage(event: any) {
@@ -87,6 +101,7 @@ export class OcrComponent implements OnInit {
           
           this.ImageWidth = this.image.width;
           this.ImageHeight = this.image.height;
+          
           // this.showImage();
           this.layer1CanvasElement = this.layer1Canvas.nativeElement;
           this.context = this.layer1CanvasElement.getContext("2d");
@@ -127,8 +142,7 @@ export class OcrComponent implements OnInit {
 
       this.computervisionService.getClaimData(this.ocrResult.generatedId).subscribe(data => {
         this.entityData = data;
-        this.showImage(this.entityData);
-        // this.boundingBoxValues = this.entityData.piiEntitiesResponse.BoundingBox;
+       
 
       });
       this.clickIndex = index;
@@ -159,31 +173,28 @@ export class OcrComponent implements OnInit {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   showImage(entityData: Claim) {
-    /* this.layer1CanvasElement = this.layer1Canvas.nativeElement;
-     this.context = this.layer1CanvasElement.getContext("2d");
-     this.layer1CanvasElement.width = this.ImageWidth;
-     this.layer1CanvasElement.height = this.ImageHeight;
-     this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);*/
+   
     let parent = this;
     for (var i = 0; i < this.entityData.piiEntitiesResponse.length; i++) {
-      // for (var j = 0; j < this.entityData.piiEntitiesResponse[i].boundingBox.length; j++) {
-      if (this.entityData.piiEntitiesResponse[i].boundingBox != null) { 
-      this.initX = this.entityData.piiEntitiesResponse[i].boundingBox[0];
-      this.initY = this.entityData.piiEntitiesResponse[i].boundingBox[1];
-      this.uniX = this.entityData.piiEntitiesResponse[i].boundingBox[4] - this.entityData.piiEntitiesResponse[i].boundingBox[6];
-      this.uniY = this.entityData.piiEntitiesResponse[i].boundingBox[5] - this.entityData.piiEntitiesResponse[i].boundingBox[3];
-      this.isMoving = false
-      this.showInput = true
-      this.drawItems.push({
-
-        x0: this.initX,
-        y0: this.initY,
-        x1: this.uniX,
-        y1: this.uniY
-      });
-        parent.drawRect("red", this.initX, this.initY, 0);
-      }
-      // }
+     
+      if (this.entityData.piiEntitiesResponse[i].boundingBox != null) {
+        
+          this.initX = this.entityData.piiEntitiesResponse[i].boundingBox[0];
+          this.initY = this.entityData.piiEntitiesResponse[i].boundingBox[1];
+          this.uniX = this.entityData.piiEntitiesResponse[i].boundingBox[4] - this.entityData.piiEntitiesResponse[i].boundingBox[6];
+          this.uniY = this.entityData.piiEntitiesResponse[i].boundingBox[5] - this.entityData.piiEntitiesResponse[i].boundingBox[3];
+          this.isMoving = false
+          this.showInput = true
+          this.drawItems.push({
+            name:this.entityData.piiEntitiesResponse[i].text,
+            x0: this.initX,
+            y0: this.initY,
+            x1: this.uniX,
+            y1: this.uniY
+          });
+          parent.drawRect("red", this.initX, this.initY, 0);
+        }
+       
     }
     for (var i = 0; i < this.entityData.healthEntitiesResponse.length; i++) {
       if (this.entityData.healthEntitiesResponse[i].boundingBox != null) {
@@ -194,7 +205,7 @@ export class OcrComponent implements OnInit {
         this.isMoving = false
         this.showInput = true
         this.drawItems.push({
-
+          name: this.entityData.healthEntitiesResponse[i].text,
           x0: this.initX,
           y0: this.initY,
           x1: this.uniX,
@@ -203,37 +214,7 @@ export class OcrComponent implements OnInit {
         parent.drawRect("red", this.initX, this.initY, 0);
       }
     }
-    /*this.initX = 8,40;
-    this.initY = 30;
-    this.uniX = 265;
-    this.uniY = 44;*/
-
-    //this.layer1CanvasElement.addEventListener("mousedown", (e: { offsetX: number; offsetY: number }) => {
-    // this.isMoving = true
-    // this.initX = e.offsetX;
-    // this.initY = e.offsetY;
-    // });
-
-    // this.layer1CanvasElement.addEventListener("mouseup", (e: { offsetX: number; offsetY: number }) => {
-    /* this.isMoving = false
-     this.showInput = true
-     this.drawItems.push({
-
-       x0: this.initX,
-       y0: this.initY,
-       x1: this.uniX,
-       y1: this.uniY
-     });
-     parent.drawRect("red", 40 - this.initX, 40 - this.initY, 0);*/
-    //this.uniX = undefined
-    //this.uniY = undefined
-    //  });
-
-    // this.layer1CanvasElement.addEventListener("mousemove", (e: { offsetX: number; offsetY: number }) => {
-    /*if (this.isMoving) {
-      parent.drawRect("red", 40- this.initX, 30 - this.initY, 0);
-    }*/
-    // });
+   
 
   }
   drawRect(color = "black", height: number, width: number, flag: number) {
@@ -245,18 +226,26 @@ export class OcrComponent implements OnInit {
     this.uniX2 = height
     this.uniY2 = width
     for (var i = 0; i < this.drawItems.length; i++) {
-      this.context.beginPath();
-      this.context.rect(
-        this.drawItems[i].x0,
-        this.drawItems[i].y0,
-        this.drawItems[i].x1,
-        this.drawItems[i].y1
-      );
-      this.context.lineWidth = 3;
-      this.context.strokeStyle = color;
-      this.context.stroke();
+      if (this.drawItems[i].name === this.hoverName && this.isHovered) {
+        this.context.beginPath();
+        this.context.rect(
+          this.drawItems[i].x0,
+          this.drawItems[i].y0,
+          this.drawItems[i].x1,
+          this.drawItems[i].y1
+        );
+        this.context.lineWidth = 1;
+        this.context.strokeStyle = color;
+        this.context.stroke();
+      }
+      else if (this.drawItems[i].name === this.hoverName && !this.isHovered) {
+      
+        this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+        
+      }
     }
 
     
   }
+
 }

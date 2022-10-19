@@ -7,6 +7,8 @@ import { ComputervisionService } from '../services/computervision.service';
 import { OcrResult } from '../models/ocrresult';
 import { OcrComponent } from '../ocr/ocr.component';
 import { MatSelectChange } from '@angular/material/select';
+import { MouseHover } from '../models/mouseHover';
+
 
 
 @Component({
@@ -25,11 +27,12 @@ export class FormComponent implements OnInit {
   @Input() text!: OcrResult;
   public PIIResponseData: any = null;
   public healthResponseData: any = null;
+  mouseHoverData !:MouseHover;
   
  claimId: string = '';
 
   constructor( private formBuilder: FormBuilder, private claimService: ComputervisionService) {
-   
+    this.mouseHoverData = new MouseHover();
   }
 
   ngOnInit() {
@@ -58,5 +61,13 @@ export class FormComponent implements OnInit {
       
     
   }
+  function1(name: string, flag: boolean) {
+    this.mouseHoverData.name = name;
+    this.mouseHoverData.isHover = flag;
+    this.claimService.formHover(this.mouseHoverData);
+    
+  }
+  
 
+  
 }
