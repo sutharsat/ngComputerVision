@@ -33,11 +33,11 @@
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="person" class="form-label mdc-typography--body1">Person:</label>
 
-        <mat-select  contenteditable="true" type="person" class="form-control"  >
+        <mat-select  contenteditable="true" type="person" class="form-control" ngstyle="{border': checkConfidenceScore() ? '2px solid #FF5733 ' : '#000000' }" >
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse" >
 
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)"  [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}} </mat-option>
-
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}} </mat-option>
+            
           </ng-container>
         </mat-select>
 

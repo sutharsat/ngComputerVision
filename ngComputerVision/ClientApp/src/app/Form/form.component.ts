@@ -67,7 +67,21 @@ export class FormComponent implements OnInit {
     this.claimService.formHover(this.mouseHoverData);
     
   }
-  
+  checkConfidenceScore(): boolean {
+    let cs:boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].PII.confidenceScore < 0.8) {
+        cs = true;
+        break;
+      }
 
+    }
+    return cs;
+  }
   
+  //Error() {
+  //  if (this.claimData.piiEntitiesResponse.PII.confidenceScore < ('0.8')) {
+  //    return 'You must enter a value';
+  //  }
+  //}
 }

@@ -82,3 +82,10 @@ input[name="editable-select"]:disabled {
     width:100%;
     height:350px;
 }
+.mat-input-invalid .mat-input-placeholder {
+  color: red;
+}
+
+.mat-input-invalid .mat-input-ripple {
+  background-color: red;
+}

@@ -98,7 +98,7 @@ export class OcrComponent implements OnInit {
         this.image.src = reader.result;
         this.imagePreview = reader.result;
         this.image.onload = () => {
-          
+         
           this.ImageWidth = this.image.width;
           this.ImageHeight = this.image.height;
           
