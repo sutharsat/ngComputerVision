@@ -56,14 +56,14 @@ namespace ngComputerVision.Controllers
                  {
                      foreach (var line in readResult.lines)
                      {
-                        foreach (var word in line.words)
-                        { 
-                            if (word.text.Contains(piientity.Text))
+                       // foreach (var line in line.words)
+                       // { 
+                            if (line.text.Contains(piientity.Text) )
 
                          {
-                             piientity.BoundingBox = word.boundingBox;
+                             piientity.BoundingBox = line.boundingBox;
                          }
-                        }
+                      //  }
                     }
                  }
                  categoryBasedPII.Add(piientity);
@@ -76,13 +76,13 @@ namespace ngComputerVision.Controllers
                 {
                     foreach (var line in readResult.lines)
                     {
-                        foreach (var word in line.words)
-                        {
-                            if (word.text.Contains(healthentity.Text))
+                       // foreach (var line in line.words)
+                       // {
+                            if (line.text.Contains(healthentity.Text))
                             {
-                                healthentity.BoundingBox = word.boundingBox;
+                                healthentity.BoundingBox = line.boundingBox;
                             }
-                        }
+                      //  }
                     }
                 }
                 categoryBasedHealth.Add(healthentity);
