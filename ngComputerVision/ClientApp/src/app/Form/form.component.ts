@@ -67,10 +67,155 @@ export class FormComponent implements OnInit {
     this.claimService.formHover(this.mouseHoverData);
     
   }
-  checkConfidenceScore(): boolean {
+  checkConfidenceScorePn(): boolean {
     let cs:boolean = false;
     for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
-      if (this.claimData.piiEntitiesResponse[i].PII.confidenceScore < 0.8) {
+      if (this.claimData.piiEntitiesResponse[i].category =="PhoneNumber" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+        
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScorePerson(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].category == "Person" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreAdd(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].category == "Address" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreEm(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].category == "Email" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreDof(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].category == "DateTime" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreOrg(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
+      if (this.claimData.piiEntitiesResponse[i].category == "Organization" && this.claimData.piiEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreTName(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "TreatmentName" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreHealthProf(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "HealthcareProfession" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreExamName(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "ExaminationName" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreAdmnEvent(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "AdministrativeEvent" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreCareEnv(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "CareEnvironment" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreGen(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "Gender" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
+        cs = true;
+        break;
+      }
+
+    }
+    return cs;
+  }
+  checkConfidenceScoreTreatmentDate(): boolean {
+    let cs: boolean = false;
+    for (var i = 0; i < this.claimData.healthEntitiesResponse.length; i++) {
+      if (this.claimData.healthEntitiesResponse[i].category == "Date" && this.claimData.healthEntitiesResponse[i].confidenceScore < 0.8) {
+
         cs = true;
         break;
       }

@@ -58,7 +58,7 @@ namespace ngComputerVision.Controllers
                      {
                        // foreach (var line in line.words)
                        // { 
-                            if (line.text.Contains(piientity.Text) )
+                            if (line.text.Contains(piientity.Text) /*&& piientity.Text.Contains(line.text)*/)
 
                          {
                              piientity.BoundingBox = line.boundingBox;
@@ -78,7 +78,7 @@ namespace ngComputerVision.Controllers
                     {
                        // foreach (var line in line.words)
                        // {
-                            if (line.text.Contains(healthentity.Text))
+                            if (line.text.Contains(healthentity.Text) /*|| healthentity.Text.Contains(line.text)*/)
                             {
                                 healthentity.BoundingBox = line.boundingBox;
                             }

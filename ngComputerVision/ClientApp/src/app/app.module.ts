@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FormComponent } from './Form/form.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FormComponent } from './Form/form.component';
     ReactiveFormsModule, 
     AngularMaterialModule,
     FormsModule,
+    MatAutocompleteModule,
     MDBBootstrapModule.forRoot(),
 
     
