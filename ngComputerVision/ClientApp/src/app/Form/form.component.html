@@ -2,23 +2,30 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
 </head>
 
-<mat-expansion-panel hideToggle>
+<mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h2 class="mdc-typography--title1">Plain Text</h2>
+
     </mat-panel-title>
     <mat-panel-description>
-      <h6 class="mdc-typography--subtitle2"> Unformatted Text </h6>
+      <h6 class="mdc-typography--subtitle2"> Content containing personally identifiable information. </h6>
     </mat-panel-description>
   </mat-expansion-panel-header>
   <div>
-   <textarea disabled class="textarea">{{text.detectedText}}</textarea>
+    <textarea disabled class="textarea">{{text.detectedText}}</textarea>
+    <div>
+      <label id="name">Bounding Box</label>
+      <input type="checkBox" (click)="piiCheckBox($event)" />
+    </div>
   </div>
 </mat-expansion-panel>
-<mat-expansion-panel hideToggle>
+
+<mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h2 class="mdc-typography--title1">PII Entities </h2>
+
     </mat-panel-title>
     <mat-panel-description>
       <h6 class="mdc-typography--subtitle2">Content containing personally identifiable information.</h6>
@@ -28,16 +35,16 @@
 
   <div class="row">
     <div class="col-md-6">
-
+      
 
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
         <label for="person" class="form-label mdc-typography--body1">Person:</label>
-       
-        <mat-select  contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' " >
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse" >
+
+        <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' ">
+          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
 
             <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}} </mat-option>
-            
+
           </ng-container>
         </mat-select>
 
@@ -49,11 +56,11 @@
         <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreOrg() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <!--<mat-autocomplete dropdown-arrow="true" #auto="matAutocomplete" type="text" class="form-control">-->
 
-            <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-              <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Organization'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-            </ng-container>
-          </mat-select>
-          <!--</mat-autocomplete>-->
+          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Organization'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <!--</mat-autocomplete>-->
 
       </div>
       <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
@@ -61,7 +68,7 @@
 
         <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreAdd() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter) ="function1(PII.text,true)" (mouseleave) ="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -74,7 +81,7 @@
 
         <mat-select contenteditable="true" type="phoneNumber" class="form-control" [style.border]="checkConfidenceScorePn() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter) ="function1(PII.text,true)" (mouseleave) ="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -84,7 +91,7 @@
 
         <mat-select type="person" class="form-control" [style.border]="checkConfidenceScoreEm() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter) ="function1(PII.text,true)" (mouseleave) ="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -94,7 +101,7 @@
 
         <mat-select type="datetime" class="form-control" [style.border]="checkConfidenceScoreDof() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter) ="function1(PII.text,true)" (mouseleave) ="function1(PII.text,false)"  [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -105,7 +112,7 @@
   </div>
 
 </mat-expansion-panel>
-<mat-expansion-panel hideToggle>
+<mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
       <h2 class="mdc-typography--title1">Health Entities</h2>
@@ -121,7 +128,7 @@
 
         <mat-select type="treatmentname" class="form-control" [style.border]="checkConfidenceScoreTName() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='TreatmentName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -131,7 +138,7 @@
 
         <mat-select type="healthcareProfession" class="form-control" [style.border]="checkConfidenceScoreHealthProf() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='HealthcareProfession'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='HealthcareProfession'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -141,7 +148,7 @@
 
         <mat-select type="healthcareProfession" class="form-control" [style.border]="checkConfidenceScoreExamName() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='ExaminationName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='ExaminationName'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -151,7 +158,7 @@
 
         <mat-select type="treatmentname" class="form-control" [style.border]="checkConfidenceScoreAdmnEvent() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='AdministrativeEvent'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='AdministrativeEvent'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -164,7 +171,7 @@
 
         <mat-select type="careEnvironment" class="form-control" [style.border]="checkConfidenceScoreCareEnv() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='CareEnvironment'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='CareEnvironment'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -174,7 +181,7 @@
 
         <mat-select type="gender" class="form-control" [style.border]="checkConfidenceScoreGen() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Gender'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Gender'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 
@@ -184,7 +191,7 @@
 
         <mat-select type="treatmentDate" class="form-control" [style.border]="checkConfidenceScoreTreatmentDate() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
           <ng-container *ngFor="let health  of claimData.healthEntitiesResponse">
-            <mat-option (mouseenter) ="function1(health.text,true)" (mouseleave) ="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Date'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
+            <mat-option (mouseenter)="function1(health.text,true)" (mouseleave)="function1(health.text,false)" [ngStyle]="{'color': (health.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="health.category==='Date'" [value]="health.text">&nbsp;&bull;&nbsp;{{health.text}}&nbsp;&nbsp;{{health.confidenceScore}}</mat-option>
           </ng-container>
         </mat-select>
 

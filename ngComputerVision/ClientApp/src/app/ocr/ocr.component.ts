@@ -48,6 +48,7 @@ export class OcrComponent implements OnInit {
   public image: any;
   hoverName: string = '';
   isHovered: boolean = false;
+  isChecked: boolean = false;
  
 
   @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
@@ -78,7 +79,19 @@ export class OcrComponent implements OnInit {
         
         this.showImage(this.entityData);
       });
-   
+
+    this.computervisionService.isCheckedEvent
+      .subscribe((data: boolean) => {
+        console.log('Event ststus from checkedBox : ' + data);
+        this.isChecked = data;
+        
+
+        this.showImage(this.entityData);
+      });
+
+    //this.computervisionService.isCheckedEvent.subscribe((data: boolean) => {
+    //  this.isChecked = data;
+    //}); 
   }
 
   uploadImage(event: any) {
@@ -150,6 +163,7 @@ export class OcrComponent implements OnInit {
 
 
     }
+    
   }
 
   @ViewChild('myInput')
@@ -157,6 +171,8 @@ export class OcrComponent implements OnInit {
 
   ClearResults() {
     this.clickIndex = 0;
+    this.isHovered = false;
+    this.isChecked = false;
     this.ocrResult.detectedText = '';
     this.imagePreview = '';
     this.myInputVariable.nativeElement.value = "";
@@ -167,7 +183,7 @@ export class OcrComponent implements OnInit {
     this.layer1Canvas.nativeElement.value = "";
     this.drawItems = [];
     this.context.clearRect(0, 0, this.layer1CanvasElement.width, this.layer1CanvasElement.height);
-
+   
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -214,7 +230,7 @@ export class OcrComponent implements OnInit {
         parent.drawRect("red", this.initX, this.initY, 0);
       }
     }
-   
+    this.drawItems = [];
 
   }
   drawRect(color = "black", height: number, width: number, flag: number) {
@@ -234,18 +250,40 @@ export class OcrComponent implements OnInit {
           this.drawItems[i].x1,
           this.drawItems[i].y1
         );
-        this.context.lineWidth = 1;
+        this.context.lineWidth = 2;
         this.context.strokeStyle = color;
         this.context.stroke();
+       
       }
       else if (this.drawItems[i].name === this.hoverName && !this.isHovered) {
-      
+
+        this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+        
+
+      }
+      else if (this.isChecked && !this.isHovered) {
+
+        this.context.beginPath();
+        this.context.rect(
+          this.drawItems[i].x0,
+          this.drawItems[i].y0,
+          this.drawItems[i].x1,
+          this.drawItems[i].y1
+        );
+        this.context.lineWidth = 2;
+        this.context.strokeStyle = color;
+        this.context.stroke();
+        
+      }
+      else if (!this.isChecked && !this.isHovered) {
         this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
         
       }
     }
+   
 
     
   }
+  
 
 }

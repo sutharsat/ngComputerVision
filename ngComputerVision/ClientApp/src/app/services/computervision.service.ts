@@ -18,6 +18,7 @@ export class ComputervisionService {
     this.claimURL = '/api/Claim/';
   }
   @Output() formHoverEvent = new EventEmitter<MouseHover>();
+  @Output() isCheckedEvent = new EventEmitter<Boolean>();
   getAvailableLanguage(): Observable<AvailableLanguage[]> {
     return this.http.get<AvailableLanguage[]>(this.baseURL);
   }
@@ -31,6 +32,9 @@ export class ComputervisionService {
   }
   formHover(msg: MouseHover) {
     this.formHoverEvent.emit(msg);
+  }
+  isCheckBoxTrue(flag: boolean) {
+    this.isCheckedEvent.emit(flag);
   }
   
 }

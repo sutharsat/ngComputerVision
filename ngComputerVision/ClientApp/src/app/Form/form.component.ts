@@ -224,9 +224,14 @@ export class FormComponent implements OnInit {
     return cs;
   }
   
-  //Error() {
-  //  if (this.claimData.piiEntitiesResponse.PII.confidenceScore < ('0.8')) {
-  //    return 'You must enter a value';
-  //  }
-  //}
+  
+
+  piiCheckBox(event: any) {
+   if(event.target.checked)
+      this.claimService.isCheckBoxTrue(true);
+    else
+     this.claimService.isCheckBoxTrue(false);
+    
+
+  }
 }
