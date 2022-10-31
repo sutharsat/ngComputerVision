@@ -253,15 +253,17 @@ export class OcrComponent implements OnInit {
         this.context.lineWidth = 2;
         this.context.strokeStyle = color;
         this.context.stroke();
-       
+
       }
       else if (this.drawItems[i].name === this.hoverName && !this.isHovered) {
 
         this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
-        
+
 
       }
-      else if (this.isChecked && !this.isHovered) {
+    }
+    for (var i = 0; i < this.drawItems.length; i++) {
+       if (this.isChecked && !this.isHovered) {
 
         this.context.beginPath();
         this.context.rect(
