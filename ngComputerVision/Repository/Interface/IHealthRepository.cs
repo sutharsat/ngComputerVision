@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Repository.Interface
 {
-    public interface IEntityRepository
+    public interface IHealthRepository
     {
        // Task<List<Entity>> GetEntity();
 
         Task PostEntity(EntityResult newEntityResult);
-       // Task<Entity?> GetEntityWithId(string id);
+        Task<EntityResult?> GetHealthEntityWithId(string id);
 
 
     }

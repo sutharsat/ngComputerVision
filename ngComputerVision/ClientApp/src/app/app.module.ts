@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './angular-material.module';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FormComponent } from './Form/form.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,10 @@ import { FormComponent } from './Form/form.component';
     HttpClientModule,
     ReactiveFormsModule, 
     AngularMaterialModule,
+    FormsModule,
+    MatAutocompleteModule,
     MDBBootstrapModule.forRoot(),
+
     
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -41,7 +45,7 @@ import { FormComponent } from './Form/form.component';
     BrowserAnimationsModule
   ],
 
-  providers: [],
+  providers: [FormComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Repository
 {
-    public class EntityRepository : IEntityRepository
+    public class HealthRepository : IHealthRepository
     {
         private readonly MongoContext _context;
-        public EntityRepository(MongoContext mongoContext)
+        public HealthRepository(MongoContext mongoContext)
         {
             _context = mongoContext;
         }
@@ -21,9 +21,9 @@ namespace ngComputerVision.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<Entity> GetEntityWithId(string id)
+        public async Task<EntityResult> GetHealthEntityWithId(string id)
         {
-            throw new System.NotImplementedException();
+            return await _context.GetHealthEntityResult(id);
         }
 
      public async Task PostEntity(EntityResult newEntityResult) =>

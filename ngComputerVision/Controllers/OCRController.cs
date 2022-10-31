@@ -1,21 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Azure;
+using Azure.AI.TextAnalytics;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using ngComputerVision.Contracts.Entities;
+using ngComputerVision.DTOModels;
+using ngComputerVision.Models;
+using ngComputerVision.Repository.Interface;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using Newtonsoft.Json;
-using System.Text.Json;
-using ngComputerVision.Models;
-using System.Collections.Generic;
-using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
-using ngComputerVision.DTOModels;
-using ngComputerVision.Repository;
-using ngComputerVision.Contracts.Entities;
-using ngComputerVision.Repository.Interface;
-using Azure.AI.TextAnalytics;
-using Azure;
+using System.Threading.Tasks;
 
 namespace ngComputerVision.Controllers
 {
@@ -23,64 +20,52 @@ namespace ngComputerVision.Controllers
     [Route("api/[controller]")]
     public class OCRController : Controller
     {
-        static string subscriptionKey;
-        static string endpoint;
-        static string uriBase;
-        static string analyticCredentials;
-        static string analyticEndpoint2;
-        private readonly IClaimRepository _claimRepository;
-        private readonly IEntityRepository _entityRepository;
+        static string ocrapisubscriptionKey;
+        static string ocrAPIEndpoint;
+        static string ocrAPIURI;
+        static string healthapisubscriptionKey;
+        static string healthApiEndpoint;
+        private readonly IOCRRepository _ocrRepository;
+        private readonly IHealthRepository _healthRepository;
         private readonly ICredentialRepository _credentialRepository;
         private readonly IPIIRepository _PIIRepository;
-        private string endpoint3;
+        private static AzureKeyCredential healthApiCredential;
+        private AzureKeyCredential piiApiCredential;
+        private static Uri healthApiEndpointURI;
+        private static Uri piiApiEndpointURI;
+        private string healthApiEndpointURI2;
+        private string piiapisubscriptionKey;
+        private string piiApiEndpoint;
 
-        //endpoint connection for text analytics api
-        private static AzureKeyCredential credentials;
-        private AzureKeyCredential credentialPII;
-        private static Uri endpoint2;
-        private static Uri endpointPII;
-        //private static Uri endpoint3;
-        private string analyticuriBase;
-        private string azureKeyPIICredential;
-        private string azurePIIEndpoint;
-
-        public OCRController(IClaimRepository claimRepository, IEntityRepository entityRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository)
+        public OCRController(IOCRRepository ocrRepository, IHealthRepository healthRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository)
         {
-
-
-
-            _claimRepository = claimRepository;
-            _entityRepository = entityRepository;
+            _ocrRepository = ocrRepository;
+            _healthRepository = healthRepository;
             _credentialRepository = credentialRepository;
             _PIIRepository = PIIRepository;
-            //OCR API
-            subscriptionKey = _credentialRepository.GetCredential("OCRAPI").subscriptionKey.ToString();
-            endpoint = _credentialRepository.GetCredential("OCRAPI").endpoint.ToString();
-            uriBase = endpoint + "vision/v3.2/read/syncAnalyze";
+            //OCR Image to Text Detection API
+            ocrapisubscriptionKey = _credentialRepository.GetCredential("OCRAPI").subscriptionKey.ToString();
+            ocrAPIEndpoint = _credentialRepository.GetCredential("OCRAPI").endpoint.ToString();
+            ocrAPIURI = ocrAPIEndpoint + "vision/v3.2/read/syncAnalyze";
 
-            //Text Analytic API
-            analyticCredentials = _credentialRepository.GetCredential("ANALYTICAPI").subscriptionKey.ToString();
-            analyticEndpoint2 = _credentialRepository.GetCredential("ANALYTICAPI").endpoint.ToString();
-            analyticuriBase = analyticEndpoint2 + "/language/analyze-text/jobs";
+            //Health Related Info Analytic API
+            healthapisubscriptionKey = _credentialRepository.GetCredential("ANALYTICAPI").subscriptionKey.ToString();
+            healthApiCredential = new AzureKeyCredential(healthapisubscriptionKey);
+            healthApiEndpoint = _credentialRepository.GetCredential("ANALYTICAPI").endpoint.ToString();
+            healthApiEndpointURI = new Uri(healthApiEndpoint);
+            healthApiEndpointURI2 = healthApiEndpoint + "/language/analyze-text/jobs";
 
-            //PII Detect API
-            azureKeyPIICredential = _credentialRepository.GetCredential("PIIAPI").subscriptionKey.ToString();
-            azurePIIEndpoint = _credentialRepository.GetCredential("PIIAPI").endpoint.ToString();
-
-
-            credentials = new AzureKeyCredential(analyticCredentials);
-            credentialPII = new AzureKeyCredential(azureKeyPIICredential);
-            endpoint2 = new Uri(analyticEndpoint2);
-            endpointPII = new Uri(azurePIIEndpoint);
-
+            //PII(Personal Info) Detection API
+            piiapisubscriptionKey = _credentialRepository.GetCredential("PIIAPI").subscriptionKey.ToString();
+            piiApiCredential = new AzureKeyCredential(piiapisubscriptionKey);
+            piiApiEndpoint = _credentialRepository.GetCredential("PIIAPI").endpoint.ToString();
+            piiApiEndpointURI = new Uri(piiApiEndpoint);
         }
 
         [HttpPost, DisableRequestSizeLimit]
         public async Task<OcrResultDTO> Post()
         {
             string ocrText = "";
-            string PII_id = "";
-
             OcrResultDTO ocrResultDTO = new OcrResultDTO();
             try
             {
@@ -100,7 +85,7 @@ namespace ngComputerVision.Controllers
                             string myJSONResult = await ReadTextFromStream(imageFileBytes);
                             var result = new Claims();
                             result = JsonConvert.DeserializeObject<Claims>(myJSONResult);
-                            //call the ocr repository's Create method here and pass the result to that method. that will save the result in database.
+                            //call the ocr repository's Create method here.This will save the OCR results in database.
 
                             Claims? newClaim = System.Text.Json.JsonSerializer.Deserialize<Claims>(myJSONResult);
 
@@ -122,17 +107,20 @@ namespace ngComputerVision.Controllers
                             /* JObject json = JObject.Parse(ocrText);*/
 
 
-                            await _claimRepository.PostClaim(newClaim);
+                            await _ocrRepository.PostClaim(newClaim);
 
                             ocrResultDTO.DetectedText = ocrText.ToString();
                             ocrResultDTO.Language = "en";
                             // string firstNamekey;
-                            var client = new TextAnalyticsClient(endpoint2, credentials);
-                            await healthExample(client, ocrResultDTO.DetectedText);
-                             var clients = new TextAnalyticsClient(endpointPII, credentialPII);
-                            PII_id = await RecognizePIIExample(clients, ocrResultDTO.DetectedText);
-                            Console.WriteLine("generated id is" + PII_id);
-                            ocrResultDTO.GeneratedId = PII_id;
+                            Console.WriteLine("generatedId for vision response" + newClaim.id.ToString());
+
+                            //method for APIs
+                            var healthAPIClient = new TextAnalyticsClient(healthApiEndpointURI, healthApiCredential);
+                            await ExtractSaveHealthRelatedInfo(healthAPIClient, ocrResultDTO.DetectedText, newClaim.id.ToString());
+                            var PIIApiClient = new TextAnalyticsClient(piiApiEndpointURI, piiApiCredential);
+                            await ExtractSavePIIRelatedInfo(PIIApiClient, ocrResultDTO.DetectedText, newClaim.id.ToString());
+                            Console.WriteLine("generated corelatingId is" + newClaim.id);
+                            ocrResultDTO.GeneratedId = newClaim.id;
                         }
                         catch (Exception ex)
                         {
@@ -140,7 +128,9 @@ namespace ngComputerVision.Controllers
                         }
                     }
                 }
+                Console.WriteLine($"  OCR: {ocrResultDTO.DetectedText} ");
                 return ocrResultDTO;
+                
             }
             catch
             {
@@ -148,6 +138,7 @@ namespace ngComputerVision.Controllers
                 ocrResultDTO.Language = "unk";
                 return ocrResultDTO;
             }
+           
         }
 
         static async Task<string> ReadTextFromStream(byte[] byteData)
@@ -155,9 +146,9 @@ namespace ngComputerVision.Controllers
             try
             {
                 HttpClient client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ocrapisubscriptionKey);
                 string requestParameters = "language=en"; //&detectOrientation=true";
-                string uri = uriBase + "?" + requestParameters;
+                string uri = ocrAPIURI + "?" + requestParameters;
                 HttpResponseMessage response;
 
                 using (ByteArrayContent content = new ByteArrayContent(byteData))
@@ -176,35 +167,9 @@ namespace ngComputerVision.Controllers
             }
         }
 
-        [HttpGet]
-        public async Task<List<AvailableLanguageDTO>> GetAvailableLanguages()
-        {
-            string endpoint = "https://api.cognitive.microsofttranslator.com/languages?api-version=3.0&scope=translation";
-            var client = new HttpClient();
-            using (var request = new HttpRequestMessage())
-            {
-                request.Method = HttpMethod.Get;
-                request.RequestUri = new Uri(endpoint);
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                string result = await response.Content.ReadAsStringAsync();
 
-                AvailableLanguage deserializedOutput = JsonConvert.DeserializeObject<AvailableLanguage>(result);
-
-                List<AvailableLanguageDTO> availableLanguage = new List<AvailableLanguageDTO>();
-
-                foreach (KeyValuePair<string, LanguageDetails> translation in deserializedOutput.Translation)
-                {
-                    AvailableLanguageDTO language = new AvailableLanguageDTO();
-                    language.LanguageID = translation.Key;
-                    language.LanguageName = translation.Value.Name;
-
-                    availableLanguage.Add(language);
-                }
-                return availableLanguage;
-            }
-        }
         // method for extracting information from healthcare-related text 
-        public async Task healthExample(TextAnalyticsClient client, string document)
+        public async Task ExtractSaveHealthRelatedInfo(TextAnalyticsClient client, string document, string ocrVisionId)
         {
             List<Entity> result = new List<Entity>();
             EntityResult newEntityResult = new EntityResult();
@@ -225,94 +190,65 @@ namespace ngComputerVision.Controllers
                     if (!entitiesInDoc.HasError)
                     {
                         foreach (var entity in entitiesInDoc.Entities)
-
                         {
                             Entity newEntity = new Entity();
-                            // view recognized healthcare entities
-                            Console.WriteLine($"  Entity: {entity.Text}");
-                            Console.WriteLine($"  Category: {entity.Category}");
-                            Console.WriteLine($"  Offset: {entity.Offset}");
-                            Console.WriteLine($"  Length: {entity.Length}");
-                            Console.WriteLine($"  NormalizedText: {entity.NormalizedText}");
-                            if (!string.IsNullOrEmpty(entity.SubCategory))
-                                Console.WriteLine($"  SubCategory: {entity.SubCategory}");
-                            Console.WriteLine($"  Confidence score: {entity.ConfidenceScore}");
-                            Console.WriteLine("");
-                            newEntity.Text = entity.Text;
+                           // if (!string.IsNullOrEmpty(entity.SubCategory))
+                                newEntity.Text = entity.Text;
                             HealthcareEntityCategory category = entity.Category;
                             newEntity.Category = category.ToString();
-                            newEntity.Offset = entity.Offset;
-                            newEntity.Length = entity.Length;
-                            newEntity.NormalizedText = entity.NormalizedText;
+                          //  newEntity.Offset = entity.Offset;
+                          //  newEntity.Length = entity.Length;
+                          //  newEntity.NormalizedText = entity.NormalizedText;
                             newEntity.ConfidenceScore = entity.ConfidenceScore;
                             result.Add(newEntity);
+                            Console.WriteLine($"  HealthEntity: {entity.Text},Category: {entity.Category},Confidence score: {entity.ConfidenceScore} ");
+                            
                         }
                         newEntityResult.entities = result;
-                        Console.WriteLine($"  Found {entitiesInDoc.EntityRelations.Count} relations in the current document:");
-                        Console.WriteLine("");
-
-
+                        newEntityResult.correlatingId = ocrVisionId;
                     }
-                    else
-                    {
-                        Console.WriteLine("  Error!");
-                        Console.WriteLine($"  Document error code: {entitiesInDoc.Error.ErrorCode}.");
-                        Console.WriteLine($"  Message: {entitiesInDoc.Error.Message}");
-                    }
-                    Console.WriteLine("");
                 }
-
             }
-            await _entityRepository.PostEntity(newEntityResult);
+            await _healthRepository.PostEntity(newEntityResult);
 
         }
-        // Example method for detecting sensitive information (PII) from text 
-        public async Task<string> RecognizePIIExample(TextAnalyticsClient client,string document)
-         {
+        //method for detecting sensitive information (PII) from text 
+        public async Task ExtractSavePIIRelatedInfo(TextAnalyticsClient client, string document, string ocrVisionId)
+        {
             List<PII> resultPII = new List<PII>();
             PIIResult newPIIResult = new PIIResult();
             List<string> batchInput = new List<string>()
             {
                 document
             };
-            
             PiiEntityCollection entities = client.RecognizePiiEntities(document).Value;
-
-             
-
-             if (entities.Count > 0)
-             {
-                 Console.WriteLine($"Recognized {entities.Count} PII entit{(entities.Count > 1 ? "ies" : "y")}:");
-                 foreach (PiiEntity entity in entities)
-                 {
+            if (entities.Count > 0)
+            {
+                foreach (PiiEntity entity in entities)
+                {
                     PII newPII = new PII();
                     newPII.Text = entity.Text;
                     PiiEntityCategory category = entity.Category;
                     newPII.Category = category.ToString();
-                    newPII.Offset = entity.Offset;
-                    newPII.Length = entity.Length;
+                   // newPII.Offset = entity.Offset;
+                   // newPII.Length = entity.Length;
                     //newPII.NormalizedText = entity.NormalizedText;
                     newPII.ConfidenceScore = entity.ConfidenceScore;
                     resultPII.Add(newPII);
+                    Console.WriteLine($"  PIIEntity: {entity.Text},Category: {entity.Category},Confidence score: {entity.ConfidenceScore} ");
                     
-                 }
+                }
                 newPIIResult.PIIEntities = resultPII;
-            }
-             else
-             {
-                 Console.WriteLine("No entities were found.");
-             }
+                newPIIResult.correlatingId = ocrVisionId;
+            }           
             await _PIIRepository.PostPII(newPIIResult);
-            return newPIIResult.id.ToString();
         }
-
-         
     }
 }
-    
 
 
 
-    
+
+
 
 

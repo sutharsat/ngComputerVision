@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Repository.Interface
 {
-    public interface IClaimRepository
+    public interface IOCRRepository
     {
         Task<List<Claims>> GetClaims();
 
         Task PostClaim(Claims newClaims);
-      //  Task<Claims?> GetClaimsWithId(string id);
+        Task<Claims?> GetOCRResultByID(string id);
 
 
     }

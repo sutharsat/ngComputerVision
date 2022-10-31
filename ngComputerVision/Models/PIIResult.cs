@@ -9,6 +9,7 @@ namespace ngComputerVision.Models
     {
         [BsonRepresentation(BsonType.ObjectId)]
         public string? id { get; set; }
+        public string correlatingId { get; set; }
         public List<PII> PIIEntities { get; set; }
         
        

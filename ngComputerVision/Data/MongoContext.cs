@@ -35,8 +35,8 @@ namespace ngComputerVision.Core.Data
         }
         public async Task<List<Claims>> GetAsync() =>
        await _claimsCollection.Find(_ => true).ToListAsync();
-        public async Task<PIIResult?> GetAsync(string id) =>
-            await _PIICollection.Find(x => x.id == id).FirstOrDefaultAsync();
+        public async Task<Claims?> GetOCRResultByID(string id) =>
+            await _claimsCollection.Find(x => x.id == id).FirstOrDefaultAsync();
         public async Task CreateAsync(Claims newClaims) =>
                 await _claimsCollection.InsertOneAsync(newClaims);
         //setting for Entity
@@ -51,5 +51,9 @@ namespace ngComputerVision.Core.Data
         {
             return  _credentialCollection.Find(_ => true).ToList();
         }
+        public async Task<EntityResult?> GetHealthEntityResult(string id) =>
+          await _entityCollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
+        public async Task<PIIResult?> GetPIIEntityResult(string id) =>
+          await _PIICollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
     }
 }
