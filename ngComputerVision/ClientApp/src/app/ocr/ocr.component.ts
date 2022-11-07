@@ -6,6 +6,9 @@ import { ViewChild } from '@angular/core';
 import { FormComponent } from '../Form/form.component';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
+import { SearchValue } from '../models/SearchValue';
+import { FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -32,7 +35,7 @@ export class OcrComponent implements OnInit {
   boundingBoxValues: any[] = []
   @Input('ImageHeight') ImageHeight = 0
   @Input('ImageWidth') ImageWidth = 0
-  @Output() selected = new EventEmitter();
+  
   taggedItem = ""
   showInput: boolean = false;
   isMoving: boolean = false;
@@ -49,11 +52,14 @@ export class OcrComponent implements OnInit {
   hoverName: string = '';
   isHovered: boolean = false;
   isChecked: boolean = false;
- 
-
+  @Input() formData!: SearchValue;
+  person: string = '';
+  submitServiceSubscription: Subscription = new Subscription;
   @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
   private context!: CanvasRenderingContext2D;
   private layer1CanvasElement: any;
+    searchForm: any;
+    searchValue: any;
 
 
 
@@ -88,11 +94,25 @@ export class OcrComponent implements OnInit {
 
         this.showImage(this.entityData);
       });
+    
+    this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
+      (submitting) => {
+        console.log("approve button is clicked");
+        if (submitting) {
+          console.log("data ready for DB call");
+          this.formComponent.submitForm();
+        }
+      });
+
+  }
+  //ngOnDestroy() {
+  // this.submitServiceSubscription.unsubscribe();
+  //}
 
     //this.computervisionService.isCheckedEvent.subscribe((data: boolean) => {
     //  this.isChecked = data;
     //}); 
-  }
+  
 
   uploadImage(event: any) {
     this.imageFile = event.target.files[0];
@@ -286,6 +306,12 @@ export class OcrComponent implements OnInit {
 
     
   }
-  
-
+  clickApprove(event:any) {
+    this.computervisionService.submitButton(true);
+  }
+  //submitFormClicked(event: any) {
+  //  this.searchForm.patchValue({
+  //    person: this.searchValue.person
+  //  });
+  //}
 }

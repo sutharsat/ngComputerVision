@@ -10,5 +10,6 @@
         public string EntityResultCollectionName { get; set; } = null!;
         public string CredentialCollectionName { get; set; } = null!;
         public string PIIResultCollectionName { get; set; } = null!;
+        public string SearchCollectionName { get; set; } = null!;
     }
 }

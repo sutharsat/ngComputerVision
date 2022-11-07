@@ -32,6 +32,7 @@ namespace ngComputerVision
             services.AddTransient<IHealthRepository, HealthRepository>();
             services.AddTransient<ICredentialRepository, CredentialRepository>();
             services.AddTransient<IPIIRepository, PIIRepository>();
+            services.AddTransient<ISearchRepository, SearchRepository>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
