@@ -5,6 +5,8 @@ export class SearchValue {
   phoneNumber: string;
   email: string;
   dateTime: string;
+  searchImageValue = new FormData();
+  claimId: string
   
 
   constructor() {
@@ -14,6 +16,8 @@ export class SearchValue {
     this.phoneNumber = '';
     this.email = '';
     this.dateTime = '';
+    this.claimId = '';
+    
     
   }
  

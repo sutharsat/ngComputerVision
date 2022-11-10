@@ -18,7 +18,7 @@ namespace ngComputerVision.Repository
 
 
 
-        public async Task PostSearch(Search newSearch) =>
+        public async Task PostSearch(Search newSearch ) =>
          await _context.CreateAsync(newSearch);
 
 

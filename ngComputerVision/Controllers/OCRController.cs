@@ -86,13 +86,13 @@ namespace ngComputerVision.Controllers
 
                             string myJSONResult = await ReadTextFromStream(imageFileBytes);
                             var result = new Claims();
-                            var search = new Search();
+                           // var search = new Search();
                             result = JsonConvert.DeserializeObject<Claims>(myJSONResult);
                             //call the ocr repository's Create method here.This will save the OCR results in database.
 
                             Claims? newClaim = System.Text.Json.JsonSerializer.Deserialize<Claims>(myJSONResult);
 
-                            Search? newSearch = System.Text.Json.JsonSerializer.Deserialize<Search>(myJSONResult);
+                           // Search? newSearch = System.Text.Json.JsonSerializer.Deserialize<Search>(myJSONResult);
 
                             foreach (var res in result.analyzeResult.readResults)
                             {
@@ -110,8 +110,8 @@ namespace ngComputerVision.Controllers
                             /* JObject json = JObject.Parse(ocrText);*/
 
                             newClaim.claimimage = imageFileBytes;
-                            newSearch.claimimage = imageFileBytes;
-                            await _searchRepository.PostSearch(newSearch);
+                          //  newSearch.claimimage = imageFileBytes;
+                           // await _searchRepository.PostSearch(newSearch);
 
                             await _ocrRepository.PostClaim(newClaim);
 

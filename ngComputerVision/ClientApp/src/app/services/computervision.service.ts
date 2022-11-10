@@ -18,7 +18,7 @@ export class ComputervisionService {
   constructor(private http: HttpClient) {
     this.baseURL = '/api/OCR';
     this.claimURL = '/api/Claim/';
-    this.saveURL= '/api/SaveClaim'
+    this.saveURL= '/api/Search'
   }
   @Output() formHoverEvent = new EventEmitter<MouseHover>();
   @Output() formSearchValueSendEvent = new EventEmitter<string>();
@@ -42,9 +42,9 @@ export class ComputervisionService {
   isCheckBoxTrue(flag: boolean) {
     this.isCheckedEvent.emit(flag);
   }
-  addSearchDetails(claimDetails: any) {
+  addSearchDetails(searchDetails: FormData):Observable<any> {
     
-    return this.http.post(this.saveURL, claimDetails);
+    return this.http.post(this.saveURL, searchDetails);
   }
   submitButton(submitting: boolean): void {
     console.log("service1");

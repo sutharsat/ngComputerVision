@@ -36,8 +36,8 @@ export class FormComponent implements OnInit {
   getAllFormData: any;
   searchValue !: SearchValue;
   @Output() selected = new EventEmitter();
-  @Output() searchFormEvent = new EventEmitter<string>();
-  //@Output() submit = new EventEmitter();
+  //@Output() searchFormEvent = new EventEmitter<string>();
+  @Output() searchFormEvent = new EventEmitter<SearchValue>();
   constructor(private fb: FormBuilder, private formBuilder: FormBuilder, private claimService: ComputervisionService) {
     this.mouseHoverData = new MouseHover();
     this.searchValue = new SearchValue();
@@ -48,7 +48,36 @@ export class FormComponent implements OnInit {
 
     });
   }
-
+  change(event:any) {
+   // alert(event.value);
+    this.searchValue.person = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change1(event: any) {
+   // alert(event.value);
+    this.searchValue.address = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change2(event: any) {
+    
+    this.searchValue.organization = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change3(event: any) {
+    
+    this.searchValue.phoneNumber = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change4(event: any) {
+   
+    this.searchValue.email = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change5(event: any) {
+   
+    this.searchValue.dateTime = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
   ngOnInit() {
     this.PIIResponseData = this.claimData.piiEntitiesResponse;
     this.healthResponseData = this.claimData.healthEntitiesResponse;
@@ -73,6 +102,8 @@ export class FormComponent implements OnInit {
       
     
   }
+
+  
   function1(name: string, flag: boolean) {
     this.mouseHoverData.name = name;
     this.mouseHoverData.isHover = flag;
@@ -81,19 +112,7 @@ export class FormComponent implements OnInit {
   }                                                                                                                                                                                                                                                                                                                                                                                                                            
  // @Output() submitFormClicked = new EventEmitter<any>();
 
-  submitForm() {
-    this.searchForm.patchValue({
-      person: this.searchValue.person
-    });
-    this.claimService.addSearchDetails(this.searchForm.value).subscribe(data => {
-      
-
-        this.searchForm.reset();
-      
-    });
-
-  }
-
+  
 
   checkConfidenceScorePn(): boolean {
     let cs:boolean = false;

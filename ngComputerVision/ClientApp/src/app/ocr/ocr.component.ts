@@ -19,6 +19,7 @@ export class OcrComponent implements OnInit {
   loading = false;
   imageFile: any;
   imagePreview: any;
+  Search: any;
   imageData = new FormData();
   availableLanguage: AvailableLanguage[] = [];
   DetectedTextLanguage: string = '';
@@ -29,7 +30,7 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
- 
+  searchValue : any;
   drawItems: any[] = []
   
   boundingBoxValues: any[] = []
@@ -59,7 +60,7 @@ export class OcrComponent implements OnInit {
   private context!: CanvasRenderingContext2D;
   private layer1CanvasElement: any;
     searchForm: any;
-    searchValue: any;
+   // searchValue: any;
 
 
 
@@ -100,18 +101,11 @@ export class OcrComponent implements OnInit {
         console.log("approve button is clicked");
         if (submitting) {
           console.log("data ready for DB call");
-          this.formComponent.submitForm();
+          
         }
       });
 
   }
-  //ngOnDestroy() {
-  // this.submitServiceSubscription.unsubscribe();
-  //}
-
-    //this.computervisionService.isCheckedEvent.subscribe((data: boolean) => {
-    //  this.isChecked = data;
-    //}); 
   
 
   uploadImage(event: any) {
@@ -309,9 +303,33 @@ export class OcrComponent implements OnInit {
   clickApprove(event:any) {
     this.computervisionService.submitButton(true);
   }
-  //submitFormClicked(event: any) {
-  //  this.searchForm.patchValue({
-  //    person: this.searchValue.person
-  //  });
-  //}
+  setValue(event: any) {
+    console.log(event.value);
+    this.searchValue = event;
+    console.log("parentForm");
+    console.log(this.searchValue);
+  }
+  saveData() {
+    //alert("dataSave");
+    //this.searchValue.searchImageValue = this.imageData;
+    const formData: FormData = new FormData();
+    
+
+    this.searchValue.claimId = this.ocrResult.generatedId;
+    var obj = JSON.stringify(this.searchValue);
+    formData.set("data", obj);
+    formData.append('imageFile', this.imageFile);
+      this.computervisionService.addSearchDetails(formData).subscribe(data => {
+
+
+       // this.searchForm.reset();
+        alert(data);
+       
+      });
+
+    
+
+    
+  }
+  
 }
