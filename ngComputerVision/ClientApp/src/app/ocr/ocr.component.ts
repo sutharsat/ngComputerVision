@@ -4,6 +4,8 @@ import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
 import { FormComponent } from '../Form/form.component';
+import { FormControl,FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable  } from 'rxjs';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
 import { SearchValue } from '../models/SearchValue';
@@ -30,7 +32,11 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
-  searchValue : any;
+  myControl = new FormControl();
+  options: string[] = ['Person', 'Date of Birth', 'Phone Number', 'Email', 'Organization', 'Address','Claim ID'];
+  filteredOptions: Observable<string[]> | undefined;
+
+ 
   drawItems: any[] = []
   
   boundingBoxValues: any[] = []
@@ -96,10 +102,29 @@ export class OcrComponent implements OnInit {
         this.showImage(this.entityData);
       });
     
+    this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
+      (submitting) => {
+        console.log("approve button is clicked");
+        if (submitting) {
+          console.log("data ready for DB call");
+          
+        }
+      });
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
     
 
   }
   
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
 
   uploadImage(event: any) {
     this.imageFile = event.target.files[0];
@@ -324,3 +349,4 @@ export class OcrComponent implements OnInit {
   }
   
 }
+
