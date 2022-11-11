@@ -4,8 +4,11 @@ import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
 import { FormComponent } from '../Form/form.component';
+import { FormControl,FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Observable  } from 'rxjs';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -26,6 +29,10 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
+  myControl = new FormControl();
+  options: string[] = ['Person', 'Date of Birth', 'Phone Number', 'Email', 'Organization', 'Address','Claim ID'];
+  filteredOptions: Observable<string[]> | undefined;
+
  
   drawItems: any[] = []
   
@@ -88,10 +95,20 @@ export class OcrComponent implements OnInit {
 
         this.showImage(this.entityData);
       });
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 
     //this.computervisionService.isCheckedEvent.subscribe((data: boolean) => {
     //  this.isChecked = data;
     //}); 
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   uploadImage(event: any) {
@@ -285,7 +302,7 @@ export class OcrComponent implements OnInit {
    
 
     
-  }
-  
+  }  
 
 }
+

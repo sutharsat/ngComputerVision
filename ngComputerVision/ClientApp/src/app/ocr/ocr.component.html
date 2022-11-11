@@ -1,21 +1,36 @@
-<style>
-  .navbar.navbar-top {
-    background: #1A4195;
-    color: #fff;
-    border-color: #fff;
-  }
-
-  .ocr-component-border {
-    border-radius: 1rem;
-  }
-</style>
-
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
 
 <app-nav-menu></app-nav-menu>
 
-<p class="h5 text-center text-wrap text-decoration-underline my-3">
-  OCR Request Form Processor
-</p>
+<div >
+  <form FormComponent="searchForm" style="display:flex;justify-content:start">
+    <mat-form-field appearance="standard" class="search">
+      <mat-label>Search</mat-label>
+      <input type="text" matInput [matAutocomplete]="auto" placeholder="Search" [formControl]="myControl" />
+      <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete">
+        <mat-option *ngIf="loading" class="is-loading">
+          <mat-spinner diameter="50"></mat-spinner>
+        </mat-option>
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-flat-button>
+      <span class="material-symbols-outlined">
+        search
+      </span>
+    </button>
+    <mat-select>
+
+    </mat-select>
+    </form>
+
+</div>
+
 
 <!-- Body -->
 
@@ -30,14 +45,12 @@
             <!-- <div class="preview-style"><span *ngIf="!imagePreview">No File Choosen</span></div>--><!--<img class="preview-image" src={{imagePreview}}>-->
             <div style="position: relative;">
               <div *ngFor="let drawItem of drawItems; let i = index">
-
-
               </div>
               <canvas #layer1 id="layer1" style="position: absolute; left: 0; top: 0; z-index: 0; width:100%; height:auto;"></canvas>
               <div class="row">
               </div>
             </div>
-            
+
           </div>
 
           <!-- File Requirement Text -->
@@ -49,8 +62,6 @@
           </p>
 
           <div class="btn-toolbar mt-2 gap-2 d-md-flex">
-
-
             <label class="file btn btn-secondary btm-sm col-3">
               Choose File
               <input #myInput type="file" (change)="uploadImage($event)" hidden />
@@ -61,9 +72,6 @@
               Process Form
             </button>
           </div>
-
-
-
         </div>
       </div>
     </div>
@@ -82,11 +90,9 @@
             </div>
             <app-form [claimData]="entityData" [text]="ocrResult" *ngIf="clickIndex!= 0"></app-form>
             <!-- <app-form></app-form>-->
-
           </div>
           <div class="btn-toolbar mt-5 gap-2 d-md-flex">
-
-            <button class="btn btn-primary btm-sm col-3">
+            <button mat-flat-button color="primary" class="btn col-3">
               Approve
             </button>
             <button class="btn btn-danger btm-sm col-3">
@@ -97,7 +103,6 @@
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -108,5 +113,5 @@
     © 2022 Copyright: National Government Services
   </div>
 </footer>
-
+</html>
 
