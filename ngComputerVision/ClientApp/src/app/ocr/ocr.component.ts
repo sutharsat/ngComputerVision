@@ -110,6 +110,11 @@ export class OcrComponent implements OnInit {
           
         }
       });
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 
   }
   
