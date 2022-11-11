@@ -18,6 +18,7 @@ namespace ngComputerVision.Core.Data
         public IMongoCollection<EntityResult> _entityCollection;
         public IMongoCollection<Credential> _credentialCollection;
         public IMongoCollection<PIIResult> _PIICollection;
+        public IMongoCollection<Search> _searchCollection;
 
         public MongoContext(IOptions<DatabaseSettings> dbOptions, IConfiguration config)
         {
@@ -32,6 +33,8 @@ namespace ngComputerVision.Core.Data
            settings.CredentialCollectionName);
             _PIICollection = _database.GetCollection<PIIResult>(
            settings.PIIResultCollectionName);
+            _searchCollection = _database.GetCollection<Search>(
+           settings.SearchCollectionName);
         }
         public async Task<List<Claims>> GetAsync() =>
        await _claimsCollection.Find(_ => true).ToListAsync();
@@ -51,9 +54,16 @@ namespace ngComputerVision.Core.Data
         {
             return  _credentialCollection.Find(_ => true).ToList();
         }
+
+        //for search
+        //public async Task CreateAsync(SearchResult newSearchResult) =>
+        //       await _searchCollection.InsertOneAsync(newSearchResult);
         public async Task<EntityResult?> GetHealthEntityResult(string id) =>
           await _entityCollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
         public async Task<PIIResult?> GetPIIEntityResult(string id) =>
           await _PIICollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
+        public async Task CreateAsync(Search newSearch) =>
+                    await _searchCollection.InsertOneAsync(newSearch);
+
     }
 }

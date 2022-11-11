@@ -8,7 +8,9 @@ import { FormControl,FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable  } from 'rxjs';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
-import { map, startWith } from 'rxjs/operators';
+import { SearchValue } from '../models/SearchValue';
+import { FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -19,6 +21,7 @@ export class OcrComponent implements OnInit {
   loading = false;
   imageFile: any;
   imagePreview: any;
+  Search: any;
   imageData = new FormData();
   availableLanguage: AvailableLanguage[] = [];
   DetectedTextLanguage: string = '';
@@ -39,7 +42,7 @@ export class OcrComponent implements OnInit {
   boundingBoxValues: any[] = []
   @Input('ImageHeight') ImageHeight = 0
   @Input('ImageWidth') ImageWidth = 0
-  @Output() selected = new EventEmitter();
+  
   taggedItem = ""
   showInput: boolean = false;
   isMoving: boolean = false;
@@ -56,11 +59,14 @@ export class OcrComponent implements OnInit {
   hoverName: string = '';
   isHovered: boolean = false;
   isChecked: boolean = false;
- 
-
+  @Input() formData!: SearchValue;
+  person: string = '';
+  submitServiceSubscription: Subscription = new Subscription;
   @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
   private context!: CanvasRenderingContext2D;
   private layer1CanvasElement: any;
+    searchForm: any;
+   // searchValue: any;
 
 
 
@@ -95,16 +101,19 @@ export class OcrComponent implements OnInit {
 
         this.showImage(this.entityData);
       });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    
+    this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
+      (submitting) => {
+        console.log("approve button is clicked");
+        if (submitting) {
+          console.log("data ready for DB call");
+          
+        }
+      });
 
-    //this.computervisionService.isCheckedEvent.subscribe((data: boolean) => {
-    //  this.isChecked = data;
-    //}); 
   }
+  
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
@@ -302,7 +311,38 @@ export class OcrComponent implements OnInit {
    
 
     
-  }  
+  }
+  clickApprove(event:any) {
+    this.computervisionService.submitButton(true);
+  }
+  setValue(event: any) {
+    console.log(event.value);
+    this.searchValue = event;
+    console.log("parentForm");
+    console.log(this.searchValue);
+  }
+  saveData() {
+    //alert("dataSave");
+    //this.searchValue.searchImageValue = this.imageData;
+    const formData: FormData = new FormData();
+    
 
+    this.searchValue.claimId = this.ocrResult.generatedId;
+    var obj = JSON.stringify(this.searchValue);
+    formData.set("data", obj);
+    formData.append('imageFile', this.imageFile);
+      this.computervisionService.addSearchDetails(formData).subscribe(data => {
+
+
+       // this.searchForm.reset();
+        alert(data);
+       
+      });
+
+    
+
+    
+  }
+  
 }
 

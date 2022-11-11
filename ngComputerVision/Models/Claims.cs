@@ -20,6 +20,8 @@ namespace ngComputerVision.Contracts.Entities
 
         public string lastUpdatedDateTime { get; set; } = null!;
         public AnalyzeResult analyzeResult { get; set; }
+
+        public byte[] claimimage { get; set; }
       /*  public string firstname { get; set; }
         public string lastname { get; set; }
         public string dateofbirth { get; set; }

@@ -88,13 +88,15 @@
             <div>
               <mat-spinner class="preview-style" *ngIf="loading" value="100"></mat-spinner>
             </div>
-            <app-form [claimData]="entityData" [text]="ocrResult" *ngIf="clickIndex!= 0"></app-form>
+            <app-form [claimData]="entityData" [text]="ocrResult" (searchFormEvent)="setValue($event)" *ngIf="clickIndex!= 0"></app-form>
             <!-- <app-form></app-form>-->
           </div>
           <div class="btn-toolbar mt-5 gap-2 d-md-flex">
-            <button mat-flat-button color="primary" class="btn col-3">
-              Approve
-            </button>
+            <button mat-raised-button type="submit" color="primary" (click)="saveData()">Approve</button>
+            <!--<button mat-raised-button type="submit" color="primary" (submitFormClicked)="submitFormClicked($event)">Approve</button>-->
+            <!--<button class="btn btn-primary btm-sm col-3" (click)="clickApprove()">
+              Approve-->
+            <!--</button>-->
             <button class="btn btn-danger btm-sm col-3">
               Deny
             </button>
