@@ -43,7 +43,7 @@
           <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
             <label for="person" class="form-label mdc-typography--body1">Person:</label>
 
-            <mat-select (selectionChange)="change($event)" contenteditable="true" type="person" class="form-control" formControlName="person" [(ngModel)]="searchValue.person" [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' ">
+            <mat-select (selectionChange)="change($event)" contenteditable="true" type="person" class="form-control"  [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' ">
               <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
 
                 <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}  </mat-option>
@@ -116,7 +116,7 @@
       </div>
 
     </div>
-    <!--<button mat-raised-button type="submit" color="primary" >Submit</button>-->
+ 
   </form>
 </mat-expansion-panel>
 <mat-expansion-panel>

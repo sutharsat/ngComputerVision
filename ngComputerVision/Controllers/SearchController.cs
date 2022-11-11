@@ -16,27 +16,27 @@ using System.Threading.Tasks;
 
 namespace ngComputerVision.Controllers
 {
-    
+
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class SearchController : Controller
     {
-        
+
         private readonly IOCRRepository _ocrRepository;
         private readonly IHealthRepository _healthRepository;
         private readonly ICredentialRepository _credentialRepository;
         private readonly IPIIRepository _PIIRepository;
         private readonly ISearchRepository _searchRepository;
-       
 
-        public SearchController(IOCRRepository ocrRepository, IHealthRepository healthRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository,ISearchRepository searchRepository)
+
+        public SearchController(IOCRRepository ocrRepository, IHealthRepository healthRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository, ISearchRepository searchRepository)
         {
             _ocrRepository = ocrRepository;
             _healthRepository = healthRepository;
             _credentialRepository = credentialRepository;
             _PIIRepository = PIIRepository;
             _searchRepository = searchRepository;
-            
+
         }
 
         [HttpPost, DisableRequestSizeLimit]
@@ -44,8 +44,8 @@ namespace ngComputerVision.Controllers
         {
             String piiFormData = Request.Form["data"];
             string msg = "";
-           
-           
+
+
             try
             {
                 SearchValueDTO? piiFields = System.Text.Json.JsonSerializer.Deserialize<SearchValueDTO>(piiFormData);
@@ -54,9 +54,9 @@ namespace ngComputerVision.Controllers
                 saveSearchValue.phoneNumber = piiFields.phoneNumber;
                 saveSearchValue.address = piiFields.address;
                 saveSearchValue.email = piiFields.email;
-                saveSearchValue.organization=piiFields.organization;
-                saveSearchValue.claimId=piiFields.claimId;
-                saveSearchValue.dateTime=piiFields.dateTime;
+                saveSearchValue.organization = piiFields.organization;
+                saveSearchValue.claimId = piiFields.claimId;
+                saveSearchValue.dateTime = piiFields.dateTime;
                 if (Request.Form.Files.Count > 0)
                 {
                     var file = Request.Form.Files[Request.Form.Files.Count - 1];
@@ -66,10 +66,10 @@ namespace ngComputerVision.Controllers
                         try
                         {
                             var memoryStream = new MemoryStream();
-                             file.CopyTo(memoryStream);
-                             byte[] imageFileBytes = memoryStream.ToArray();
-                             memoryStream.Flush();
-                            saveSearchValue.searchImageValue=imageFileBytes;
+                            file.CopyTo(memoryStream);
+                            byte[] imageFileBytes = memoryStream.ToArray();
+                            memoryStream.Flush();
+                            saveSearchValue.searchImageValue = imageFileBytes;
                             await _searchRepository.PostSearch(saveSearchValue);
                             msg = "claim has been approved and saved successfully.";
                         }
@@ -81,25 +81,32 @@ namespace ngComputerVision.Controllers
                         }
                     }
                 }
-            
+
                 return msg;
-                
+
             }
             catch (Exception ex)
             {
                 //searchValueDTO.person = "Error occurred. Try again";
                 //searchValueDTO.person = "unk";
-               
-               Console.WriteLine(ex.Message);
+
+                Console.WriteLine(ex.Message);
                 msg = "Invalid data";
                 return msg;
             }
-           
+
         }
 
-        
 
 
+
+
+        [HttpGet("{id:length(24)}")]
+        public async Task<ActionResult<SearchResultDTO>> Get(string id)
+        {
+            SearchResultDTO searchResultDTO = new SearchResultDTO();
+            return searchResultDTO;
+        }
     }
 }
 

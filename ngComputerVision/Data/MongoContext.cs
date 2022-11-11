@@ -64,6 +64,7 @@ namespace ngComputerVision.Core.Data
           await _PIICollection.Find(x => x.correlatingId == id).FirstOrDefaultAsync();
         public async Task CreateAsync(Search newSearch) =>
                     await _searchCollection.InsertOneAsync(newSearch);
-
+        //public async Task<SearchResult?> GetSearchResult(string id) =>
+        //  await _searchCollection.Find(x => x.claimId == id).FirstOrDefaultAsync();
     }
 }

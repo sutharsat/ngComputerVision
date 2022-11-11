@@ -96,14 +96,7 @@ export class OcrComponent implements OnInit {
         this.showImage(this.entityData);
       });
     
-    this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
-      (submitting) => {
-        console.log("approve button is clicked");
-        if (submitting) {
-          console.log("data ready for DB call");
-          
-        }
-      });
+    
 
   }
   
@@ -300,9 +293,7 @@ export class OcrComponent implements OnInit {
 
     
   }
-  clickApprove(event:any) {
-    this.computervisionService.submitButton(true);
-  }
+  
   setValue(event: any) {
     console.log(event.value);
     this.searchValue = event;

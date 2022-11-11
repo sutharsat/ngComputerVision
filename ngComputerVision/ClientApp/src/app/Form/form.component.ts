@@ -281,11 +281,5 @@ export class FormComponent implements OnInit {
     
 
   }
-  //sendSearch(event: any) {
-  //  if (event.value != null) {
-  //    this.person = event.value;
-    
-  //    this.claimService.sendSearchValue(this.person);
-  //  } 
-  //}
+  
 }

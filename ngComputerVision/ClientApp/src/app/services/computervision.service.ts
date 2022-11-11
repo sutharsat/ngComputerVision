@@ -21,9 +21,9 @@ export class ComputervisionService {
     this.saveURL= '/api/Search'
   }
   @Output() formHoverEvent = new EventEmitter<MouseHover>();
-  @Output() formSearchValueSendEvent = new EventEmitter<string>();
+ 
   @Output() isCheckedEvent = new EventEmitter<Boolean>();
-  private searchValueSubject = new Subject<any>();
+ 
   
   getAvailableLanguage(): Observable<AvailableLanguage[]> {
     return this.http.get<AvailableLanguage[]>(this.baseURL);
@@ -46,13 +46,6 @@ export class ComputervisionService {
     
     return this.http.post(this.saveURL, searchDetails);
   }
-  submitButton(submitting: boolean): void {
-    console.log("service1");
-    this.searchValueSubject.next(submitting);
-  }
-  onFormSubmit(): Observable<any> {
-    console.log("service2");
-    return this.searchValueSubject.asObservable();
-  }
+ 
 
 }
