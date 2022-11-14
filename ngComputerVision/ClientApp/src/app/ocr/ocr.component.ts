@@ -4,13 +4,14 @@ import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
 import { FormComponent } from '../Form/form.component';
-import { FormControl,FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormControl,FormBuilder,  Validators } from '@angular/forms';
 import { Observable  } from 'rxjs';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
 import { SearchValue } from '../models/SearchValue';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
@@ -66,7 +67,7 @@ export class OcrComponent implements OnInit {
   private context!: CanvasRenderingContext2D;
   private layer1CanvasElement: any;
     searchForm: any;
-   // searchValue: any;
+    searchValue: any;
 
 
 
@@ -102,18 +103,18 @@ export class OcrComponent implements OnInit {
         this.showImage(this.entityData);
       });
     
-    this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
-      (submitting) => {
-        console.log("approve button is clicked");
-        if (submitting) {
-          console.log("data ready for DB call");
+    //this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
+    //  (submitting) => {
+    //    console.log("approve button is clicked");
+    //    if (submitting) {
+    //      console.log("data ready for DB call");
           
-        }
-      });
+    //    }
+    //  });
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map((value: string) => this._filter(value))
       );
     
 
