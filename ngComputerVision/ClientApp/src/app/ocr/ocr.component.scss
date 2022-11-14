@@ -124,8 +124,14 @@ a {
   font-size: small
 }
 .search{
-    width:85%;
+    width:45%;
     padding-left:20px;
-
 }
-
+.gray {
+  color: #808080;
+}
+@media screen and (max-width: 1024px) {
+  .search {
+    width: 100%;
+  }
+}

@@ -24,9 +24,6 @@
         search
       </span>
     </button>
-    <mat-select>
-
-    </mat-select>
     </form>
 
 </div>
@@ -62,13 +59,15 @@
           </p>
 
           <div class="btn-toolbar mt-2 gap-2 d-md-flex">
-            <label class="file btn btn-secondary btm-sm col-3">
-              Choose File
-              <input #myInput type="file" (change)="uploadImage($event)" hidden />
-            </label>
+            <button mat-raised-button class="btn btn-secondary col-3">
+              <label class="file">
+                Choose File
+                <input #myInput type="file" (change)="uploadImage($event)" hidden />
 
+              </label>
+            </button>
 
-            <button type="button" class="btn btn-info btm-sm" (click)="GetText(2)">
+            <button mat-raised-button color="primary" type="button" class="btn col-3" (click)="GetText(2)">
               Process Form
             </button>
           </div>
@@ -92,12 +91,12 @@
             <!-- <app-form></app-form>-->
           </div>
           <div class="btn-toolbar mt-5 gap-2 d-md-flex">
-            <button mat-raised-button type="submit" color="primary" (click)="saveData()">Approve</button>
+            <button mat-raised-button type="submit" color="primary" class="btn col-3" (click)="saveData()">Approve</button>
            
-            <button class="btn btn-danger btm-sm col-3">
+            <button mat-raised-button color="warn"class="btn col-3">
               Deny
             </button>
-            <button class="btn btn-secondary btm-sm col-3" (click)="ClearResults();">
+            <button mat-raised-button class="btn btn-secondary col-3" (click)="ClearResults();">
               Clear
             </button>
           </div>
