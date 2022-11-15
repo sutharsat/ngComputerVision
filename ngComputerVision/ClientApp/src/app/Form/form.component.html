@@ -33,84 +33,91 @@
 
   </mat-expansion-panel-header>
 
-  <div class="row">
-    <div class="col-md-6">
-      
+  <form [formGroup]="searchForm"> <!--(ngSubmit)="submitForm()"-->
+    <div class="row">
 
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="person" class="form-label mdc-typography--body1">Person:</label>
+      <div class="col-md-6">
 
-        <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' ">
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
 
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}} </mat-option>
+       
+          <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+            <label for="person" class="form-label mdc-typography--body1">Person:</label>
 
-          </ng-container>
-        </mat-select>
+            <mat-select (selectionChange)="change($event)" contenteditable="true" type="person" class="form-control"  [style.border]="checkConfidenceScorePerson() ? '2px solid #FF5733 ' : '#000000' ">
+              <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+
+                <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Person'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}  </mat-option>
+
+              </ng-container>
+            </mat-select>
+
+          </div>
+         
+          <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+            <label class="form-label mdc-typography--body1">Organization:</label>
+            <!--<input type="text" matInput placeholder="Search for a organization" [matAutocomplete]="auto" class="form-control" [style.border]="checkConfidenceScoreOrg() ? '2px solid #FF5733 ' : '#000000' ">-->
+            <!--<i class="material-icons align-arrow-right">arrow_drop_down</i>-->
+            <mat-select (selectionChange)="change2($event)"contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreOrg() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
+              <!--<mat-autocomplete dropdown-arrow="true" #auto="matAutocomplete" type="text" class="form-control">-->
+
+              <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+                <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Organization'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+              </ng-container>
+            </mat-select>
+            <!--</mat-autocomplete>-->
+
+          </div>
+
+          <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+            <label for="address" class="form-label mdc-typography--body1">Address:</label>
+
+            <mat-select (selectionChange)="change1($event)" contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreAdd() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
+              <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+                <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+              </ng-container>
+            </mat-select>
+
+          </div>
 
       </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label class="form-label mdc-typography--body1">Organization:</label>
-        <!--<input type="text" matInput placeholder="Search for a organization" [matAutocomplete]="auto" class="form-control" [style.border]="checkConfidenceScoreOrg() ? '2px solid #FF5733 ' : '#000000' ">-->
-        <!--<i class="material-icons align-arrow-right">arrow_drop_down</i>-->
-        <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreOrg() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
-          <!--<mat-autocomplete dropdown-arrow="true" #auto="matAutocomplete" type="text" class="form-control">-->
+      <div class="col-md-6">
+        <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+          <label for="phoneNumber" class="form-label mdc-typography--body1">Phone Number:</label>
 
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Organization'" [value]="PII.text"> &nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <!--</mat-autocomplete>-->
+          <mat-select (selectionChange)="change3($event)" contenteditable="true" type="phoneNumber" class="form-control" [style.border]="checkConfidenceScorePn() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
+            <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+              <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            </ng-container>
+          </mat-select>
 
-      </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="address" class="form-label mdc-typography--body1">Address:</label>
+        </div>
+        <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+          <label for="email" class="form-label mdc-typography--body1">Email:</label>
 
-        <mat-select contenteditable="true" type="person" class="form-control" [style.border]="checkConfidenceScoreAdd() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Address'" [value]="PII.text">{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
+          <mat-select (selectionChange)="change4($event)" type="person" class="form-control" [style.border]="checkConfidenceScoreEm() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
+            <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+              <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            </ng-container>
+          </mat-select>
+
+        </div>
+        <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
+          <label for="datetime" class="form-label mdc-typography--body1">Date of Birth:</label>
+
+          <mat-select (selectionChange)="change5($event)" type="datetime" class="form-control" [style.border]="checkConfidenceScoreDof() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
+            <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
+              <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
+            </ng-container>
+          </mat-select>
+
+        </div>
+
 
       </div>
 
     </div>
-    <div class="col-md-6">
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="phoneNumber" class="form-label mdc-typography--body1">Phone Number:</label>
-
-        <mat-select contenteditable="true" type="phoneNumber" class="form-control" [style.border]="checkConfidenceScorePn() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='PhoneNumber'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-
-      </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="email" class="form-label mdc-typography--body1">Email:</label>
-
-        <mat-select type="person" class="form-control" [style.border]="checkConfidenceScoreEm() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='Email'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-
-      </div>
-      <div class="mb-1 mt-1 mdc-typography--body1" *ngIf="claimData.piiEntitiesResponse!=null">
-        <label for="datetime" class="form-label mdc-typography--body1">Date of Birth:</label>
-
-        <mat-select type="datetime" class="form-control" [style.border]="checkConfidenceScoreDof() ? '2px solid #FF5733 ' : '1px solid  #000000' ">
-          <ng-container *ngFor="let PII  of claimData.piiEntitiesResponse">
-            <mat-option (mouseenter)="function1(PII.text,true)" (mouseleave)="function1(PII.text,false)" [ngStyle]="{'color': (PII.confidenceScore<0.8) ? '#FF5733 ' : '#000000' }" *ngIf="PII.category==='DateTime'" [value]="PII.text">&nbsp;&bull;&nbsp;{{PII.text}}&nbsp;&nbsp;{{PII.confidenceScore}}</mat-option>
-          </ng-container>
-        </mat-select>
-
-      </div>
-
-
-    </div>
-  </div>
-
+ 
+  </form>
 </mat-expansion-panel>
 <mat-expansion-panel>
   <mat-expansion-panel-header>

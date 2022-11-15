@@ -36,6 +36,7 @@
 	  <None Remove="ClientApp\src\app\angular-material.module.ts" />
 	  <None Remove="ClientApp\src\app\models\claim.ts" />
 	  <None Remove="ClientApp\src\app\models\mouseHover.ts" />
+	  <None Remove="ClientApp\src\app\models\searchValue.ts" />
 	</ItemGroup>
 
 	<ItemGroup>

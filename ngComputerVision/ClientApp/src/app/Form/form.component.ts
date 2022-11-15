@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Claim } from '../models/claim';
 import { ComputervisionService } from '../services/computervision.service';
 import { OcrResult } from '../models/ocrresult';
 import { OcrComponent } from '../ocr/ocr.component';
 import { MatSelectChange } from '@angular/material/select';
 import { MouseHover } from '../models/mouseHover';
+import { SearchValue } from '../models/SearchValue';
 
 
 
@@ -19,27 +20,67 @@ import { MouseHover } from '../models/mouseHover';
 export class FormComponent implements OnInit {
   contactForm!: FormGroup;
   PIIEntitiesResponse: any;
-  
+  searchForm: FormGroup;
   selectedData:any ;
   titleAlert: string = 'This field is required';
   post: any = '';
-  @Input() claimData!: Claim;
+ 
   @Input() text!: OcrResult;
+  @Input() claimData!: Claim;
   public PIIResponseData: any = null;
   public healthResponseData: any = null;
   mouseHoverData !:MouseHover;
-  
- claimId: string = '';
-
-  constructor( private formBuilder: FormBuilder, private claimService: ComputervisionService) {
+  value: any;
+  claimId: string = '';
+  person: string = '';
+  getAllFormData: any;
+  searchValue !: SearchValue;
+  @Output() selected = new EventEmitter();
+  //@Output() searchFormEvent = new EventEmitter<string>();
+  @Output() searchFormEvent = new EventEmitter<SearchValue>();
+  constructor(private fb: FormBuilder, private formBuilder: FormBuilder, private claimService: ComputervisionService) {
     this.mouseHoverData = new MouseHover();
-  }
+    this.searchValue = new SearchValue();
+    this.searchForm = fb.group({
 
+      person: ['']
+
+
+    });
+  }
+  change(event:any) {
+   // alert(event.value);
+    this.searchValue.person = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change1(event: any) {
+   // alert(event.value);
+    this.searchValue.address = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change2(event: any) {
+    
+    this.searchValue.organization = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change3(event: any) {
+    
+    this.searchValue.phoneNumber = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change4(event: any) {
+   
+    this.searchValue.email = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
+  change5(event: any) {
+   
+    this.searchValue.dateTime = event.value;
+    this.searchFormEvent.emit(this.searchValue)
+  }
   ngOnInit() {
     this.PIIResponseData = this.claimData.piiEntitiesResponse;
     this.healthResponseData = this.claimData.healthEntitiesResponse;
-   
-
   }
   onChange(deviceValue:number) {
     
@@ -61,12 +102,18 @@ export class FormComponent implements OnInit {
       
     
   }
+
+  
   function1(name: string, flag: boolean) {
     this.mouseHoverData.name = name;
     this.mouseHoverData.isHover = flag;
     this.claimService.formHover(this.mouseHoverData);
     
-  }
+  }                                                                                                                                                                                                                                                                                                                                                                                                                            
+ // @Output() submitFormClicked = new EventEmitter<any>();
+
+  
+
   checkConfidenceScorePn(): boolean {
     let cs:boolean = false;
     for (var i = 0; i < this.claimData.piiEntitiesResponse.length; i++) {
@@ -234,4 +281,5 @@ export class FormComponent implements OnInit {
     
 
   }
+  
 }

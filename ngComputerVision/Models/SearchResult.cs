@@ -1,0 +1,17 @@
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using ngComputerVision.Contracts.Entities;
+using System.Collections.Generic;
+
+namespace ngComputerVision.Models
+{
+    public class SearchResult
+    {
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? id { get; set; }
+        public string correlatingId { get; set; }
+       // public List<PII> PIIEntities { get; set; }
+        
+       
+    }
+}

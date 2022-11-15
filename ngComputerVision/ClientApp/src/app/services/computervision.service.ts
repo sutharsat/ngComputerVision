@@ -1,10 +1,11 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { Claim } from '../models/claim';
 import { MouseHover } from '../models/mouseHover';
+import { SearchValue } from '../models/SearchValue';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,18 @@ import { MouseHover } from '../models/mouseHover';
 export class ComputervisionService {
 
   baseURL: string;
+  saveURL: string;
   claimURL: string;
   constructor(private http: HttpClient) {
     this.baseURL = '/api/OCR';
     this.claimURL = '/api/Claim/';
+    this.saveURL= '/api/Search'
   }
   @Output() formHoverEvent = new EventEmitter<MouseHover>();
+ 
   @Output() isCheckedEvent = new EventEmitter<Boolean>();
+ 
+  
   getAvailableLanguage(): Observable<AvailableLanguage[]> {
     return this.http.get<AvailableLanguage[]>(this.baseURL);
   }
@@ -36,5 +42,10 @@ export class ComputervisionService {
   isCheckBoxTrue(flag: boolean) {
     this.isCheckedEvent.emit(flag);
   }
-  
+  addSearchDetails(searchDetails: FormData):Observable<any> {
+    
+    return this.http.post(this.saveURL, searchDetails);
+  }
+ 
+
 }

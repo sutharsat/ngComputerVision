@@ -29,6 +29,7 @@ namespace ngComputerVision.Controllers
         private readonly IHealthRepository _healthRepository;
         private readonly ICredentialRepository _credentialRepository;
         private readonly IPIIRepository _PIIRepository;
+        private readonly ISearchRepository _searchRepository;
         private static AzureKeyCredential healthApiCredential;
         private AzureKeyCredential piiApiCredential;
         private static Uri healthApiEndpointURI;
@@ -37,12 +38,13 @@ namespace ngComputerVision.Controllers
         private string piiapisubscriptionKey;
         private string piiApiEndpoint;
 
-        public OCRController(IOCRRepository ocrRepository, IHealthRepository healthRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository)
+        public OCRController(IOCRRepository ocrRepository, IHealthRepository healthRepository, ICredentialRepository credentialRepository, IPIIRepository PIIRepository,ISearchRepository searchRepository)
         {
             _ocrRepository = ocrRepository;
             _healthRepository = healthRepository;
             _credentialRepository = credentialRepository;
             _PIIRepository = PIIRepository;
+            _searchRepository = searchRepository;
             //OCR Image to Text Detection API
             ocrapisubscriptionKey = _credentialRepository.GetCredential("OCRAPI").subscriptionKey.ToString();
             ocrAPIEndpoint = _credentialRepository.GetCredential("OCRAPI").endpoint.ToString();
@@ -84,12 +86,13 @@ namespace ngComputerVision.Controllers
 
                             string myJSONResult = await ReadTextFromStream(imageFileBytes);
                             var result = new Claims();
+                           // var search = new Search();
                             result = JsonConvert.DeserializeObject<Claims>(myJSONResult);
                             //call the ocr repository's Create method here.This will save the OCR results in database.
 
                             Claims? newClaim = System.Text.Json.JsonSerializer.Deserialize<Claims>(myJSONResult);
 
-
+                           // Search? newSearch = System.Text.Json.JsonSerializer.Deserialize<Search>(myJSONResult);
 
                             foreach (var res in result.analyzeResult.readResults)
                             {
@@ -106,6 +109,9 @@ namespace ngComputerVision.Controllers
 
                             /* JObject json = JObject.Parse(ocrText);*/
 
+                            newClaim.claimimage = imageFileBytes;
+                          //  newSearch.claimimage = imageFileBytes;
+                           // await _searchRepository.PostSearch(newSearch);
 
                             await _ocrRepository.PostClaim(newClaim);
 
