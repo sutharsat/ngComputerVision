@@ -6,28 +6,7 @@
 <app-nav-menu></app-nav-menu>
 
 <div>
-  <!--<form [formGroup]="searchForm" style="display:flex;justify-content:start">
-    <mat-form-field appearance="standard" class="search">
-      <mat-label>Search</mat-label>
-      <input type="text" matInput [matAutocomplete]="auto" placeholder="Search"  formControlName='serchInput' />
-      <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete">
-        <mat-option *ngIf="loading" class="is-loading">
-          <mat-spinner diameter="50"></mat-spinner>
-        </mat-option>
-        <mat-option *ngFor="let product of productOptions | async" [value]="product._id">
-          {{product.person}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <button mat-flat-button>
-      <span class="material-symbols-outlined">
-        search
-      </span>
-    </button>
-    <mat-select>
-
-    </mat-select>
-    </form>-->
+  
   <form class ="search-form" [formGroup]="searchForm">
     <div class="form-field-group">
       <mat-form-field class="full-width">
@@ -36,6 +15,9 @@
           <mat-option *ngIf="isLoading" class="is-loading">
             <mat-spinner diameter="50"></mat-spinner>
           </mat-option>
+
+    
+
 
           <mat-option *ngFor="let product of productOptions  " [value]="product.claimId">
             {{product.person}} |
@@ -81,13 +63,15 @@
           </p>
 
           <div class="btn-toolbar mt-2 gap-2 d-md-flex">
-            <label class="file btn btn-secondary btm-sm col-3">
-              Choose File
-              <input #myInput type="file" (change)="uploadImage($event)" hidden />
-            </label>
+            <button mat-raised-button class="btn btn-secondary col-3">
+              <label class="file">
+                Choose File
+                <input #myInput type="file" (change)="uploadImage($event)" hidden />
 
+              </label>
+            </button>
 
-            <button type="button" class="btn btn-info btm-sm" (click)="GetText(2)">
+            <button mat-raised-button color="primary" type="button" class="btn col-3" (click)="GetText(2)">
               Process Form
             </button>
           </div>
@@ -111,12 +95,12 @@
             <!-- <app-form></app-form>-->
           </div>
           <div class="btn-toolbar mt-5 gap-2 d-md-flex">
-            <button mat-raised-button type="submit" color="primary" (click)="saveData()">Approve</button>
+            <button mat-raised-button type="submit" color="primary" class="btn col-3" (click)="saveData()">Approve</button>
            
-            <button class="btn btn-danger btm-sm col-3">
+            <button mat-raised-button color="warn"class="btn col-3">
               Deny
             </button>
-            <button class="btn btn-secondary btm-sm col-3" (click)="ClearResults();">
+            <button mat-raised-button class="btn btn-secondary col-3" (click)="ClearResults();">
               Clear
             </button>
           </div>
