@@ -8,7 +8,7 @@ namespace ngComputerVision.DTOModels
         //PII
         public List<PII> PIIEntitiesResponse { get; set; }
         public List<Entity> HealthEntitiesResponse { get; set; }
-
+        public string ocrText { get; set; }
         
     }
 }

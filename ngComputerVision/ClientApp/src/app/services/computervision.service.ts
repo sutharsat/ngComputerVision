@@ -18,7 +18,7 @@ export class ComputervisionService {
   constructor(private http: HttpClient) {
     this.baseURL = '/api/OCR';
     this.claimURL = '/api/Claim/';
-    this.saveURL= '/api/Search'
+    this.saveURL= '/api/Search/'
   }
   @Output() formHoverEvent = new EventEmitter<MouseHover>();
  
@@ -31,6 +31,9 @@ export class ComputervisionService {
 
   getTextFromImage(image: FormData): Observable<OcrResult> {
     return this.http.post<OcrResult>(this.baseURL, image);
+  }
+  getSearchImage(id: String): Observable<Blob> {
+    return this.http.get<Blob>(this.saveURL+id);
   }
   getClaimData(id:string): Observable<Claim> {
    

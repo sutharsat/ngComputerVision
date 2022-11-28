@@ -66,5 +66,7 @@ namespace ngComputerVision.Core.Data
                     await _searchCollection.InsertOneAsync(newSearch);
         //public async Task<SearchResult?> GetSearchResult(string id) =>
         //  await _searchCollection.Find(x => x.claimId == id).FirstOrDefaultAsync();
+        public async Task<Search?> GetSearchResultByID(string id) =>
+                 await _searchCollection.Find(x => x.claimId == id).FirstOrDefaultAsync();
     }
 }

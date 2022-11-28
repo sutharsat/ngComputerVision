@@ -1,21 +1,21 @@
-<html lang="en">
+<!--<html lang="en">-->
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <app-nav-menu></app-nav-menu>
 
-<div >
-  <form FormComponent="searchForm" style="display:flex;justify-content:start">
+<div>
+  <!--<form [formGroup]="searchForm" style="display:flex;justify-content:start">
     <mat-form-field appearance="standard" class="search">
       <mat-label>Search</mat-label>
-      <input type="text" matInput [matAutocomplete]="auto" placeholder="Search" [formControl]="myControl" />
+      <input type="text" matInput [matAutocomplete]="auto" placeholder="Search"  formControlName='serchInput' />
       <mat-autocomplete autoActiveFirstOption  #auto="matAutocomplete">
         <mat-option *ngIf="loading" class="is-loading">
           <mat-spinner diameter="50"></mat-spinner>
         </mat-option>
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{option}}
+        <mat-option *ngFor="let product of productOptions | async" [value]="product._id">
+          {{product.person}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
@@ -27,8 +27,27 @@
     <mat-select>
 
     </mat-select>
-    </form>
+    </form>-->
+  <form class ="search-form" [formGroup]="searchForm">
+    <div class="form-field-group">
+      <mat-form-field class="full-width">
+        <input type="text" placeholder="Search " aria-label="Number" matInput formControlName='serchInput' [matAutocomplete]="auto">
+        <mat-autocomplete #mySearchInput autoActiveFirstOption (optionSelected)='getSelectedProduct($event.option.value)' #auto="matAutocomplete">
+          <mat-option *ngIf="isLoading" class="is-loading">
+            <mat-spinner diameter="50"></mat-spinner>
+          </mat-option>
 
+          <mat-option *ngFor="let product of productOptions  " [value]="product.claimId">
+            {{product.person}} |
+            <span>{{product.phoneNumber}}</span>|
+            <span>{{product.email}}</span>|
+            <span>{{product.dateTime}}</span>
+          </mat-option>
+
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  </form>
 </div>
 
 
@@ -112,5 +131,5 @@
     © 2022 Copyright: National Government Services
   </div>
 </footer>
-</html>
+<!--</html>-->
 

@@ -1,41 +1,15 @@
 export class Claim {
   piiEntitiesResponse: any;
   healthEntitiesResponse: any;
-
- /* firstname: string;
-  firstnamecs: any;
-  lastname: string;
-  lastnamecs: any;
-  dateofbirth: string;
-  dateofbirthcs: any;
-  address: string;
-  addresscs: any;
-  
-  
-  phonenumber: any;
-  phonenumbercs: any;
-  
-  hospitalname: string;
-  hospitalnamecs: any;
-
-  //Health
-  treatmentname: string;
-  treatmentnamecs: any;
-        
-  careenvironment: string;
-  careenvironmentcs: any;
-  administrativeevent: string;
-  administrativeeventcs: any;
-  healthcareprofession: string;
-  healthcareprofessioncs: any;
-  gender: string;
-  gendercs: any;*/
+  ocrText: string;
+ 
   
  
 
   constructor() {
     this.piiEntitiesResponse = '';
     this.healthEntitiesResponse = '';
+    this.ocrText = '';
    /* this.firstname = '';
     this.firstnamecs = '';
     this.lastname = '';

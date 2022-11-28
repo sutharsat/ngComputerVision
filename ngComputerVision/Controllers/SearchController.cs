@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace ngComputerVision.Controllers
@@ -102,10 +103,11 @@ namespace ngComputerVision.Controllers
 
 
         [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<SearchResultDTO>> Get(string id)
+        public async Task<ActionResult<byte[]>> Get(string id)
         {
-            SearchResultDTO searchResultDTO = new SearchResultDTO();
-            return searchResultDTO;
+            Search searchResults = new Search();
+             searchResults = await _searchRepository.GetSearchResultByID(id);
+            return searchResults.searchImageValue ;
         }
     }
 }

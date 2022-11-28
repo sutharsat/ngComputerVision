@@ -8,6 +8,7 @@ namespace ngComputerVision.Repository.Interface
     public interface ISearchRepository
     {
         Task PostSearch(Search newSearch);
+        Task<Search?> GetSearchResultByID(string id);
     }
     
 }

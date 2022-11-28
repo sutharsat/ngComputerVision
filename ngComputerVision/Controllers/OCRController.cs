@@ -110,8 +110,7 @@ namespace ngComputerVision.Controllers
                             /* JObject json = JObject.Parse(ocrText);*/
 
                             newClaim.claimimage = imageFileBytes;
-                          //  newSearch.claimimage = imageFileBytes;
-                           // await _searchRepository.PostSearch(newSearch);
+                          
 
                             await _ocrRepository.PostClaim(newClaim);
 

@@ -40,6 +40,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <TypeScriptCompile Remove="ClientApp\src\app\services\product.service.ts" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <TypeScriptCompile Include="ClientApp\src\app\angular-material.module.ts" />
 	</ItemGroup>
 

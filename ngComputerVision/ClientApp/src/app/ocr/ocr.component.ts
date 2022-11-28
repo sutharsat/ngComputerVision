@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ComputervisionService } from '../services/computervision.service';
+import { ProductService } from '../services/product.service';
 import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
@@ -11,14 +12,22 @@ import { MouseHover } from '../models/mouseHover';
 import { SearchValue } from '../models/SearchValue';
 import { FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith, switchMap, tap, finalize } from 'rxjs/operators';
+import { MatSelect } from '@angular/material/select';
 @Component({
   selector: 'app-ocr',
   templateUrl: './ocr.component.html',
   styleUrls: ['./ocr.component.scss']
 })
 export class OcrComponent implements OnInit {
-
+ // hideRequiredMarker: boolean;
+  ProductForm: FormGroup 
+    searchForm: FormGroup ;
+  myControl = new FormControl();
+  productOptions: Product[]=[];
+ isLoading: boolean;
+  productObj: any;
+  isProduct: boolean;
   loading = false;
   imageFile: any;
   imagePreview: any;
@@ -33,9 +42,8 @@ export class OcrComponent implements OnInit {
   isValidFile = true;
   entityData!: Claim;
   clickIndex = 0;
-  myControl = new FormControl();
-  options: string[] = ['Person', 'Date of Birth', 'Phone Number', 'Email', 'Organization', 'Address','Claim ID'];
-  filteredOptions: Observable<string[]> | undefined;
+ 
+  
 
  
   drawItems: any[] = []
@@ -60,25 +68,24 @@ export class OcrComponent implements OnInit {
   hoverName: string = '';
   isHovered: boolean = false;
   isChecked: boolean = false;
+ 
   @Input() formData!: SearchValue;
   person: string = '';
   submitServiceSubscription: Subscription = new Subscription;
   @ViewChild("layer1", { static: false }) layer1Canvas!: ElementRef;
   private context!: CanvasRenderingContext2D;
   private layer1CanvasElement: any;
-    searchForm: any;
+    //searchForm: any;
     searchValue: any;
 
 
 
-  constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent) {
+  constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent, private productService: ProductService, private fb: FormBuilder) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
     this.ocrResult = new OcrResult();
-    
-
-  }
+    }
 
   ngOnInit() {
     this.computervisionService.getAvailableLanguage()
@@ -108,24 +115,46 @@ export class OcrComponent implements OnInit {
     //    console.log("approve button is clicked");
     //    if (submitting) {
     //      console.log("data ready for DB call");
-          
+
     //    }
     //  });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map((value: string) => this._filter(value))
-      );
+    //this.searchOptions = this.myControl.valueChanges
+    //  .pipe(
+    //    startWith(''),
+    //    map((value: string) => this._filter(value))
+    //  );
     
+    this.searchForm = this.fb.group({
+      serchInput: null
+    });
+    this.searchForm
+      .get('serchInput')
+      .valueChanges
+      .pipe(
+        debounceTime(300),
+        tap(() => this.isLoading = true),
+        switchMap(value => this.productService.search({ person: value })
+          .pipe(
+            finalize(() => this.isLoading = false),
+          )
+        )
+      )
+      .subscribe((product: any) => this.productOptions = product);
+    this.ProductForm = this.fb.group({
+      _id: [null],
+      person: [''],
+      phoneNumber: [''],
+      email: ['']
 
+      })
   }
   
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  //private _filter(value: string): string[] {
+  //  const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  }
+  //  return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  //}
 
   uploadImage(event: any) {
     this.imageFile = event.target.files[0];
@@ -201,6 +230,7 @@ export class OcrComponent implements OnInit {
 
   @ViewChild('myInput')
   myInputVariable: any;
+  
 
   ClearResults() {
     this.clickIndex = 0;
@@ -216,7 +246,9 @@ export class OcrComponent implements OnInit {
     this.layer1Canvas.nativeElement.value = "";
     this.drawItems = [];
     this.context.clearRect(0, 0, this.layer1CanvasElement.width, this.layer1CanvasElement.height);
-   
+    
+    this.searchForm
+      .get('serchInput').setValue('');
   }
   delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -348,6 +380,66 @@ export class OcrComponent implements OnInit {
 
     
   }
-  
+  getSelectedProduct(val: any) {
+    
+    console.log(val)
+    this.computervisionService.getSearchImage(val)
+      .subscribe((result) => {
+       // const reader = new FileReader();
+        let imageURL = 'data:image/png;base64,' + result;
+        //reader.readAsDataURL(imageURL);
+       // reader.readAsDataURL(new Blob([result], {type:'image/png'}));
+       // reader.onload = () => { 
+         // this.image = e.target.result;
+          this.image = new Image();
+          this.image.src = imageURL;
+          this.imagePreview = imageURL;
+          this.image.onload = () => {
+
+            this.ImageWidth = this.image.width;
+            this.ImageHeight = this.image.height;
+
+            // this.showImage();
+            this.layer1CanvasElement = this.layer1Canvas.nativeElement;
+            this.context = this.layer1CanvasElement.getContext("2d");
+            this.layer1CanvasElement.width = this.ImageWidth;
+            this.layer1CanvasElement.height = this.ImageHeight;
+            this.context.drawImage(this.image, 0, 0, this.ImageWidth, this.ImageHeight);
+
+          };
+       // };
+        
+        
+      });
+    this.status = this.DefaultStatus;
+    this.isValidFile = true;
+    this.computervisionService.getClaimData(val).subscribe(data => {
+      this.entityData = data;
+      this.ocrResult.detectedText = this.entityData.ocrText;
+
+
+    });
+    this.clickIndex = 2;
+    //if (val) {
+    //  this.productService.getProductById(val).subscribe(result => {
+    //    console.log(result);
+    //    this.productObj = result;
+    //    this.isProduct = true;
+    //    this.searchForm.reset();
+    //  });
+    //}
+  }
+}
+export interface Product {
+  _id: any;
+  person: string;
+  organization: string;
+  address: string;
+  phoneNumber: string;
+  email: string;
+  dateTime: string;
+  //Image = string;
+  claimId: string
+
 }
 
