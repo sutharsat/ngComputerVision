@@ -20,7 +20,6 @@
             <mat-spinner diameter="50"></mat-spinner>
           </mat-option>
           <mat-option *ngFor="let product of productOptions  " [value]="product.claimId">
-            <mat-icon>person</mat-icon>
             {{product.person}} | 
             <span>{{product.phoneNumber}}</span> | 
             <span>{{product.email}}</span> | 

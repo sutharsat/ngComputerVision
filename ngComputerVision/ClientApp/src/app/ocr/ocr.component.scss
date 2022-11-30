@@ -12,6 +12,9 @@
         width:100%;
     }
 }
+.mat-form-field-empty.mat-form-field-label {
+  color: green;
+}
 
 .body {
   width: 100%;
@@ -145,6 +148,14 @@ a {
 }
 ::ng-deep .mat-form-field-infix {
   padding: 0.9px !important;
+}
+.mat-input-element {
+  font-weight: bold;
+}
+//input outline color
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: black !important;
+  // opacity: 1!important;
 }
 @media screen and (max-width: 1024px) {
   .search-form {
