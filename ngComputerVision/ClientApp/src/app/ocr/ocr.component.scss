@@ -31,6 +31,7 @@
   box-shadow: 0 1px 0 0 #f48fb1;
 }
 
+
 .desktop-container-parent {
   background-color: rgba(240.00000089406967, 243.00000071525574, 244.0000006556511, 1);
   width: 100%;
@@ -149,12 +150,17 @@ a {
 ::ng-deep .mat-form-field-infix {
   padding: 0.9px !important;
 }
+::ng-deep .mat-form-field-infix {
+  padding: .5em 0;
+  border-top: .84375em solid transparent;
+  border-bottom: .25em solid transparent;
+}
 .mat-input-element {
   font-weight: bold;
 }
 //input outline color
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
-  color: black !important;
+  color: black ;
   // opacity: 1!important;
 }
 @media screen and (max-width: 1024px) {
