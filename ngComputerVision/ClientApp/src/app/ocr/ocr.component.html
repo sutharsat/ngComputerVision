@@ -5,28 +5,30 @@
 
 <app-nav-menu></app-nav-menu>
 
-<div>
+<div >
   
-  <form class ="search-form" [formGroup]="searchForm">
-    <div class="form-field-group">
-      <mat-form-field class="full-width">
-        <input type="text" placeholder="Search " aria-label="Number" matInput formControlName='serchInput' [matAutocomplete]="auto">
+  <form  class ="search-form" [formGroup]="searchForm" style="padding:0.5em;">
+    <div class="form-field-group" >
+      <mat-form-field class="full-width" appearance="outline">
+       
+        <div style="display:flex">
+          <mat-icon>search</mat-icon>
+          <input type="text" placeholder="Search by ID, Name, Phone Number, or Email " aria-label="Number" matInput formControlName='serchInput' [matAutocomplete]="auto">
+        </div>
         <mat-autocomplete #mySearchInput autoActiveFirstOption (optionSelected)='getSelectedProduct($event.option.value)' #auto="matAutocomplete">
           <mat-option *ngIf="isLoading" class="is-loading">
             <mat-spinner diameter="50"></mat-spinner>
           </mat-option>
-
-    
-
-
           <mat-option *ngFor="let product of productOptions  " [value]="product.claimId">
-            {{product.person}} |
-            <span>{{product.phoneNumber}}</span>|
-            <span>{{product.email}}</span>|
+            <mat-icon>person</mat-icon>
+            {{product.person}} | 
+            <span>{{product.phoneNumber}}</span> | 
+            <span>{{product.email}}</span> | 
             <span>{{product.dateTime}}</span>
           </mat-option>
 
         </mat-autocomplete>
+
       </mat-form-field>
     </div>
   </form>
