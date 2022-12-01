@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define collection and schema
-let Product = new Schema({
+let Search = new Schema({
   person: { type: String },
   organization: { type: String },
   address: { type: String },
@@ -16,4 +16,4 @@ let Product = new Schema({
 })
 
 
-module.exports = mongoose.model('Product', Product)
+module.exports = mongoose.model('Search', Search)

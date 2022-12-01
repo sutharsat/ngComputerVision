@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ComputervisionService } from '../services/computervision.service';
-import { ProductService } from '../services/product.service';
+import { SearchService } from '../services/search.service';
 import { AvailableLanguage } from '../models/availablelanguage';
 import { OcrResult } from '../models/ocrresult';
 import { ViewChild } from '@angular/core';
@@ -21,10 +21,10 @@ import { MatSelect } from '@angular/material/select';
 })
 export class OcrComponent implements OnInit {
  // hideRequiredMarker: boolean;
-  ProductForm: FormGroup 
+  SearchForm: FormGroup 
     searchForm: FormGroup ;
   myControl = new FormControl();
-  productOptions: Product[]=[];
+  searchOptions: Search[]=[];
  isLoading: boolean;
   productObj: any;
   isProduct: boolean;
@@ -80,7 +80,7 @@ export class OcrComponent implements OnInit {
 
 
 
-  constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent, private productService: ProductService, private fb: FormBuilder) {
+  constructor(private computervisionService: ComputervisionService, private formComponent: FormComponent, private searchService: SearchService, private fb: FormBuilder) {
     this.DefaultStatus = "Maximum size allowed for the image is 4 MB";
     this.status = this.DefaultStatus;
     this.maxFileSize = 4 * 1024 * 1024; // 4MB
@@ -110,19 +110,7 @@ export class OcrComponent implements OnInit {
         this.showImage(this.entityData);
       });
     
-    //this.submitServiceSubscription = this.computervisionService.onFormSubmit().subscribe(
-    //  (submitting) => {
-    //    console.log("approve button is clicked");
-    //    if (submitting) {
-    //      console.log("data ready for DB call");
-
-    //    }
-    //  });
-    //this.searchOptions = this.myControl.valueChanges
-    //  .pipe(
-    //    startWith(''),
-    //    map((value: string) => this._filter(value))
-    //  );
+    
     
     this.searchForm = this.fb.group({
       serchInput: null
@@ -133,14 +121,14 @@ export class OcrComponent implements OnInit {
       .pipe(
         debounceTime(300),
         tap(() => this.isLoading = true),
-        switchMap(value => this.productService.search({ person: value })
+        switchMap(value => this.searchService.search({ person: value })
           .pipe(
             finalize(() => this.isLoading = false),
           )
         )
       )
-      .subscribe((product: any) => this.productOptions = product);
-    this.ProductForm = this.fb.group({
+      .subscribe((product: any) => this.searchOptions = product);
+    this.SearchForm = this.fb.group({
       _id: [null],
       person: [''],
       phoneNumber: [''],
@@ -150,11 +138,7 @@ export class OcrComponent implements OnInit {
   }
   
 
-  //private _filter(value: string): string[] {
-  //  const filterValue = value.toLowerCase();
-
-  //  return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  //}
+  
 
   uploadImage(event: any) {
     this.imageFile = event.target.files[0];
@@ -380,7 +364,7 @@ export class OcrComponent implements OnInit {
 
     
   }
-  getSelectedProduct(val: any) {
+  getSearchClaim(val: any) {
     
     console.log(val)
     this.computervisionService.getSearchImage(val)
@@ -420,17 +404,10 @@ export class OcrComponent implements OnInit {
 
     });
     this.clickIndex = 2;
-    //if (val) {
-    //  this.productService.getProductById(val).subscribe(result => {
-    //    console.log(result);
-    //    this.productObj = result;
-    //    this.isProduct = true;
-    //    this.searchForm.reset();
-    //  });
-    //}
+    
   }
 }
-export interface Product {
+export interface Search {
   _id: any;
   person: string;
   organization: string;

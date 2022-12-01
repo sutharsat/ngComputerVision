@@ -11,7 +11,7 @@
     <div class="form-field-group">
       <mat-form-field class="full-width">
         <input type="text" placeholder="Search " aria-label="Number" matInput formControlName='serchInput' [matAutocomplete]="auto">
-        <mat-autocomplete #mySearchInput autoActiveFirstOption (optionSelected)='getSelectedProduct($event.option.value)' #auto="matAutocomplete">
+        <mat-autocomplete #mySearchInput autoActiveFirstOption (optionSelected)='getSearchClaim($event.option.value)' #auto="matAutocomplete">
           <mat-option *ngIf="isLoading" class="is-loading">
             <mat-spinner diameter="50"></mat-spinner>
           </mat-option>
@@ -19,11 +19,11 @@
     
 
 
-          <mat-option *ngFor="let product of productOptions  " [value]="product.claimId">
-            {{product.person}} |
-            <span>{{product.phoneNumber}}</span>|
-            <span>{{product.email}}</span>|
-            <span>{{product.dateTime}}</span>
+          <mat-option *ngFor="let search of searchOptions  " [value]="search.claimId">
+            {{search.person}} |
+            <span>{{search.phoneNumber}}</span>|
+            <span>{{search.email}}</span>|
+            <span>{{search.dateTime}}</span>
           </mat-option>
 
         </mat-autocomplete>

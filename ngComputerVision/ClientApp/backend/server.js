@@ -18,7 +18,7 @@ mongoose.connect(dbConfig.db, {
 )
 
 // Setting up port with express js
-const productRoute = require('./routes/product.route')
+const searchRoute = require('./routes/search.route')
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -27,7 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'dist/search')));
 app.use('/', express.static(path.join(__dirname, 'dist/search')));
-app.use('/api', productRoute)
+app.use('/api', searchRoute)
 
 // Create port
 const port = process.env.PORT || 4000;

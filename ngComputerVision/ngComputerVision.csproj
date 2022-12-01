@@ -40,7 +40,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <TypeScriptCompile Remove="ClientApp\src\app\services\product.service.ts" />
+	  <TypeScriptCompile Remove="ClientApp\src\app\services\search.service.ts" />
 	</ItemGroup>
 
 	<ItemGroup>

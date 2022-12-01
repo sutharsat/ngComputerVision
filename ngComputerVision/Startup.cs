@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using ngComputerVision.Contracts;
 using ngComputerVision.Core.Data;
 using ngComputerVision.Repository;
 using ngComputerVision.Repository.Interface;
+using System;
 
 namespace ngComputerVision
 {
@@ -42,6 +44,18 @@ namespace ngComputerVision
         Configuration.GetSection("MongoConnection"));
 
             services.AddSingleton<MongoContext>();
+            services.AddMvc();
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = Int32.MaxValue;
+                x.MultipartBodyLengthLimit = Int64.MaxValue;
+                x.MultipartHeadersLengthLimit = Int32.MaxValue;
+                x.MultipartBoundaryLengthLimit= Int32.MaxValue;
+                //x.MultipartBodyLengthLimit = Int64.MaxValue;
+                //x.ValueLengthLimit= Int32.MaxValue;
+                x.ValueCountLimit= 10;
+                x.MemoryBufferThreshold = Int32.MaxValue;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
