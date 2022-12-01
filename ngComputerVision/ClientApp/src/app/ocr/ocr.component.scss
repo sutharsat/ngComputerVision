@@ -156,7 +156,7 @@ a {
   border-bottom: .25em solid transparent;
 }
 .mat-input-element {
-  font-weight: bold;
+  font-weight:inherit;
 }
 //input outline color
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
